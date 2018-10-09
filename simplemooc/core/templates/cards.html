@@ -4,7 +4,17 @@
 
 {% endblock %}
 {% block content %}
-    <div class="card" style="margin-left: 10px;margin-right: 10px;margin-top: 10px; margin-bottom: 10px;">
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Bem-vindo Diego!
+        </div>
+        <div class="card-body">
+            <input type="text" placeholder="Encontrar uma turma..." class="searchbar">
+            <a href="#" class="btn bg-dark text-white">Pesquisar</a>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-header bg-dark text-white">
             Turmas Privadas
         </div>
@@ -31,7 +41,7 @@
         </div>
     </div>
 
-    <div class="card" style="margin-left: 10px;margin-right: 10px;margin-top: 10px;  margin-bottom: 10px;">
+    <div class="card">
         <div class="card-header bg-dark text-white">
             Turmas Públicas
         </div>

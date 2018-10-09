@@ -7,3 +7,6 @@ def cursos(request):
 		'courses': courses
 	}
 	return render(request, 'cards.html', context)
+
+def turma(request):
+	return render(request, 'turma.html')
