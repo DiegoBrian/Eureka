@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Cards{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block content %}
+    <div class="card" style="margin-left: 10px;margin-right: 10px;margin-top: 10px; margin-bottom: 10px;">
+        <div class="card-header bg-dark text-white">
+            Turmas Privadas
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col">Curso</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Última Atualização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.slug }}</td>
+                        <td>{{ course.updated_at }}</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
+            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
+        </div>
+    </div>
+
+    <div class="card" style="margin-left: 10px;margin-right: 10px;margin-top: 10px;  margin-bottom: 10px;">
+        <div class="card-header bg-dark text-white">
+            Turmas Públicas
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
+        </div>
+    </div>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+{% endblock %}

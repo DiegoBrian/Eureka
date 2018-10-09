@@ -72,4 +72,7 @@ body .primary-button {
     text-align: center;
     padding: 1em;
     font-size: 80%;
+    position:fixed; 
+    bottom:0; 
+    width: 100%;
 }

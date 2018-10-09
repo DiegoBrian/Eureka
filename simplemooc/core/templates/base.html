@@ -1,0 +1,34 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple MOOC - Uma simples plataforma de ensino a distância" />
+    <title>{% block title %}{% endblock %}</title>
+    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    --<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
+
+</head>
+<body style="background-color: #F9F9F9;">
+<div class="header ">
+    <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
+        <a class="pure-menu-heading" href="{% url 'index' %}">EUREKA</a>
+        <ul>
+            <li><a href="{% url 'cursos' %}">Cursos</a></li>
+            <li><a href="{% url 'sobre' %}">Sobre</a></li>
+        </ul>
+    </div>
+</div>
+<div class="content" style="margin-top: 30px;">
+    {% block content %}{% endblock %}
+    <div class="footer">
+        EUREKA - Descobrindo a Matemática
+    </div>
+</div>
+<script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
+</body>
+</html>

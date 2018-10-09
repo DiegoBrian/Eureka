@@ -1,25 +1,9 @@
-<!doctype html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Simple MOOC - Uma simples plataforma de ensino a distância" />
-    <title>EUREKA</title>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-</head>
-<body>
-<div class="content">
-    <div class="header">
-        <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
-            <a class="pure-menu-heading" href="">EUREKA</a>
-            <ul>
-                <li><a href="#">Cursos</a></li>
-                <li><a href="#">Contato</a></li>
-            </ul>
-        </div>
-    </div>
+{% extends "base.html" %}
+{% block title %}Sobre{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block content %}
     <div class="splash">
         <div class="pure-g-r">
             <div class="pure-u-1">
@@ -98,19 +82,13 @@
             </div>
             <div class="pure-u-2-3">
                 <div class="l-box">
-                    <h4 class="content-subhead">Mural de Avisos</h4>
-                    <h3>Envie anúncios diretamente para os alunos</h3>
+                    <h4 class="content-subhead">Experimentação</h4>
+                    <h3>Mostre ao seu aluno o porquê das coisas</h3>
                     <p>
-                        Organize os avisos do seu curso de forma fácil e simples.
+                        Publique notícias, vídeos, jogos e outros elementos que mostram ao ao aluno onde aquele conteúdo é utilizado no mundo real.
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="footer">
-        Eureka - Descobrindo a Matemática!
-    </div>
-</div>
-<script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
-</body>
-</html>
+{% endblock %}
