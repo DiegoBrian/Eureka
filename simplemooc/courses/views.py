@@ -1,12 +1,4 @@
-from django.shortcuts import render
-from .models import Course
+from django.shortcuts import render, get_object_or_404
+from .models import *
+from django.db.models import Q
 
-def cursos(request):
-	courses = Course.objects.all();
-	context = {
-		'courses': courses
-	}
-	return render(request, 'cards.html', context)
-
-def turma(request):
-	return render(request, 'turma.html')

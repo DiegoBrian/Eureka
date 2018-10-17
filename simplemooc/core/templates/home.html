@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Eureka{% endblock %}
+
+{% block content %}
+    <div class="splash">
+        <div class="pure-g-r">
+            <div class="pure-u-1">
+                <div class="l-box splash-text">
+                    <h1 class="splash-head">
+                        Descobrindo a Matemática!
+                    </h1>
+                    <h2 class="splash-subhead">
+                        O Eureka tem como objetivo apoiar o ensino e a aprendizagem de matemática, contribuindo para aproximar os conceitos vistos em aula de situações reais do cotidiano.
+                    </h2>
+                    <p>
+                        <a href="#" class="pure-button primary-button">Saiba mais</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="pure-g-r content-ribbon">
+            <div class="pure-u-2-3">
+                <div class="l-box">
+                    <h4 class="content-subhead">Vídeo-aulas e materiais digitais</h4>
+                    <h3>Publique suas aulas</h3>
+                    <p>
+                        O Eureka tem um sistema simples e prático para que o professor disponibilize vídeo-aulas e materiais digitais como pdf's, slides, imagens, dentre outros.
+                    </p>
+                </div>
+            </div>
+            <div class="pure-u-1-3">
+                <div class="l-box">
+                    <img width=”400” height=”250” src="{% static 'img/kids-computers.jpg' %}"
+                         alt="Vídeo aulas e materiais digitais.">
+                </div>
+            </div>
+        </div>
+        <div class="pure-g-r content-ribbon">
+            <div class="pure-u-1-3">
+                <div class="l-box">
+                    <img width=”400” height=”250” src="{% static 'img/glenn-carstens-peters-203007-unsplash.jpg' %}"
+                         alt="Fórum de Dúvidas">
+                </div>
+            </div>
+            <div class="pure-u-2-3">
+                <div class="l-box">
+                    <h4 class="content-subhead">Fórum de Dúvidas</h4>
+                    <h3>Interação com seus Alunos</h3>
+                    <p>
+                        O Eureka tem seu próprio sistema de fórum para que os alunos possam interagir com os professores e com os outros alunos.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="pure-g-r content-ribbon">
+            <div class="pure-u-2-3">
+                <div class="l-box">
+                    <h4 class="content-subhead">Exercícios</h4>
+                    <h3>Crie exercícios para avaliar seus alunos</h3>
+                    <p>
+                        Você pode criar exercícios para que os alunos sejam avaliados. Todo o controle de notas e resolução dos exercícios é controlado pela plataforma.
+                    </p>
+                </div>
+            </div>
+            <div class="pure-u-1-3">
+                <div class="l-box">
+                    <img width=”400” height=”250” src="{% static 'img/pan-xiaozhen-423533-unsplash.jpg' %}"
+                         alt="Exercícios">
+                </div>
+            </div>
+        </div>
+        <div class="pure-g-r content-ribbon">
+            <div class="pure-u-1-3">
+                <div class="l-box">
+                    <img width=”400” height=”250” src="{% static 'img/spacex-530583-unsplash.jpg' %}"
+                         alt="Experimentação">
+                </div>
+            </div>
+            <div class="pure-u-2-3">
+                <div class="l-box">
+                    <h4 class="content-subhead">Experimentação</h4>
+                    <h3>Mostre ao seu aluno o porquê das coisas</h3>
+                    <p>
+                        Publique notícias, vídeos, jogos e outros elementos que mostram ao ao aluno onde aquele conteúdo é utilizado no mundo real.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

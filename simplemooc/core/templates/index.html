@@ -1,94 +1,82 @@
 {% extends "base.html" %}
-{% block title %}Sobre{% endblock %}
+{% block title %}Eureka - Turmas{% endblock %}
 {% block css %}
-
+<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
-    <div class="splash">
-        <div class="pure-g-r">
-            <div class="pure-u-1">
-                <div class="l-box splash-text">
-                    <h1 class="splash-head">
-                        Descobrindo a Matemática!
-                    </h1>
-                    <h2 class="splash-subhead">
-                        O Eureka tem como objetivo geral apoiar o ensino e a aprendizagem de matemática, contribuindo para aproximar os conceitos vistos em aula de situações reais do cotidiano.
-                    </h2>
-                    <p>
-                        <a href="#" class="pure-button primary-button">Saiba mais</a>
-                    </p>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Bem-vindo Diego!
+        </div>
+        <div class="card-body">
+            <input type="text" placeholder="Encontrar uma turma..." class="searchbar">
+            <a href="#" class="btn bg-dark text-white">Pesquisar</a>
         </div>
     </div>
-    <div class="content">
-        <div class="pure-g-r content-ribbon">
-            <div class="pure-u-2-3">
-                <div class="l-box">
-                    <h4 class="content-subhead">Vídeo-aulas e materiais digitais</h4>
-                    <h3>Publique suas aulas</h3>
-                    <p>
-                        O Eureka tem um sistema simples e prático para que o professor disponibilize vídeo-aulas e materiais digitais como: pdf's, slides, imagens ...
-                    </p>
-                </div>
-            </div>
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    <img src="http://placehold.it/400x250"
-                         alt="Vídeo aulas e materiais digitais.">
-                </div>
-            </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Turmas Privadas
         </div>
-        <div class="pure-g-r content-ribbon">
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    <img src="http://placehold.it/400x250"
-                         alt="Fórum de Dúvidas">
-                </div>
-            </div>
-            <div class="pure-u-2-3">
-                <div class="l-box">
-                    <h4 class="content-subhead">Fórum de Dúvidas</h4>
-                    <h3>Interaja com seus Alunos</h3>
-                    <p>
-                        O Eureka tem seu próprio sistema de fórum para que os alunos possam interagir com os professores e com os outros alunos
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="pure-g-r content-ribbon">
-            <div class="pure-u-2-3">
-                <div class="l-box">
-                    <h4 class="content-subhead">Exercícios</h4>
-                    <h3>Crie exercícios para avaliar seus alunos</h3>
-                    <p>
-                        Você pode criar exercícios para que os alunos possam ser avaliados e todo o controle de notas e resolução dos exercícios é controlado pela plataforma, facilitando sua vida
-                    </p>
-                </div>
-            </div>
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    <img src="http://placehold.it/400x250"
-                         alt="Exercícios">
-                </div>
-            </div>
-        </div>
-        <div class="pure-g-r content-ribbon">
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    <img src="http://placehold.it/400x250"
-                         alt="Mural de Avisos">
-                </div>
-            </div>
-            <div class="pure-u-2-3">
-                <div class="l-box">
-                    <h4 class="content-subhead">Experimentação</h4>
-                    <h3>Mostre ao seu aluno o porquê das coisas</h3>
-                    <p>
-                        Publique notícias, vídeos, jogos e outros elementos que mostram ao ao aluno onde aquele conteúdo é utilizado no mundo real.
-                    </p>
-                </div>
-            </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Professor</th>
+                        <th scope="col">Última Atualização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas_privadas %}
+                    <tr>
+                        <td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
+                        <td>{{ turma.responsible }}</td>
+                        <td>{{ turma.updated_at }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>Nenhuma Turma disponível</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
+            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Turmas Públicas
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Professor</th>
+                        <th scope="col">Última Atualização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas_publicas %}
+                    <tr>
+                        <td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
+                        <td>{{ turma.responsible }}</td>
+                        <td>{{ turma.updated_at }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>Nenhuma Turma disponível</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
+            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
+        </div>
+    </div>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
 {% endblock %}

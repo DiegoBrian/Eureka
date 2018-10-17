@@ -26,43 +26,67 @@ class Usuario(models.Model):
 		('PROFESSOR', 'Professor'),
 		('ALUNO', 'Aluno'),
 	)
+	GENDER_OPTIONS = (
+		('MASCULINO', 'M'),
+		('FEMININO', 'F'),
+	)
 
 	name = models.CharField('Nome', max_length=100)
 	#password = models.
+	gender = user_type = models.CharField('Sexo', max_length=9, choices=GENDER_OPTIONS, default='MASCULINO')
 	birth_date = models.DateField('Data de Nascimento', null=True, blank = True)
 	grade = models.IntegerField('Série', validators=[MaxValueValidator(9), MinValueValidator(1)], null=True, blank = True)
 	email = models.EmailField('Email', max_length=256, blank=True)
 	user_type = models.CharField('Tipo', max_length=9, choices=USER_OPTIONS, default='ALUNO')
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	def __str__(self):
 		return self.name
 
 class Turma(models.Model):
 	COURSE_OPTIONS = (
-		('PÚBLICA', 'Pública'),
+		('PUBLICA', 'Pública'),
 		('PRIVADA', 'Privada'),
 	)
 	name = models.CharField('Nome', max_length=100)
-	course_type = models.CharField('Tipo', max_length=9, choices=COURSE_OPTIONS, default='PUBLICO')
+	course_type = models.CharField('Tipo', max_length=9, choices=COURSE_OPTIONS, default='PUBLICA')
 	responsible = models.ForeignKey('Usuario', on_delete=models.CASCADE)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	def __str__(self):
 		return self.name
 
 class Aula(models.Model):
-	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, default=1)
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE)
 	topic = models.CharField('Tema', max_length=100)
 	text_content = models.TextField('Conteúdo textual')
 	visual_content = models.CharField('Conteúdo visual', max_length=2048)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	def __str__(self):
 		return self.topic
 
 
 class Exercicio(models.Model):
-	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, default=1)
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE)
 	topic = models.CharField('Tema', max_length=100)
 	multiple_times = models.BooleanField('Refazível', default=False)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.topic
+
+class Experimentacao(models.Model):
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE)
+	topic = models.CharField('Tema', max_length=100)
+	text_content = models.TextField('Conteúdo textual')
+	visual_content = models.CharField('Conteúdo visual', max_length=2048)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	def __str__(self):
 		return self.topic

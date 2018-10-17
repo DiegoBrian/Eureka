@@ -56,7 +56,7 @@ ROOT_URLCONF = 'simplemooc.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,3 +122,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'simplemooc', 'media')
+
+#Auth
+LOGIN_URL = '/conta/login'
+LOGIN_REDIRECT_URL = '/turmas/'
+LOGOUT_URL = '/conta/logout'

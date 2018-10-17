@@ -29,7 +29,7 @@ body .primary-button {
 .splash {
     margin: 2em auto 0;
     padding: 3em 0.5em;
-    background: #eee;
+    background: #ddd;
 }
 .splash .splash-head {
     font-size: 300%;
@@ -67,8 +67,8 @@ body .primary-button {
     font-weight: normal;
 }
 .footer {
-    background: #111;
-    color: #666;
+    background: #343a40;
+    color: white;
     text-align: center;
     padding: 1em;
     font-size: 80%;
@@ -79,7 +79,23 @@ body .primary-button {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    border-style: solid; 
+    border-color: #343a40;
+    border-width: 1px;
 }
+
+.cardEspecial {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+}
+
+.cardEspecial h1 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 .searchbar {
     padding: 6px; 
     margin-top: 8px; 
