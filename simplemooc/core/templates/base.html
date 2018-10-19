@@ -7,23 +7,28 @@
     <meta name="description" content="Simple MOOC - Uma simples plataforma de ensino a distância" />
     <title>{% block title %}{% endblock %}</title>
     {% block css %}{% endblock %}
-    -<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 
 
 </head>
 <body style="background-color: #F0F0F0;">
-<div class="header ">
-    <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
-        <a class="pure-menu-heading" href="{% url 'home' %}">EUREKA</a>
-        <ul>
-            <li><a href="{% url 'index' %}">Turmas</a></li>
-            <li><a href="{% url 'sobre' %}">Sobre</a></li>
-            <li><a href="{% url 'login' %}">Entrar</a></li>
-        </ul>
-    </div>
-</div>
-<div class="content" style="margin-top: 30px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'home' %}">EUREKA</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="{% url 'index' %}">Turmas</a>
+          <a class="nav-item nav-link" href="{% url 'sobre' %}">Sobre</a>
+          <a class="nav-item nav-link" href="{% url 'login' %}">Entrar</a>
+        </div>
+      </div>
+    </nav>
+
+<div class="content">
     {% block content %}{% endblock %}
     <div class="footer">
         EUREKA - Descobrindo a Matemática

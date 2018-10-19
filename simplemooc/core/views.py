@@ -3,6 +3,8 @@ from courses.models import *
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
+from django.contrib.auth import login, authenticate
+from .forms import RegisterForm
 
 # Create your views here.
 def home(request):
@@ -48,11 +50,27 @@ def turma(request, pk):
 
 def cadastrar(request):
 	if request.method == 'POST':
-		form = UserCreationForm(request.POST)
+		form = RegisterForm(request.POST)
 		if form.is_valid():
 			form.save()
 			return redirect(settings.LOGIN_URL)
+		else:
+			form = RegisterForm()
 	context = {
-		'form': UserCreationForm()
+		'form': RegisterForm()
 	}
 	return render(request, 'registration/cadastrar.html', context)
+
+def cadastrar(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            #user = authenticate(username=username, password=raw_password)
+            #login(request, user)
+            return redirect('home')
+    else:
+        form = RegisterForm()
+    return render(request, 'registration/cadastrar.html', {'form': form})

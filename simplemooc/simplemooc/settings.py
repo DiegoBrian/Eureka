@@ -124,6 +124,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'simplemooc', 'media')
 
 #Auth
-LOGIN_URL = '/conta/login'
+LOGIN_URL = '/conta/entrar'
 LOGIN_REDIRECT_URL = '/turmas/'
 LOGOUT_URL = '/conta/logout'
