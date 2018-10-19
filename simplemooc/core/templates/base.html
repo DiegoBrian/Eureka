@@ -7,27 +7,41 @@
 	<meta name="description" content="Simple MOOC - Uma simples plataforma de ensino a distância" />
 	<title>{% block title %}{% endblock %}</title>
 	{% block css %}{% endblock %}
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 </head>
 <body style="background-color: #F0F0F0;">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="{% url 'home' %}">EUREKA</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-	  <span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-		<div class="navbar-nav">
-			<a class="nav-item nav-link" href="{% url 'index' %}">Turmas</a>
-			<a class="nav-item nav-link" href="{% url 'sobre' %}">Sobre</a>
-			{% if user.is_authenticated %}
-		  		<a class="nav-item nav-link" href="{% url 'logout' %}">Sair</a>
-			{% else %}
-		  		<a class="nav-item nav-link" href="{% url 'login' %}">Entrar</a>
-		  	{% endif %}
-		</div>
-	</div>
+
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand abs" href="#">EUREKA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Turmas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+	            <li class="nav-item">
+	                <a class="nav-link" href="{% url 'usuario' %}">Perfil</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+	            </li>
+	        {% else %}
+	            <li class="nav-item">
+	                <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+	            </li>
+	        {% endif %}
+        </ul>
+    </div>
 </nav>
 
 <div class="content">

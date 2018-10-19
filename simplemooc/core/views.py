@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.conf import settings
 from courses.models import *
@@ -73,3 +74,12 @@ def cadastrar(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/cadastrar.html', {'form': form})
+
+
+@login_required
+def usuario(request):
+	return render(request,'usuario.html')
+
+@login_required
+def editar_usuario(request):
+	return render(request,'editar_usuario.html')

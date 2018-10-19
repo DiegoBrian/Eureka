@@ -13,28 +13,6 @@ body {
 .l-box {
     padding: 1em;
 }
-.header {
-    margin: 0 0;
-}
-.header .pure-menu {
-    padding: 0.5em;
-    background-color: #2d3e50;
-}
-.header .pure-menu a {
-    color: #fff;
-}
-.header .pure-menu li a:hover,
-.header .pure-menu li a:focus {
-    background: none;
-    border: none;
-    color: #AECFE5;
-}
-.header .pure-menu-heading {
-    float: left;
-}
-.header ul {
-    float: right;
-}
 body .primary-button {
     background: #02a6eb;
     color: #fff;

@@ -12,4 +12,6 @@ urlpatterns = [
 	path('conta/entrar/', LoginView.as_view(template_name='registration/login.html'), name='login'),
 	path('conta/sair/', LogoutView.as_view(next_page='home'), name='logout'),
     path('conta/cadastrar/', views.cadastrar, name='cadastrar'),
+    path('usuario/', views.usuario, name='usuario'),
+    path('editar_usuario/', views.editar_usuario, name='editar_usuario'),
 ]
