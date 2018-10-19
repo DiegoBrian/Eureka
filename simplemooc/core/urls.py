@@ -1,5 +1,5 @@
 from django.urls import include, path
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
 urlpatterns = [
@@ -10,6 +10,6 @@ urlpatterns = [
     path('turmas/', views.index, name='index'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
 	path('conta/entrar/', LoginView.as_view(template_name='registration/login.html'), name='login'),
-	path('conta/sair/', LoginView.as_view(template_name='registration/logout.html'), name='logout'),
+	path('conta/sair/', LogoutView.as_view(next_page='home'), name='logout'),
     path('conta/cadastrar/', views.cadastrar, name='cadastrar'),
 ]

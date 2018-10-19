@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from courses.models import *
-from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.conf import settings
 from django.contrib.auth import login, authenticate
+from django.conf import settings
+from courses.models import *
 from .forms import RegisterForm
 
 # Create your views here.
@@ -68,8 +67,8 @@ def cadastrar(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            #user = authenticate(username=username, password=raw_password)
-            #login(request, user)
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
             return redirect('home')
     else:
         form = RegisterForm()
