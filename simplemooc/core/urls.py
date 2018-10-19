@@ -10,5 +10,6 @@ urlpatterns = [
     path('turmas/', views.index, name='index'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
 	path('conta/entrar/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+	path('conta/sair/', LoginView.as_view(template_name='registration/logout.html'), name='logout'),
     path('conta/cadastrar/', views.cadastrar, name='cadastrar'),
 ]
