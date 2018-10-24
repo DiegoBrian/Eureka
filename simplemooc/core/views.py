@@ -36,14 +36,10 @@ def index(request):
 
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
-	aulas = Aula.objects.filter(turma_id = pk)
-	exercicios = Exercicio.objects.filter(turma_id = pk)
-	experimentacoes = Experimentacao.objects.filter(turma_id = pk)
+	temas = Tema.objects.filter(turma_id = pk)
 	context = {
 		'turma': turma,
-		'aulas' : aulas,
-		'exercicios' : exercicios,
-		'experimentacoes' : experimentacoes
+		'temas' : temas
 	}
 	return render(request, 'turma.html', context)
 
@@ -94,3 +90,8 @@ def editar_senha(request):
 	context ['form'] = form
 
 	return render(request,'editar_senha.html', context)
+
+
+@login_required
+def tema(request):
+	return render(request,'tema.html')

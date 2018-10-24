@@ -24,18 +24,100 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 	user_type = models.CharField('Tipo', max_length=9, choices=USER_OPTIONS, default='ALUNO')
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
-	is_active = models.BooleanField('Estpa ativo?', blank=True, default=True)
+	is_active = models.BooleanField('Esta ativo?', blank=True, default=True)
 	is_staff = models.BooleanField('Admin', blank=True, default=False)
 	date_joined = models.DateTimeField('Data de cadastro', auto_now_add=True)
 
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ['email']
+	REQUIRED_FIELDS = ['email','name','gender','birth_date','user_type']
 
 	def __str__(self):
-		return self.name
+		return self.username
 
 	class Meta:
 		verbose_name = 'Usuário'
 		verbose_name_plural = 'Usuários'
+
+class Turma(models.Model):
+	COURSE_OPTIONS = (
+		('PUBLICA', 'Pública'),
+		('PRIVADA', 'Privada'),
+	)
+	name = models.CharField('Nome', max_length=100)
+	course_type = models.CharField('Tipo', max_length=9, choices=COURSE_OPTIONS, default='PUBLICA')
+	responsible = models.ForeignKey('Usuario', on_delete=models.CASCADE)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.name
+
+class Tema(models.Model):
+	name = models.CharField('Nome', max_length=100)
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.name
+
+class Aula(models.Model):
+	name = models.CharField('Nome', max_length=100, default='Aula')
+	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
+	text_content = models.TextField('Conteúdo textual')
+	visual_content = models.CharField('Conteúdo visual', max_length=2048)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.name
+
+
+class Exercicio(models.Model):
+	name = models.CharField('Nome', max_length=100, default='Exercicio')
+	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
+	multiple_times = models.BooleanField('Refazível', default=False)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.topic
+
+class Experimentacao(models.Model):
+	name = models.CharField('Nome', max_length=100, default='Experimentacao')
+	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
+	text_content = models.TextField('Conteúdo textual')
+	visual_content = models.CharField('Conteúdo visual', max_length=2048)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.topic
+
+class Pergunta(models.Model):
+	QUESTION_OPTIONS = (
+		('FECHADA', 'Múltipla Escolha'),
+		('ABERTA', 'Resposta aberta'),
+	)
+	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE)
+	text = models.TextField('Texto')
+	quesion_type = models.CharField('Tipo', max_length=9, choices=QUESTION_OPTIONS, default='FECHADA')
+	student_answer = models.CharField('Resposta fechada do aluno', max_length=1, null=True, blank = True)
+	answer_a = models.CharField('a)', max_length=2048, null=True, blank = True)
+	answer_b = models.CharField('b)', max_length=2048, null=True, blank = True)
+	answer_c = models.CharField('c)', max_length=2048, null=True, blank = True)
+	answer_d = models.CharField('d)', max_length=2048, null=True, blank = True)
+	correct_answer = models.CharField('Resposta fechada correta', max_length=1, null=True, blank = True)
+	student_text = models.TextField('Resposta aberta do aluno', null=True, blank = True)
+
+	def __str__(self):
+		return self.id
+
+class Aluno_Turma(models.Model):
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, default=1)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+
+
+class Aluno_Exercicio(models.Model):
+	exercicio_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, default=1)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)

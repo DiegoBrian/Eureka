@@ -13,93 +13,36 @@
             {% endif %}
         </div>
         <div class="card-body">
-            <input type="text" placeholder="Encontrar uma aula, exercício, experimintação..." class="searchbar">
+            <input type="text" placeholder="Encontrar um assunto..." class="searchbar">
             <a href="#" class="btn bg-dark text-white">Pesquisar</a>
         </div>
     </div>
 
 	<div class="card">
         <div class="card-header bg-dark text-white">
-            Aulas
+            Temas
         </div>
         <div class="card-body">
             <table class="table">
                 <thead class="bg-dark text-white">
                     <tr>
-                        <th scope="col">Tema</th>
-                        <th scope="col">Última Atualização</th>
+                        <th scope="col">Nome</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for aula in aulas %}
+                    {% for tema in temas %}
                     <tr>
-                        <td><a href="{% url 'aula' aula.pk %}">{{ aula.topic }}</a></td>
-                        <td>{{ aula.updated_at }}</td>
+                        <td><a href="{% url 'tema' %}">{{ tema.name }}</a></td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td>Nenhuma aula disponível...</td>
+                        <td>Nenhum conteúdo disponível...</td>
                     </tr>
                     {% endfor %}
               </tbody>
             </table>
-            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
+            <a href="#" class="btn bg-dark text-white">Novo tema</a>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header bg-dark text-white">
-            Exercícios
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th scope="col">Tema</th>
-                        <th scope="col">Última Atualização</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for exercicio in exercicios %}
-                    <tr>
-                        <td><a href="#">{{ exercicio.topic }}</a></td>
-                        <td>{{ exercicio.updated_at }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>Nenhum exercício disponível...</td>
-                    </tr>
-                    {% endfor %}
-              </tbody>
-            </table>
-            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header bg-dark text-white">
-            Experimentação
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th scope="col">Tema</th>
-                        <th scope="col">Última Atualização</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for experimentacao in experimentacoes %}
-                    <tr>
-                        <td><a href="#">{{ experimentacao.topic }}</a></td>
-                        <td>{{ experimentacao.updated_at }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>Nenhuma experimentação disponível...</td>
-                    </tr>
-                    {% endfor %}
-              </tbody>
-            </table>
-            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
-        </div>
-    </div>
+    
 {% endblock %}
