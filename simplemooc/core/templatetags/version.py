@@ -9,7 +9,7 @@ register = template.Library()
 def youtube(text):
     url = text.partition('=')
     if url:
-    	tag = '<center><iframe src="https://www.youtube.com/embed/'+url[2]+'"> </iframe></center>'
+    	tag = '<center><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/'+url[2]+'" allowfullscreen> </iframe></center>'
     	return tag
     else:
     	return text

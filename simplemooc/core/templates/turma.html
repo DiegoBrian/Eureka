@@ -7,9 +7,9 @@
 	<div class="card">
         <div class="card-header bg-dark text-white">
             {% if turma.responsible.gender == 'MASCULINO' %}
-                Bem-vindo Diego! Você está na turma {{turma.name}} do professor {{turma.responsible}}!
+                Bem-vindo {{user.name}}! Você está na turma {{turma.name}} do professor {{turma.responsible}}!
             {% else %}
-                Bem-vindo Diego! Você está na turma {{turma.name}} da professora {{turma.responsible}}!
+                Bem-vindo {{user.name}}! Você está na turma {{turma.name}} da professora {{turma.responsible}}!
             {% endif %}
         </div>
         <div class="card-body">
@@ -32,7 +32,7 @@
                 <tbody>
                     {% for tema in temas %}
                     <tr>
-                        <td><a href="{% url 'tema' %}">{{ tema.name }}</a></td>
+                        <td><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></td>
                     </tr>
                     {% empty %}
                     <tr>

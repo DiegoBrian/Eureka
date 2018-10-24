@@ -1,19 +1,15 @@
 {% extends "base.html" %}
-{% block title %}{{turma.name}}{% endblock %}
+{% block title %}{{tema.name}}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
 	<div class="card">
         <div class="card-header bg-dark text-white">
-            {% if turma.responsible.gender == 'MASCULINO' %}
-                Bem-vindo Diego! Você está na turma {{turma.name}} do professor {{turma.responsible}}!
-            {% else %}
-                Bem-vindo Diego! Você está na turma {{turma.name}} da professora {{turma.responsible}}!
-            {% endif %}
+                Bem-vindo {{user.name}}! Você vendo conteúdo sobre {{tema.name}}!
         </div>
         <div class="card-body">
-            <input type="text" placeholder="Encontrar uma aula, exercício, experimintação..." class="searchbar">
+            <input type="text" placeholder="Encontrar uma aula, exercício, experimentação..." class="searchbar">
             <a href="#" class="btn bg-dark text-white">Pesquisar</a>
         </div>
     </div>
@@ -33,7 +29,7 @@
                 <tbody>
                     {% for aula in aulas %}
                     <tr>
-                        <td><a href="{% url 'aula' aula.pk %}">{{ aula.topic }}</a></td>
+                        <td><a href="{% url 'aula' aula.pk %}">{{ aula.name }}</a></td>
                         <td>{{ aula.updated_at }}</td>
                     </tr>
                     {% empty %}

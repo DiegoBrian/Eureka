@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load version %}
-{% block title %}{{aula.topic}}{% endblock %}
+{% block title %}{{aula.name}}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
 	<div class="card cardEspecial">
         <div class="card-header bg-dark text-white">
-            <h1>{{aula.topic}}</h1>
+            <h1>{{aula.name}}</h1>
         </div>
         <div class="card-body">
             <div class="embed-responsive embed-responsive-16by9">{{aula.visual_content|youtube|safe}}</div>

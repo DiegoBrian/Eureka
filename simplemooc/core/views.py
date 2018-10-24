@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.conf import settings
-from courses.models import *
+from core.models import *
 from .forms import FormularioRegistro, FormularioEditarConta
 
 # Create your views here.
@@ -16,7 +16,7 @@ def sobre(request):
 def testes(request):
 	return render(request, 'testes.html')
 
-
+@login_required
 def aula(request, pk):
 	aula = get_object_or_404(Aula, pk=pk)
 	context = {
@@ -24,7 +24,7 @@ def aula(request, pk):
 	}
 	return render(request, 'aula.html', context)
 
-
+@login_required
 def index(request):
 	turmas_privadas = Turma.objects.filter(course_type = 'PRIVADA');
 	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA');
@@ -34,6 +34,8 @@ def index(request):
 	}
 	return render(request, 'index.html', context)
 
+
+@login_required
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
 	temas = Tema.objects.filter(turma_id = pk)
@@ -93,5 +95,16 @@ def editar_senha(request):
 
 
 @login_required
-def tema(request):
-	return render(request,'tema.html')
+def tema(request, pk):
+	tema = get_object_or_404(Tema, pk = pk)
+	aulas = Aula.objects.filter(tema_id = pk)
+	print(aulas)
+	exercicios = Exercicio.objects.filter(tema_id = pk)
+	experimentacoes = Experimentacao.objects.filter(tema_id = pk)
+	context = {
+		'tema': tema,
+		'aulas': aulas,
+		'exercicios':exercicios,
+		'experimentacoes':experimentacoes
+	}
+	return render(request,'tema.html', context)
