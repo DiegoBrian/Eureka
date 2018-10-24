@@ -127,3 +127,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'simplemooc', 'media')
 LOGIN_URL = '/conta/entrar'
 LOGIN_REDIRECT_URL = '/turmas/'
 LOGOUT_URL = '/conta/logout'
+AUTH_USER_MODEL = 'core.Usuario'

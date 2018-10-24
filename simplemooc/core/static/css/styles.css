@@ -7,9 +7,6 @@ body {
     margin: 0 auto;
     line-height: 1.7em;
 }
-.content {
-    padding-top: 2em;
-}
 .l-box {
     padding: 1em;
 }
@@ -20,7 +17,7 @@ body .primary-button {
 .splash {
     margin: 0 auto;
     padding: 1.5em 1em 0;
-    background: #eee;
+    background: #DFDFDF;
 }
 .splash .splash-head {
     font-size: 300%;

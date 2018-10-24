@@ -14,4 +14,5 @@ urlpatterns = [
     path('conta/cadastrar/', views.cadastrar, name='cadastrar'),
     path('usuario/', views.usuario, name='usuario'),
     path('editar_usuario/', views.editar_usuario, name='editar_usuario'),
+    path('editar_senha/', views.editar_senha, name='editar_senha'),
 ]

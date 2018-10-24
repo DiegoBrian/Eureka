@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.conf import settings
 from courses.models import *
-from .forms import RegisterForm
+from .forms import FormularioRegistro, FormularioEditarConta
 
 # Create your views here.
 def home(request):
@@ -50,30 +50,17 @@ def turma(request, pk):
 
 def cadastrar(request):
 	if request.method == 'POST':
-		form = RegisterForm(request.POST)
+		form = FormularioRegistro(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect(settings.LOGIN_URL)
-		else:
-			form = RegisterForm()
-	context = {
-		'form': RegisterForm()
-	}
-	return render(request, 'registration/cadastrar.html', context)
-
-def cadastrar(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
-    else:
-        form = RegisterForm()
-    return render(request, 'registration/cadastrar.html', {'form': form})
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
+			return redirect('home')
+	else:
+		form = FormularioRegistro()
+	return render(request, 'registration/cadastrar.html', {'form': form})
 
 
 @login_required
@@ -82,4 +69,28 @@ def usuario(request):
 
 @login_required
 def editar_usuario(request):
-	return render(request,'editar_usuario.html')
+	context = {}
+	if request.method == 'POST':
+		form = FormularioEditarConta(request.POST, instance = request.user)
+		if form.is_valid():
+			form.save()
+			context['success'] = True
+	else:
+		form = FormularioEditarConta(instance = request.user)
+	context ['form'] = form
+
+	return render(request,'editar_usuario.html', context)
+
+@login_required
+def editar_senha(request):
+	context = {}
+	if request.method == 'POST':
+		form = PasswordChangeForm(data=request.POST, user=request.user)
+		if form.is_valid():
+			form.save()
+			context['success'] = True
+	else:
+		form = PasswordChangeForm(user = request.user)
+	context ['form'] = form
+
+	return render(request,'editar_senha.html', context)

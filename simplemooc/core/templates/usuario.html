@@ -3,28 +3,31 @@
 {% block title %}Usuário: {{user}}{% endblock %}
 
 {% block content %}
-<div class="pure-g-r content-ribbon">
-    <div class="pure-u-1">
-        <ul class="breadcrumb">
-            {% block breadcrumb %}
-            <li><a href="{% url 'usuario' %}">Meu Painel</a></li>
-            {% endblock %}
-        </ul>
+<div class="card cardEspecial">
+    <div class="card-header bg-dark text-white">
+        <h1>Sobre</h1>
     </div>
-    <div class="pure-u-1-3">
-        <div class="pure-menu pure-menu-open">
-            <a class="pure-menu-heading">Meus Cursos</a>
+    <div class="card-body">
+        <div class="pure-u-1">
+            <ul class="breadcrumb">
+                {% block breadcrumb %}
+                <li><a href="{% url 'usuario' %}">Meu Painel</a></li>
+                {% endblock %}
+            </ul>
+        </div>
+        <div>
+            Meus Cursos
             <ul>
                 <li><a href="#">Curso 1</a></li>
                 <li><a href="#">Curso 2</a></li>
-                <li class="pure-menu-heading">Minha Conta</li>
+            </ul>
+            Minha Conta
+            <ul>
                 <li><a href="{% url 'editar_usuario' %}">Editar Conta</a></li>
-                <li><a href="#">Editar Senha</a></li>
+                <li><a href="{% url 'editar_senha' %}">Editar Senha</a></li>
             </ul>
         </div>
-    </div>
-    <div class="pure-u-2-3">
-        <div class="inner">
+        <div>
             {% block dashboard_content %}
             <p><strong>Usuário</strong>: {{ user }}</p>
             <p><strong>E-mail</strong>: {{ user.email }}</p>
