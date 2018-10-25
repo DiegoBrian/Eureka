@@ -6,15 +6,22 @@
 {% block content %}
 	<div class="card">
         <div class="card-header bg-dark text-white">
+            {% if user.gender == 'MASCULINO' %}
+                Bem-vindo {{user.name}}!
+            {% elif user.gender == 'FEMININO' %}
+                Bem-vinda {{user.name}}
+            {% endif %}
             {% if turma.responsible.gender == 'MASCULINO' %}
-                Bem-vindo {{user.name}}! Você está na turma {{turma.name}} do professor {{turma.responsible}}!
+                Você está na turma {{turma.name}} do professor {{turma.responsible}}!
             {% else %}
-                Bem-vindo {{user.name}}! Você está na turma {{turma.name}} da professora {{turma.responsible}}!
+                Você está na turma {{turma.name}} da professora {{turma.responsible}}!
             {% endif %}
         </div>
         <div class="card-body">
+            Busque por um assunto para encontrá-lo com mais facilidade
             <input type="text" placeholder="Encontrar um assunto..." class="searchbar">
-            <a href="#" class="btn bg-dark text-white">Pesquisar</a>
+            <a href="#" class="btn bg-dark text-white">Buscar</a>
+            <a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a>
         </div>
     </div>
 

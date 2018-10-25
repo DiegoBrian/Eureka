@@ -9,6 +9,7 @@ urlpatterns = [
     path('aula/<int:pk>', views.aula, name='aula'),
     path('turmas/', views.index, name='index'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
+    path('turmas/<int:pk>/matricula', views.matricula, name='matricula'),
 	path('conta/entrar/', LoginView.as_view(template_name='registration/login.html'), name='login'),
 	path('conta/sair/', LogoutView.as_view(next_page='home'), name='logout'),
     path('conta/cadastrar/', views.cadastrar, name='cadastrar'),

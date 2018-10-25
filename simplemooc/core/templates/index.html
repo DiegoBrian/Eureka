@@ -6,11 +6,20 @@
 {% block content %}
     <div class="card">
         <div class="card-header bg-dark text-white">
-            Bem-vindo Diego!
+            {% if user.gender == 'MASCULINO' %}
+                Bem-vindo {{user.name}}!
+            {% elif user.gender == 'FEMININO' %}
+                Bem-vinda {{user.name}}
+            {% endif %}
         </div>
         <div class="card-body">
+            Busque pelo nome de sua turma para encontrá-la com mais facilidade
+            {% if user.user_type == 'ALUNO' %}
+                ou procure por novas turmas para se registrar
+            {% endif %}
+            
             <input type="text" placeholder="Encontrar uma turma..." class="searchbar">
-            <a href="#" class="btn bg-dark text-white">Pesquisar</a>
+            <a href="#" class="btn bg-dark text-white">Buscar</a>
         </div>
     </div>
 
@@ -41,7 +50,7 @@
                     {% endfor %}
               </tbody>
             </table>
-            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
+            <a href="#" class="btn bg-dark text-white">Nova turma privada</a>
         </div>
     </div>
 
@@ -72,7 +81,7 @@
                     {% endfor %}
               </tbody>
             </table>
-            <a href="#" class="btn bg-dark text-white">Go somewhere</a>
+            <a href="#" class="btn bg-dark text-white">Nova turma pública</a>
         </div>
     </div>
 

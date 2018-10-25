@@ -33,4 +33,4 @@ class FormularioEditarConta(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ['username','email','name','gender','birth_date','grade','user_type']
+		fields = ['username','email','name','gender','birth_date','grade']

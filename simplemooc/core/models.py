@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core import validators
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth import get_user_model
 import re
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
@@ -114,9 +115,13 @@ class Pergunta(models.Model):
 		return self.id
 
 class Aluno_Turma(models.Model):
-	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, default=1)
-	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	turma_id = models.ForeignKey('Turma', related_name = 'matriculas', on_delete=models.CASCADE)
+	aluno_id = models.ForeignKey(get_user_model(), verbose_name = 'Usuário', related_name = 'matriculas', on_delete=models.CASCADE, null = True)
 
+	class Meta:
+		verbose_name = 'Inscrição'
+		verbose_name_plural = 'Inscrições'
+		unique_together = (('aluno_id','turma_id'),)
 
 class Aluno_Exercicio(models.Model):
 	exercicio_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, default=1)

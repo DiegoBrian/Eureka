@@ -108,3 +108,11 @@ def tema(request, pk):
 		'experimentacoes':experimentacoes
 	}
 	return render(request,'tema.html', context)
+
+
+@login_required
+def matricula(request, pk):
+	turma = get_object_or_404(Turma, pk = pk)
+	matricula, created = Aluno_Turma.objects.get_or_create(aluno_id = request.user, turma_id = turma)
+
+	return redirect('home')

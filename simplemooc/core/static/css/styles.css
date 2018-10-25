@@ -139,11 +139,11 @@ a.pure-button-primary {
 }
 
 .searchbar {
-    padding: 6px; 
-    margin-top: 8px; 
-    margin-right: 16px; 
+    padding: 6px;
+    margin-bottom: 10px; 
+    margin-top: 10px; 
     font-size: 17px; 
-    width: 89%; 
+    width: 100%; 
     border-style: solid; 
     border-color: #343a40;
     border-width: 1px; 
