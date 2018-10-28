@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
+from django.contrib import messages
 from django.conf import settings
 from core.models import *
 from .forms import FormularioRegistro, FormularioEditarConta
@@ -72,7 +73,8 @@ def editar_usuario(request):
 		form = FormularioEditarConta(request.POST, instance = request.user)
 		if form.is_valid():
 			form.save()
-			context['success'] = True
+			messages.success(request, 'Os dados foram alterados com sucesso')
+			redirect('editar_usuario')
 	else:
 		form = FormularioEditarConta(instance = request.user)
 	context ['form'] = form
@@ -114,5 +116,8 @@ def tema(request, pk):
 def matricula(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
 	matricula, created = Aluno_Turma.objects.get_or_create(aluno_id = request.user, turma_id = turma)
-
-	return redirect('home')
+	if created:
+		messages.success(request, 'Você foi inscrito nesta turma com sucesso')
+	else:
+		messages.info(request, 'Você já está inscrito nesta turma')
+	return redirect('turma',pk)

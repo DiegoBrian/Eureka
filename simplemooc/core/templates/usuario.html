@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load version %}
 
 {% block title %}Usuário: {{user}}{% endblock %}
 
 {% block content %}
 <div class="card cardEspecial">
     <div class="card-header bg-dark text-white">
-        <h1>Sobre</h1>
+        <h1>Perfil do Usuário</h1>
     </div>
     <div class="card-body">
         <div class="pure-u-1">
@@ -16,10 +17,14 @@
             </ul>
         </div>
         <div>
-            Meus Cursos
+            Minhas Turmas
             <ul>
-                <li><a href="#">Curso 1</a></li>
-                <li><a href="#">Curso 2</a></li>
+                {% load_my_courses user as matriculas %}
+                {% for matricula in matriculas %}
+                    <li><a href="#">{{matricula.turma_id}}</a></li>
+                {% empty %}
+                    <li><a href="#">Nenhuma turma a exibir</a></li>
+                {% endfor %}
             </ul>
             Minha Conta
             <ul>

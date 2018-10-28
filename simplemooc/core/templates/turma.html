@@ -21,7 +21,9 @@
             Busque por um assunto para encontrá-lo com mais facilidade
             <input type="text" placeholder="Encontrar um assunto..." class="searchbar">
             <a href="#" class="btn bg-dark text-white">Buscar</a>
-            <a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a>
+            {% if user.user_type == 'ALUNO' %}
+                <a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a>
+            {% endif %}
         </div>
     </div>
 
@@ -48,7 +50,9 @@
                     {% endfor %}
               </tbody>
             </table>
-            <a href="#" class="btn bg-dark text-white">Novo tema</a>
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="#" class="btn bg-dark text-white">Novo tema</a>
+            {% endif %}
         </div>
     </div>
     

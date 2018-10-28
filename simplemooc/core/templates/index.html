@@ -50,7 +50,9 @@
                     {% endfor %}
               </tbody>
             </table>
-            <a href="#" class="btn bg-dark text-white">Nova turma privada</a>
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="#" class="btn bg-dark text-white">Nova turma privada</a>
+            {% endif %}
         </div>
     </div>
 
@@ -81,7 +83,9 @@
                     {% endfor %}
               </tbody>
             </table>
-            <a href="#" class="btn bg-dark text-white">Nova turma pública</a>
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="#" class="btn bg-dark text-white">Nova turma pública</a>
+            {% endif %}
         </div>
     </div>
 

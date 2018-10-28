@@ -45,6 +45,14 @@
 </nav>
 
 <div class="content">
+
+	{% for message in messages %}
+		<div class="alert alert-success alert-dismissible">
+  			<a href="#" class="close" data-dismiss="alert" aria-label="Fechar">&times;</a>
+        	<p>{{message}}</p>
+        </div>
+    {% endfor %}
+
 	{% block content %}{% endblock %}
 	<div class="footer">
 		EUREKA - Descobrindo a Matemática

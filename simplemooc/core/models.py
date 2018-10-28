@@ -35,7 +35,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 	REQUIRED_FIELDS = ['email','name','gender','birth_date','user_type']
 
 	def __str__(self):
-		return self.username
+		return self.name
 
 	class Meta:
 		verbose_name = 'Usuário'
