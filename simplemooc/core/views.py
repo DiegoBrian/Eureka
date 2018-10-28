@@ -27,10 +27,11 @@ def aula(request, pk):
 
 @login_required
 def index(request):
-	turmas_privadas = Turma.objects.filter(course_type = 'PRIVADA');
+	print(request.user.user_type)
+	turmas = Turma.objects.filter(responsible= request.user);
 	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA');
 	context = {
-		'turmas_privadas': turmas_privadas,
+		'turmas': turmas,
 		'turmas_publicas': turmas_publicas
 	}
 	return render(request, 'index.html', context)

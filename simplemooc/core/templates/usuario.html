@@ -17,25 +17,42 @@
             </ul>
         </div>
         <div>
-            Minhas Turmas
-            <ul>
-                {% load_my_courses user as matriculas %}
-                {% for matricula in matriculas %}
-                    <li><a href="#">{{matricula.turma_id}}</a></li>
-                {% empty %}
-                    <li><a href="#">Nenhuma turma a exibir</a></li>
-                {% endfor %}
-            </ul>
-            Minha Conta
-            <ul>
-                <li><a href="{% url 'editar_usuario' %}">Editar Conta</a></li>
-                <li><a href="{% url 'editar_senha' %}">Editar Senha</a></li>
-            </ul>
-        </div>
-        <div>
             {% block dashboard_content %}
-            <p><strong>Usuário</strong>: {{ user }}</p>
-            <p><strong>E-mail</strong>: {{ user.email }}</p>
+                <div class="card cardEspecial">
+                    <div class="card-header bg-dark text-white">
+                        <h1>Minhas turmas</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th scope="col">Turma</th>
+                                    <th scope="col" style="width: 20%">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% load_my_courses user as matriculas %}
+                                {% for matricula in matriculas %}
+                                <tr>
+                                    <td><a href="#">{{ matricula.turma_id }}</a></td>
+                                    <td> <button class="btn btn-primary">Acessar</button> <button class="btn btn-danger">Desinscrever-se</button> </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td>Nenhuma turma disponível...</td>
+                                </tr>
+                                {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <form action="{% url 'editar_usuario' %}" style="display:inline-block;">
+                    <input type="submit" value="Editar usuário" class="btn btn-dark"/>
+                </form>
+                <form action="{% url 'editar_senha' %}" style="display:inline-block;">
+                    <input type="submit" value="Editar senha" class="btn btn-dark"/>
+                </form>
             {% endblock %}
         </div>
     </div>
