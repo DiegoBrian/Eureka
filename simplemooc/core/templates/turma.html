@@ -5,52 +5,47 @@
 {% endblock %}
 {% block content %}
 	<div class="card">
-        <div class="card-header bg-dark text-white">
-            {% if user.gender == 'MASCULINO' %}
-                Bem-vindo {{user.name}}!
-            {% elif user.gender == 'FEMININO' %}
-                Bem-vinda {{user.name}}
-            {% endif %}
-            {% if turma.responsible.gender == 'MASCULINO' %}
-                Você está na turma {{turma.name}} do professor {{turma.responsible}}!
-            {% else %}
-                Você está na turma {{turma.name}} da professora {{turma.responsible}}!
-            {% endif %}
-        </div>
-        <div class="card-body">
-            Busque por um assunto para encontrá-lo com mais facilidade
-            <input type="text" placeholder="Encontrar um assunto..." class="searchbar">
-            <a href="#" class="btn bg-dark text-white">Buscar</a>
-        </div>
-    </div>
+		<div class="card-header bg-dark text-white">
+			{% if user.gender == 'MASCULINO' %}
+				Bem-vindo {{user.name}}!
+			{% elif user.gender == 'FEMININO' %}
+				Bem-vinda {{user.name}}
+			{% endif %}
+			{% if turma.responsible.gender == 'MASCULINO' %}
+				Você está na turma {{turma.name}} do professor {{turma.responsible}}!
+			{% else %}
+				Você está na turma {{turma.name}} da professora {{turma.responsible}}!
+			{% endif %}
+		</div>
+		<div class="card-body">
+			Busque por um assunto para encontrá-lo com mais facilidade
+			<input type="text" placeholder="Encontrar um assunto..." class="searchbar">
+			<a href="#" class="btn bg-dark text-white">Buscar</a>
+		</div>
+	</div>
 
 	<div class="card">
-        <div class="card-header bg-dark text-white">
-            Temas
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th scope="col">Nome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tema in temas %}
-                    <tr>
-                        <td><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>Nenhum conteúdo disponível...</td>
-                    </tr>
-                    {% endfor %}
-              </tbody>
-            </table>
-            {% if user.user_type == 'PROFESSOR' %}
-                <a href="{% url 'criar_tema' %}" class="btn bg-dark text-white">Novo tema</a>
-            {% endif %}
-        </div>
-    </div>
-    
+		<div class="card-header bg-dark text-white">
+			Temas
+		</div>
+		<div class="card-body">
+			<div class="card-deck" style="margin-bottom: 1%;">
+				{% for tema in temas %}
+					<div class="card">
+						<div class="card-body">
+							<p class="card-text"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</p>
+						</div>
+					</div>
+				{% empty %}
+					<p>Nenhum conteúdo disponível...</p>
+				{% endfor %}
+
+			</div>
+		
+			{% if user.user_type == 'PROFESSOR' %}
+				<a href="{% url 'criar_tema' %}" class="btn bg-dark text-white">Novo tema</a>
+			{% endif %}
+		</div>
+	</div>
+	
 {% endblock %}
