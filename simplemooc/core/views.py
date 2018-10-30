@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.conf import settings
 from core.models import *
-from .forms import FormularioRegistro, FormularioEditarConta
+from .forms import *
 
 # Create your views here.
 def home(request):
@@ -135,3 +135,32 @@ def desfazer_matricula(request, pk):
 	matricula.delete()
 	messages.success(request, 'Sua inscrição foi cancelada com sucesso')
 	return redirect ('usuario')
+
+
+@login_required
+def criar_aula(request):
+	form = FormularioAula(request.POST or None)
+	if form.is_valid():
+		form.save()
+		form = FormularioAula()
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "criar_aula.html", context)
+
+
+@login_required
+def criar_tema(request):
+	form = FormularioTema(request.POST or None)
+	if form.is_valid():
+		form.save()
+		form = FormularioTema()
+
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "criar_tema.html", context)

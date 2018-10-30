@@ -1,6 +1,20 @@
 from django import forms
+from core.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.contrib.admin.widgets import AdminDateWidget
+
+class FormularioAula(forms.ModelForm):
+	class Meta:
+		model = Aula
+		fields = ['name', 'tema_id', 'text_content', 'visual_content']
+
+
+class FormularioTema(forms.ModelForm):
+	class Meta:
+		model = Tema
+		fields = '__all__'
+
 
 User = get_user_model()
 

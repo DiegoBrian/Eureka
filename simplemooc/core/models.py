@@ -63,7 +63,7 @@ class Tema(models.Model):
 		return self.name
 
 class Aula(models.Model):
-	name = models.CharField('Nome', max_length=100, default='Aula')
+	name = models.CharField('Nome', max_length=100, default='Aula X')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
 	text_content = models.TextField('Conteúdo textual')
 	visual_content = models.CharField('Conteúdo visual', max_length=2048)

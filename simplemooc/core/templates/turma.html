@@ -48,7 +48,7 @@
               </tbody>
             </table>
             {% if user.user_type == 'PROFESSOR' %}
-                <a href="#" class="btn bg-dark text-white">Novo tema</a>
+                <a href="{% url 'criar_tema' %}" class="btn bg-dark text-white">Novo tema</a>
             {% endif %}
         </div>
     </div>
