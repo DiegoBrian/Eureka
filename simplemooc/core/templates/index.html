@@ -41,7 +41,7 @@
 					{% load_my_courses user as matriculas %}
 					{% for matricula in matriculas %}
 		                <tr>
-		                    <td><a href="#">{{ matricula.turma_id }}</a></td>
+		                    <td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
 		                    <td> {{matricula.turma_id.responsible}} </td>
 		                    <td> {{matricula.turma_id.get_course_type_display}} </td>
 		                    <td> {{matricula.turma_id.updated_at}} </td>
@@ -73,6 +73,7 @@
 	</div>
 </div>
 
+
 {% if user.user_type == 'ALUNO' %}
 <div class="card">
 	<div class="card-header bg-dark text-white">
@@ -94,7 +95,7 @@
 					<td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
 					<td>{{ turma.responsible }}</td>
 					<td>{{ turma.updated_at }}</td>
-					<td><a href="#" class="btn bg-dark text-white">Inscrever-se</a></td>
+					<td><a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a></td>
 				</tr>
 				{% empty %}
 				<tr>

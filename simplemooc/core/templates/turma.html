@@ -21,9 +21,6 @@
             Busque por um assunto para encontrá-lo com mais facilidade
             <input type="text" placeholder="Encontrar um assunto..." class="searchbar">
             <a href="#" class="btn bg-dark text-white">Buscar</a>
-            {% if user.user_type == 'ALUNO' %}
-                <a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a>
-            {% endif %}
         </div>
     </div>
 

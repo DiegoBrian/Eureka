@@ -28,8 +28,8 @@ def aula(request, pk):
 @login_required
 def index(request):
 	print(request.user.user_type)
-	turmas = Turma.objects.filter(responsible= request.user);
-	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA');
+	turmas = Turma.objects.filter(responsible= request.user)
+	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
 	context = {
 		'turmas': turmas,
 		'turmas_publicas': turmas_publicas
@@ -65,7 +65,11 @@ def cadastrar(request):
 
 @login_required
 def usuario(request):
-	return render(request,'usuario.html')
+	turmas = Turma.objects.filter(responsible= request.user)
+	context = {
+		'turmas' : turmas
+	}
+	return render(request,'usuario.html', context)
 
 @login_required
 def editar_usuario(request):
@@ -75,7 +79,7 @@ def editar_usuario(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Os dados foram alterados com sucesso')
-			redirect('editar_usuario')
+			redirect('usuario')
 	else:
 		form = FormularioEditarConta(instance = request.user)
 	context ['form'] = form
@@ -122,3 +126,12 @@ def matricula(request, pk):
 	else:
 		messages.info(request, 'Você já está inscrito nesta turma')
 	return redirect('turma',pk)
+
+
+@login_required
+def desfazer_matricula(request, pk):
+	turma = get_object_or_404(Turma, pk = pk)
+	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)
+	matricula.delete()
+	messages.success(request, 'Sua inscrição foi cancelada com sucesso')
+	return redirect ('usuario')
