@@ -18,6 +18,7 @@ urlpatterns = [
     path('editar_usuario/', views.editar_usuario, name='editar_usuario'),
     path('editar_senha/', views.editar_senha, name='editar_senha'),
     path('tema/<int:pk>/', views.tema, name='tema'),
-    path('criar_aula/', views.criar_aula, name='criar_aula'),
-    path('criar_tema/', views.criar_tema, name='criar_tema'),
+    path('criar_aula/<int:tema_id>/', views.criar_aula, name='criar_aula'),
+    path('criar_tema/<int:turma_id>/', views.criar_tema, name='criar_tema'),
+    path('criar_turma/<int:profesor_id>/', views.criar_turma, name='criar_turma'),
 ]

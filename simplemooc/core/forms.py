@@ -2,18 +2,26 @@ from django import forms
 from core.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django.contrib.admin.widgets import AdminDateWidget
+from django.forms import Textarea, HiddenInput
 
 class FormularioAula(forms.ModelForm):
 	class Meta:
 		model = Aula
 		fields = ['name', 'tema_id', 'text_content', 'visual_content']
+		widgets = {'tema_id' : HiddenInput()}
 
 
 class FormularioTema(forms.ModelForm):
 	class Meta:
 		model = Tema
+		fields = ['name', 'turma_id']
+		widgets = {'turma_id' : HiddenInput()}
+
+class FormularioTurma(forms.ModelForm):
+	class Meta:
+		model = Turma
 		fields = '__all__'
+		widgets = {'responsible' : HiddenInput()}
 
 
 User = get_user_model()

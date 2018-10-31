@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Novo tema{% endblock %}
+
+{% block content %}
+<div class="pure-g-r content-ribbon">
+    <div class="pure-u-1">
+        <h2>Nova Turma</h2>
+        <form class="pure-form pure-form-aligned" method="post">
+            {% csrf_token %}
+            <fieldset>
+                {{ form.non_field_errors }}
+
+                {% for field in form %}
+                <div class="pure-control-group">
+                    {% if field.name != 'responsible' %}
+                        <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                    {% endif %}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+
+                <div class="pure-controls">
+                    <button type="submit" class="pure-button pure-button-primary">Criar turma</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

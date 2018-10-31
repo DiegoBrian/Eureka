@@ -20,8 +20,10 @@ def testes(request):
 @login_required
 def aula(request, pk):
 	aula = get_object_or_404(Aula, pk=pk)
+	materiais = Material.objects.filter(aula_id = pk)
 	context = {
-		'aula' : aula
+		'aula' : aula,
+		'materiais' : materiais
 	}
 	return render(request, 'aula.html', context)
 
@@ -105,7 +107,6 @@ def editar_senha(request):
 def tema(request, pk):
 	tema = get_object_or_404(Tema, pk = pk)
 	aulas = Aula.objects.filter(tema_id = pk)
-	print(aulas)
 	exercicios = Exercicio.objects.filter(tema_id = pk)
 	experimentacoes = Experimentacao.objects.filter(tema_id = pk)
 	context = {
@@ -138,29 +139,43 @@ def desfazer_matricula(request, pk):
 
 
 @login_required
-def criar_aula(request):
-	form = FormularioAula(request.POST or None)
+def criar_aula(request, tema_id):
+	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
 		form.save()
-		form = FormularioAula()
+		return redirect('tema', pk = tema_id)
 
 	context = {
 		'form' : form
 	}
 
-	return render (request, "criar_aula.html", context)
+	return render (request, "creation/criar_aula.html", context)
 
 
 @login_required
-def criar_tema(request):
-	form = FormularioTema(request.POST or None)
+def criar_tema(request, turma_id):
+	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id})
 	if form.is_valid():
+		#print(form)
 		form.save()
-		form = FormularioTema()
-
+		return redirect('turma', pk = turma_id)
 
 	context = {
 		'form' : form
 	}
 
-	return render (request, "criar_tema.html", context)
+	return render (request, "creation/criar_tema.html", context)
+
+
+@login_required
+def criar_turma(request, profesor_id):
+	form = FormularioTurma(request.POST or None, initial={'responsible': profesor_id})
+	if form.is_valid():
+		form.save()
+		return redirect('index')
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "creation/criar_turma.html", context)

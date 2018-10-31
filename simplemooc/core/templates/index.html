@@ -68,7 +68,7 @@
 			</tbody>
 		</table>
 		{% if user.user_type == 'PROFESSOR' %}
-		<a href="#" class="btn bg-dark text-white">Nova turma</a>
+		<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
 		{% endif %}		
 	</div>
 </div>

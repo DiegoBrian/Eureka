@@ -36,9 +36,7 @@
                                 {% for matricula in matriculas %}
                                     <tr>
                                         <td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
-                                        <td> {{matricula.turma_id.responsible}} </td>
-                                        <td> {{matricula.turma_id.get_course_type_display}} </td>
-                                        <td> {{matricula.turma_id.updated_at}} </td>
+                                        <td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
                                     </tr>
                                 {% empty %}
                                     <tr>
@@ -49,7 +47,7 @@
                                 {% for turma in turmas %}
                                     <tr>
                                         <td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
-                                        <td><a href="{% url 'desmatricular' turma.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
+                                        <td><a href="{% url 'desmatricular' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
                                     </tr>
                                 {% empty %}
                                     <tr>

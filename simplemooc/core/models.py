@@ -77,7 +77,7 @@ class Material(models.Model):
 	name = models.CharField('Nome', max_length=100)
 	file = models.FileField(upload_to='core/materials', blank=True, null=True)
 
-	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, default=1, related_name='materials')
+	aula_id = models.ForeignKey('Aula', on_delete=models.CASCADE, default=1, related_name='materials')
 
 	def __str__(self):
 		return self.name
