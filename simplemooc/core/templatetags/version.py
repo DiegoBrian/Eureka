@@ -10,7 +10,7 @@ register = template.Library()
 def youtube(text):
     url = text.split('=',1)
     if url[0] == text:
-    	url = text.split('/',1)
+    	url = text.split('/',3)
 
     code = url[1][:11]
 

@@ -20,12 +20,26 @@ def testes(request):
 @login_required
 def aula(request, pk):
 	aula = get_object_or_404(Aula, pk=pk)
+
+	if request.user.user_type == 'ALUNO':
+		esta_matriculado(request, aula.tema_id.turma_id.pk)
+
 	materiais = Material.objects.filter(aula_id = pk)
 	context = {
 		'aula' : aula,
 		'materiais' : materiais
 	}
 	return render(request, 'aula.html', context)
+
+@login_required
+def experimentacao(request, pk):
+	experimentacao = get_object_or_404(Experimentacao, pk=pk)
+
+	context = {
+		'experimentacao' : experimentacao
+	}
+	return render(request, 'content/experimentacao.html', context)
+
 
 @login_required
 def index(request):
@@ -42,6 +56,10 @@ def index(request):
 @login_required
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
+
+	if request.user.user_type == 'ALUNO':
+		esta_matriculado(request, pk)
+
 	temas = Tema.objects.filter(turma_id = pk)
 	context = {
 		'turma': turma,
@@ -106,6 +124,10 @@ def editar_senha(request):
 @login_required
 def tema(request, pk):
 	tema = get_object_or_404(Tema, pk = pk)
+
+	if request.user.user_type == 'ALUNO':
+		esta_matriculado(request, tema.turma_id.pk)
+
 	aulas = Aula.objects.filter(tema_id = pk)
 	exercicios = Exercicio.objects.filter(tema_id = pk)
 	experimentacoes = Experimentacao.objects.filter(tema_id = pk)
@@ -153,7 +175,24 @@ def criar_aula(request, tema_id):
 
 
 @login_required
+def criar_experimentacao(request, tema_id):
+	form = FormularioExperimentacao(request.POST or None, initial={'tema_id': tema_id})
+	if form.is_valid():
+		form.save()
+		return redirect('tema', pk = tema_id)
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "creation/criar_experimentacao.html", context)
+
+
+@login_required
 def criar_tema(request, turma_id):
+	turma = Turma.objects.filter(pk = turma_id)
+
+
 	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id})
 	if form.is_valid():
 		#print(form)
@@ -169,6 +208,11 @@ def criar_tema(request, turma_id):
 
 @login_required
 def criar_turma(request, profesor_id):
+	if request.user.user_type == 'ALUNO' or profesor_id != request.user.pk:
+		messages.error(request, "Você não tem permissões para realizar esta ação")
+		return redirect('index')
+
+
 	form = FormularioTurma(request.POST or None, initial={'responsible': profesor_id})
 	if form.is_valid():
 		form.save()
@@ -179,3 +223,9 @@ def criar_turma(request, profesor_id):
 	}
 
 	return render (request, "creation/criar_turma.html", context)
+
+
+@login_required
+def esta_matriculado (request, pk):
+	turma = get_object_or_404(Turma, pk = pk)
+	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)

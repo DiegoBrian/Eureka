@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load version %}
+{% block title %}{{experimentacao.name}}{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+{% endblock %}
+{% block content %}
+	<div class="card cardEspecial">
+        <div class="card-header bg-dark text-white">
+            <h1>{{experimentacao.name}}</h1>
+        </div>
+        <div class="card-body">
+        	{% if experimentacao.visual_content %}
+            	<div class="embed-responsive embed-responsive-16by9">{{experimentacao.visual_content|youtube|safe}}</div>
+            {% endif %}
+            
+            <div>{{experimentacao.text_content|linebreaks}}</div>
+
+            <div style="text-align: right;">Fonte: <a href="{{experimentacao.source}}">{{experimentacao.source}}</a></div>
+
+            <div style="margin-top: 2%;">
+		        <form action="#" style="display:inline-block;">
+		            <input type="submit" value="Aula" class="btn btn-dark"/>
+		        </form>
+		        <form action="#" style="display:inline-block;">
+		            <input type="submit" value="Exercícios" class="btn btn-dark"/>
+		        </form>
+		    </div>
+		    <a href="#">Acessar o fórum de dúvidas</a>
+        </div>
+    </div>
+{% endblock %}

@@ -2,12 +2,20 @@ from django import forms
 from core.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django.forms import Textarea, HiddenInput
+from django.forms import Textarea, HiddenInput, DateInput
+from django.contrib.admin.widgets import AdminDateWidget
 
 class FormularioAula(forms.ModelForm):
 	class Meta:
 		model = Aula
 		fields = ['name', 'tema_id', 'text_content', 'visual_content']
+		widgets = {'tema_id' : HiddenInput()}
+
+
+class FormularioExperimentacao(forms.ModelForm):
+	class Meta:
+		model = Experimentacao
+		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'source']
 		widgets = {'tema_id' : HiddenInput()}
 
 
@@ -50,6 +58,7 @@ class FormularioRegistro(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['username','email','name','gender','birth_date','grade','user_type']
+		widgets = {'birth_date' : AdminDateWidget()}
 
 class FormularioEditarConta(forms.ModelForm):
 

@@ -89,7 +89,7 @@
                 <tbody>
                     {% for experimentacao in experimentacoes %}
                     <tr>
-                        <td><a href="#">{{ experimentacao.topic }}</a></td>
+                        <td><a href="{% url 'experimentacao' experimentacao.pk %}">{{ experimentacao.name }}</a></td>
                         <td>{{ experimentacao.updated_at }}</td>
                     </tr>
                     {% empty %}
@@ -100,7 +100,7 @@
               </tbody>
             </table>
             {% if user.user_type == 'PROFESSOR' %}
-                <a href="#" class="btn bg-dark text-white">Nova experimentação</a>
+                <a href="{% url 'criar_experimentacao' tema.pk %}" class="btn bg-dark text-white">Nova experimentação</a>
             {% endif %}
         </div>
     </div>
