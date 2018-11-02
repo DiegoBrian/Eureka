@@ -59,7 +59,7 @@
                 <tbody>
                     {% for exercicio in exercicios %}
                     <tr>
-                        <td><a href="#">{{ exercicio.topic }}</a></td>
+                        <td><a href="{% url 'exercicio' exercicio.pk %}">{{ exercicio.name }}</a></td>
                         <td>{{ exercicio.updated_at }}</td>
                     </tr>
                     {% empty %}
@@ -70,7 +70,7 @@
               </tbody>
             </table>
             {% if user.user_type == 'PROFESSOR' %}
-                <a href="#" class="btn bg-dark text-white">Novo exercício</a>
+                <a href="{% url 'criar_exercicio' tema.pk %}" class="btn bg-dark text-white">Novo exercício</a>
             {% endif %}
         </div>
     </div>

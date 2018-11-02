@@ -11,34 +11,13 @@ from .forms import *
 def home(request):
 	return render(request, 'home.html')
 
+
 def sobre(request):
 	return render(request, 'sobre.html')
 
+
 def testes(request):
 	return render(request, 'testes.html')
-
-@login_required
-def aula(request, pk):
-	aula = get_object_or_404(Aula, pk=pk)
-
-	if request.user.user_type == 'ALUNO':
-		esta_matriculado(request, aula.tema_id.turma_id.pk)
-
-	materiais = Material.objects.filter(aula_id = pk)
-	context = {
-		'aula' : aula,
-		'materiais' : materiais
-	}
-	return render(request, 'aula.html', context)
-
-@login_required
-def experimentacao(request, pk):
-	experimentacao = get_object_or_404(Experimentacao, pk=pk)
-
-	context = {
-		'experimentacao' : experimentacao
-	}
-	return render(request, 'content/experimentacao.html', context)
 
 
 @login_required
@@ -54,6 +33,40 @@ def index(request):
 
 
 @login_required
+def aula(request, pk):
+	aula = get_object_or_404(Aula, pk=pk)
+
+	if request.user.user_type == 'ALUNO':
+		esta_matriculado(request, aula.tema_id.turma_id.pk)
+
+	materiais = Material.objects.filter(aula_id = pk)
+	context = {
+		'aula' : aula,
+		'materiais' : materiais
+	}
+	return render(request, 'content/aula.html', context)
+
+@login_required
+def experimentacao(request, pk):
+	experimentacao = get_object_or_404(Experimentacao, pk=pk)
+
+	context = {
+		'experimentacao' : experimentacao
+	}
+	return render(request, 'content/experimentacao.html', context)
+
+
+@login_required
+def exercicio(request, pk):
+	exercicio = get_object_or_404(Exercicio, pk=pk)
+
+	context = {
+		'exercicio' : exercicio
+	}
+	return render(request, 'content/exercicio.html', context)
+	
+
+@login_required
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
 
@@ -65,7 +78,46 @@ def turma(request, pk):
 		'turma': turma,
 		'temas' : temas
 	}
-	return render(request, 'turma.html', context)
+	return render(request, 'content/turma.html', context)
+
+
+@login_required
+def tema(request, pk):
+	tema = get_object_or_404(Tema, pk = pk)
+
+	if request.user.user_type == 'ALUNO':
+		esta_matriculado(request, tema.turma_id.pk)
+
+	aulas = Aula.objects.filter(tema_id = pk)
+	exercicios = Exercicio.objects.filter(tema_id = pk)
+	experimentacoes = Experimentacao.objects.filter(tema_id = pk)
+	context = {
+		'tema': tema,
+		'aulas': aulas,
+		'exercicios':exercicios,
+		'experimentacoes':experimentacoes
+	}
+	return render(request,'content/tema.html', context)
+
+
+@login_required
+def matricula(request, pk):
+	turma = get_object_or_404(Turma, pk = pk)
+	matricula, created = Aluno_Turma.objects.get_or_create(aluno_id = request.user, turma_id = turma)
+	if created:
+		messages.success(request, 'Você foi inscrito nesta turma com sucesso')
+	else:
+		messages.info(request, 'Você já está inscrito nesta turma')
+	return redirect('turma',pk)
+
+
+@login_required
+def desfazer_matricula(request, pk):
+	turma = get_object_or_404(Turma, pk = pk)
+	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)
+	matricula.delete()
+	messages.success(request, 'Sua inscrição foi cancelada com sucesso')
+	return redirect ('usuario')
 
 
 def cadastrar(request):
@@ -89,7 +141,8 @@ def usuario(request):
 	context = {
 		'turmas' : turmas
 	}
-	return render(request,'usuario.html', context)
+	return render(request,'user/usuario.html', context)
+
 
 @login_required
 def editar_usuario(request):
@@ -104,7 +157,8 @@ def editar_usuario(request):
 		form = FormularioEditarConta(instance = request.user)
 	context ['form'] = form
 
-	return render(request,'editar_usuario.html', context)
+	return render(request,'user/editar_usuario.html', context)
+
 
 @login_required
 def editar_senha(request):
@@ -118,46 +172,7 @@ def editar_senha(request):
 		form = PasswordChangeForm(user = request.user)
 	context ['form'] = form
 
-	return render(request,'editar_senha.html', context)
-
-
-@login_required
-def tema(request, pk):
-	tema = get_object_or_404(Tema, pk = pk)
-
-	if request.user.user_type == 'ALUNO':
-		esta_matriculado(request, tema.turma_id.pk)
-
-	aulas = Aula.objects.filter(tema_id = pk)
-	exercicios = Exercicio.objects.filter(tema_id = pk)
-	experimentacoes = Experimentacao.objects.filter(tema_id = pk)
-	context = {
-		'tema': tema,
-		'aulas': aulas,
-		'exercicios':exercicios,
-		'experimentacoes':experimentacoes
-	}
-	return render(request,'tema.html', context)
-
-
-@login_required
-def matricula(request, pk):
-	turma = get_object_or_404(Turma, pk = pk)
-	matricula, created = Aluno_Turma.objects.get_or_create(aluno_id = request.user, turma_id = turma)
-	if created:
-		messages.success(request, 'Você foi inscrito nesta turma com sucesso')
-	else:
-		messages.info(request, 'Você já está inscrito nesta turma')
-	return redirect('turma',pk)
-
-
-@login_required
-def desfazer_matricula(request, pk):
-	turma = get_object_or_404(Turma, pk = pk)
-	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)
-	matricula.delete()
-	messages.success(request, 'Sua inscrição foi cancelada com sucesso')
-	return redirect ('usuario')
+	return render(request,'user/editar_senha.html', context)
 
 
 @login_required
@@ -186,6 +201,21 @@ def criar_experimentacao(request, tema_id):
 	}
 
 	return render (request, "creation/criar_experimentacao.html", context)
+
+
+@login_required
+def criar_exercicio(request, tema_id):
+	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id})
+	if form.is_valid():
+		form.save()
+		return redirect('tema', pk = tema_id)
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "creation/criar_exercicio.html", context)
+	pass
 
 
 @login_required

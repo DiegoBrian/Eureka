@@ -12,6 +12,13 @@ class FormularioAula(forms.ModelForm):
 		widgets = {'tema_id' : HiddenInput()}
 
 
+class FormularioExercicio(forms.ModelForm):
+	class Meta:
+		model = Exercicio
+		fields = ['name', 'tema_id', 'multiple_times']
+		widgets = {'tema_id' : HiddenInput()}
+
+
 class FormularioExperimentacao(forms.ModelForm):
 	class Meta:
 		model = Experimentacao

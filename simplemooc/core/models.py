@@ -85,7 +85,7 @@ class Material(models.Model):
 class Exercicio(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Exercicio')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
-	multiple_times = models.BooleanField('Refazível', default=False)
+	multiple_times = models.BooleanField('Pode ser feito mais de uma vez', default=False)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 

@@ -1,16 +1,19 @@
-{% extends "usuario.html" %}
+{% extends "user/usuario.html" %}
 
-{% block title %}Editar usuário: {{user}}{% endblock %}
+{% block title %}Editar usuário: {{user.username}}{% endblock %}
 
 {% block breadcrumb %}
     {{ block.super }}
     <li>&nbsp;/&nbsp;</li>
-    <li><a href="{% url 'editar_usuario' %}">Editar Conta</a></li>
+    <li><a href="{% url 'editar_senha' %}">Editar Senha</a></li>
 {% endblock %}
 
 {% block dashboard_content %}
 <form class="pure-form pure-form-stacked" method="post">
     {% csrf_token %}
+    {% if success %}
+    <p>A senha foi alterada com sucesso</p>
+    {% endif %}
     <fieldset>
         {{ form.non_field_errors }}
         {% for field in form %}
