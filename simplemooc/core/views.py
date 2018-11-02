@@ -36,9 +36,6 @@ def index(request):
 def aula(request, pk):
 	aula = get_object_or_404(Aula, pk=pk)
 
-	if request.user.user_type == 'ALUNO':
-		esta_matriculado(request, aula.tema_id.turma_id.pk)
-
 	materiais = Material.objects.filter(aula_id = pk)
 	context = {
 		'aula' : aula,
@@ -60,8 +57,11 @@ def experimentacao(request, pk):
 def exercicio(request, pk):
 	exercicio = get_object_or_404(Exercicio, pk=pk)
 
+	perguntas = Pergunta.objects.filter(exercise_id = pk)
+
 	context = {
-		'exercicio' : exercicio
+		'exercicio' : exercicio,
+		'perguntas' : perguntas
 	}
 	return render(request, 'content/exercicio.html', context)
 	
@@ -69,9 +69,6 @@ def exercicio(request, pk):
 @login_required
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
-
-	if request.user.user_type == 'ALUNO':
-		esta_matriculado(request, pk)
 
 	temas = Tema.objects.filter(turma_id = pk)
 	context = {
@@ -84,9 +81,6 @@ def turma(request, pk):
 @login_required
 def tema(request, pk):
 	tema = get_object_or_404(Tema, pk = pk)
-
-	if request.user.user_type == 'ALUNO':
-		esta_matriculado(request, tema.turma_id.pk)
 
 	aulas = Aula.objects.filter(tema_id = pk)
 	exercicios = Exercicio.objects.filter(tema_id = pk)
@@ -215,7 +209,6 @@ def criar_exercicio(request, tema_id):
 	}
 
 	return render (request, "creation/criar_exercicio.html", context)
-	pass
 
 
 @login_required
@@ -256,6 +249,15 @@ def criar_turma(request, profesor_id):
 
 
 @login_required
-def esta_matriculado (request, pk):
-	turma = get_object_or_404(Turma, pk = pk)
-	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)
+def criar_pergunta(request, exercise_id):
+	form = FormularioPergunta(request.POST or None, initial={'exercise_id': exercise_id})
+	if form.is_valid():
+		#print(form)
+		form.save()
+		return redirect('exercicio', pk = exercise_id)
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "creation/criar_pergunta.html", context)

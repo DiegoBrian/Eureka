@@ -5,4 +5,57 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
+	<div class="card cardEspecial">
+        <div class="card-header bg-dark text-white">
+            <h1>{{exercicio.name}}</h1>
+        </div>
+        <div class="card-body">
+            
+            {% for pergunta in perguntas %}
+            <div>
+            	<div>{{forloop.counter}}. {{pergunta.text}}</div>
+            	{% if user.user_type == 'ALUNO' %}
+                    {% if pergunta.quesion_type == 'FECHADA' %}
+                        <div><input type="checkbox">{{pergunta.answer_a}}</div>
+                        <div><input type="checkbox">{{pergunta.answer_b}}</div>
+                        <div><input type="checkbox">{{pergunta.answer_c}}</div>
+                        <div><input type="checkbox">{{pergunta.answer_d}}</div>
+                    {% else %}
+                        <div>
+                            <input type="texarea">
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if pergunta.quesion_type == 'FECHADA' %}
+                		<div>a) {{pergunta.answer_a}}</div>
+                		<div>b) {{pergunta.answer_b}}</div>
+                		<div>c) {{pergunta.answer_c}}</div>
+                		<div>d) {{pergunta.answer_d}}</div>
+                	{% endif %}
+                {% endif %}
+            </div>
+            {% empty %}
+            <div>
+                Nenhuma pergunta para exibir
+            </div>
+            {% endfor %}
+            
+            <div style="margin-top: 2%;">
+		        {% if user.user_type == 'PROFESSOR' %}
+                	<a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
+            	{% else %}
+                    <form action="#" style="display:inline-block;">
+                        <input type="submit" value="Finalizar exercício" class="btn btn-dark"/>
+                    </form>
+                {% endif %}
+		        <form action="#" style="display:inline-block;">
+		            <input type="submit" value="Exercícios" class="btn btn-dark"/>
+		        </form>
+		        <form action="#" style="display:inline-block;">
+		            <input type="submit" value="Exeperimentação" class="btn btn-dark"/>
+		        </form>
+		    </div>
+		    <a href="#">Acessar o fórum de dúvidas</a>
+        </div>
+    </div>
 {% endblock %}

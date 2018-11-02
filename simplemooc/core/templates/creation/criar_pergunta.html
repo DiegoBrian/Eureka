@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
-{% block css %}
+{% load static %}
 
-{% endblock %}
+{% block title %}Nova pergunta{% endblock %}
+
 {% block content %}
 <div class="card">
 	<div class="card-header bg-dark text-white">
-        <h2>Informe seus dados de cadastro</h2>
+        <h2>Nova pergunta</h2>
     </div>
     <div class="card-body">
         <form class="pure-form pure-form-aligned" method="post">
@@ -16,20 +16,17 @@
 
                 {% for field in form %}
                 <div class="pure-control-group">
-                    <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                    {% if field.name != 'exercise_id' %}
+                        <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                    {% endif %}
                     {{ field }}
                     {{ field.errors }}
                 </div>
                 {% endfor %}
-
                 <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Entrar</button>
+                    <button type="submit" class="pure-button pure-button-primary">Criar pergunta</button>
                 </div>
             </fieldset>
-            <p>
-                Não é cadastrado? <a href="{% url 'cadastrar' %}" title="">Cadastre-se</a> <br />
-                Esqueceu a senha? <a href="" title="">Nova senha</a> <br />
-            </p>
         </form>
     </div>
 </div>

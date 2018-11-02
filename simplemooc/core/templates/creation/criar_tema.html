@@ -4,9 +4,11 @@
 {% block title %}Novo tema{% endblock %}
 
 {% block content %}
-<div class="pure-g-r content-ribbon">
-    <div class="pure-u-1">
+<div class="card">
+	<div class="card-header bg-dark text-white">
         <h2>Novo Tema</h2>
+    </div>
+    <div class="card-body">
         <form class="pure-form pure-form-aligned" method="post">
             {% csrf_token %}
             <fieldset>

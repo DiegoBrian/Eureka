@@ -110,18 +110,18 @@ class Pergunta(models.Model):
 		('ABERTA', 'Resposta aberta'),
 	)
 	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE)
-	text = models.TextField('Texto')
+	text = models.TextField('Enunciado')
 	quesion_type = models.CharField('Tipo', max_length=9, choices=QUESTION_OPTIONS, default='FECHADA')
-	student_answer = models.CharField('Resposta fechada do aluno', max_length=1, null=True, blank = True)
+	student_answer = models.CharField('Resposta do aluno', max_length=1, null=True, blank = True)
 	answer_a = models.CharField('a)', max_length=2048, null=True, blank = True)
 	answer_b = models.CharField('b)', max_length=2048, null=True, blank = True)
 	answer_c = models.CharField('c)', max_length=2048, null=True, blank = True)
 	answer_d = models.CharField('d)', max_length=2048, null=True, blank = True)
-	correct_answer = models.CharField('Resposta fechada correta', max_length=1, null=True, blank = True)
-	student_text = models.TextField('Resposta aberta do aluno', null=True, blank = True)
+	correct_answer = models.CharField('Resposta correta', max_length=1, null=True, blank = True)
+	student_text = models.TextField('Resposta do aluno', null=True, blank = True)
 
 	def __str__(self):
-		return self.id
+		return self.text
 
 class Aluno_Turma(models.Model):
 	turma_id = models.ForeignKey('Turma', related_name = 'matriculas', on_delete=models.CASCADE)
