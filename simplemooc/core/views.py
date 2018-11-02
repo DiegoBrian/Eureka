@@ -36,6 +36,10 @@ def index(request):
 def aula(request, pk):
 	aula = get_object_or_404(Aula, pk=pk)
 
+	if not tem_acesso(request.user, aula.tema_id.turma_id.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
+
 	materiais = Material.objects.filter(aula_id = pk)
 	context = {
 		'aula' : aula,
@@ -47,6 +51,10 @@ def aula(request, pk):
 def experimentacao(request, pk):
 	experimentacao = get_object_or_404(Experimentacao, pk=pk)
 
+	if not tem_acesso(request.user, experimentacao.tema_id.turma_id.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
+
 	context = {
 		'experimentacao' : experimentacao
 	}
@@ -56,6 +64,10 @@ def experimentacao(request, pk):
 @login_required
 def exercicio(request, pk):
 	exercicio = get_object_or_404(Exercicio, pk=pk)
+
+	if not tem_acesso(request.user, exercicio.tema_id.turma_id.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
 
 	perguntas = Pergunta.objects.filter(exercise_id = pk)
 
@@ -70,6 +82,10 @@ def exercicio(request, pk):
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
 
+	if not tem_acesso(request.user, turma.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
+
 	temas = Tema.objects.filter(turma_id = pk)
 	context = {
 		'turma': turma,
@@ -81,6 +97,10 @@ def turma(request, pk):
 @login_required
 def tema(request, pk):
 	tema = get_object_or_404(Tema, pk = pk)
+
+	if not tem_acesso(request.user, tema.turma_id.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
 
 	aulas = Aula.objects.filter(tema_id = pk)
 	exercicios = Exercicio.objects.filter(tema_id = pk)
@@ -231,11 +251,6 @@ def criar_tema(request, turma_id):
 
 @login_required
 def criar_turma(request, profesor_id):
-	if request.user.user_type == 'ALUNO' or profesor_id != request.user.pk:
-		messages.error(request, "Você não tem permissões para realizar esta ação")
-		return redirect('index')
-
-
 	form = FormularioTurma(request.POST or None, initial={'responsible': profesor_id})
 	if form.is_valid():
 		form.save()
@@ -261,3 +276,29 @@ def criar_pergunta(request, exercise_id):
 	}
 
 	return render (request, "creation/criar_pergunta.html", context)
+
+
+def esta_matriculado(user, turma_pk):
+	turma = Turma.objects.get(pk = turma_pk)
+	matricula = Aluno_Turma.objects.filter(aluno_id = user, turma_id = turma)
+
+	if matricula:
+		return True
+	else:
+		return False
+
+
+def eh_responsavel(user, turma_pk):
+	turma = Turma.objects.get(pk = turma_pk)
+
+	if turma.responsible == user:
+		return True
+	else:
+		return False
+
+
+def tem_acesso(user, turma):
+	if (user.user_type == 'ALUNO' and esta_matriculado(user, turma)) or (user.user_type == 'PROFESSOR' and eh_responsavel(user, turma)):
+		return True
+	else:
+		return False

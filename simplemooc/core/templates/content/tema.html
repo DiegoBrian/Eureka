@@ -6,7 +6,12 @@
 {% block content %}
 	<div class="card">
         <div class="card-header bg-dark text-white">
-                Bem-vindo {{user.name}}! Você vendo conteúdo sobre {{tema.name}}!
+            {% if user.gender == 'MASCULINO' %}
+                Bem-vindo {{user.name}}!
+            {% elif user.gender == 'FEMININO' %}
+                Bem-vinda {{user.name}}!
+            {% endif %}
+            Você está vendo conteúdo sobre {{tema.name}}!
         </div>
         <div class="card-body">
             <input type="text" placeholder="Encontrar uma aula, exercício, experimentação..." class="searchbar">
