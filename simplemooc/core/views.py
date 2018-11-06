@@ -141,9 +141,12 @@ def desfazer_matricula(request, pk):
 	return redirect ('usuario')
 
 
-def cadastrar(request):
+def cadastrar(request, user_type):
 	if request.method == 'POST':
-		form = FormularioRegistro(request.POST)
+		if user_type == 0:
+			form = FormularioRegistroAluno(request.POST)
+		else:
+			form = FormularioRegistroProfessor(request.POST)
 		if form.is_valid():
 			form.save()
 			username = form.cleaned_data.get('username')
@@ -152,7 +155,10 @@ def cadastrar(request):
 			login(request, user)
 			return redirect('home')
 	else:
-		form = FormularioRegistro()
+		if user_type == 0:
+			form = FormularioRegistroAluno()
+		else:
+			form = FormularioRegistroProfessor()
 	return render(request, 'registration/cadastrar.html', {'form': form})
 
 

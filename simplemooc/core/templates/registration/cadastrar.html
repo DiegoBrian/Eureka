@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Cadastrar{% endblock %}
 {% block css %}
 
@@ -16,10 +17,12 @@
 
                 {% for field in form %}
                 <div class="pure-control-group">
+                    {% if field.name != 'user_type' %}
                     <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                    {% endif %}
                     {{ field }}
                     {{ field.errors }}
-                </div>
+                </div>                
                 {% endfor %}
 
                 <div class="pure-controls">
@@ -29,4 +32,6 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript" src="{% static 'js/cadastrar.js' %}"></script>
 {% endblock %}
