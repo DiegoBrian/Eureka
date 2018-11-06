@@ -39,11 +39,18 @@ class FormularioTurma(forms.ModelForm):
 		widgets = {'responsible' : HiddenInput()}
 
 
-class FormularioPergunta(forms.ModelForm):
+class FormularioPerguntaFechada(forms.ModelForm):
 	class Meta:
 		model = Pergunta
-		fields = '__all__'
+		fields = ['text','answer_a','answer_b','answer_c','answer_d', 'correct_answer','exercise_id']
 		widgets = {'exercise_id' : HiddenInput()}
+
+
+class FormularioPerguntaAberta(forms.ModelForm):
+	class Meta:
+		model = Pergunta
+		fields = ['text']
+		widgets = {'exercise_id' : HiddenInput(), 'question_type' : HiddenInput()}
 
 User = get_user_model()
 

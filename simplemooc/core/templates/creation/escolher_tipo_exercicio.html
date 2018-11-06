@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nova questão{% endblock %}
+
+{% block content %}
+<div class="card">
+	<div class="card-header bg-dark text-white">
+        <h2>Nova questão</h2>
+    </div>
+    <div class="card-body">
+        <a href="{% url 'criar_pergunta_fechada' exercise_id %}" class="btn bg-dark text-white">Múltipla Escolha</a>
+        <a href="#" class="btn bg-dark text-white">Resposta Aberta</a>
+    </div>
+</div>
+{% endblock %}

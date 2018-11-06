@@ -24,10 +24,17 @@ def testes(request):
 def index(request):
 	print(request.user.user_type)
 	turmas = Turma.objects.filter(responsible= request.user)
+	resultado = []
 	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
+	for turma in turmas_publicas:
+		if not esta_matriculado(request.user, turma.pk):
+			resultado.append(turma)
+
+	print(resultado)
+
 	context = {
 		'turmas': turmas,
-		'turmas_publicas': turmas_publicas
+		'turmas_publicas': resultado
 	}
 	return render(request, 'index.html', context)
 
@@ -265,7 +272,16 @@ def criar_turma(request, profesor_id):
 
 @login_required
 def criar_pergunta(request, exercise_id):
-	form = FormularioPergunta(request.POST or None, initial={'exercise_id': exercise_id})
+	context = {
+		'exercise_id' : exercise_id
+	}
+	return render(request, 'creation/escolher_tipo_exercicio.html', context)
+
+
+
+@login_required
+def criar_pergunta_fechada(request, exercise_id):
+	form = FormularioPerguntaFechada(request.POST or None, initial={'exercise_id': exercise_id})
 	if form.is_valid():
 		#print(form)
 		form.save()

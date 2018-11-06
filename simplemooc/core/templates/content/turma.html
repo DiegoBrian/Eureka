@@ -33,9 +33,13 @@
 				{% for tema in temas %}
 					<div class="card">
 						<div class="card-body">
-							<p class="card-text"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</p>
+							<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</p>
 						</div>
 					</div>
+			{% if forloop.counter|divisibleby:4 %}
+				</div>
+				<div class="card-deck" style="margin-bottom: 1%;">
+			{% endif %}
 				{% empty %}
 					<p>Nenhum conteúdo disponível...</p>
 				{% endfor %}
