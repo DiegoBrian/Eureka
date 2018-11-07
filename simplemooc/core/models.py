@@ -116,18 +116,27 @@ class Pergunta(models.Model):
 		('D', 'd'),
 	)
 	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE)
+	number = models.IntegerField('Número', default=1)
 	text = models.TextField('Enunciado')
 	quesion_type = models.CharField('Tipo', max_length=9, choices=QUESTION_OPTIONS, default='FECHADA')
-	student_answer = models.CharField('Resposta do aluno', max_length=1, choices=CORRECT_ANSWER, default='A')
 	answer_a = models.CharField('a)', max_length=2048, null=True, blank = True)
 	answer_b = models.CharField('b)', max_length=2048, null=True, blank = True)
 	answer_c = models.CharField('c)', max_length=2048, null=True, blank = True)
 	answer_d = models.CharField('d)', max_length=2048, null=True, blank = True)
 	correct_answer = models.CharField('Resposta correta', max_length=1, choices=CORRECT_ANSWER, default='A')
-	student_text = models.TextField('Resposta do aluno', null=True, blank = True)
 
 	def __str__(self):
 		return self.text
+
+class Usuario_Pergunta(models.Model):
+	aluno_id = models.ForeignKey(get_user_model(), verbose_name = 'Usuário', on_delete=models.CASCADE, null = True)
+	question_id = models.ForeignKey('Pergunta', verbose_name = 'Pergunta', related_name = 'respostas', on_delete=models.CASCADE, null = True)
+	student_answer = models.CharField('Resposta', max_length=1, default='A')
+	student_text = models.TextField('Resposta', null=True, blank = True)
+	answered = models.BooleanField('Respondido', default= False)
+
+	def __str__(self):
+		return self.aluno_id.name+" respondeu a pergunta "+self.question_id.text
 
 class Aluno_Turma(models.Model):
 	turma_id = models.ForeignKey('Turma', related_name = 'matriculas', on_delete=models.CASCADE)
@@ -141,3 +150,6 @@ class Aluno_Turma(models.Model):
 class Aluno_Exercicio(models.Model):
 	exercicio_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, default=1)
 	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+
+	def __str__(self):
+		return self.aluno_id.name+" concluiu o exercício "+self.exercicio_id.name

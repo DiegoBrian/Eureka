@@ -18,8 +18,11 @@
 		{% if user.user_type == 'ALUNO' %}
 		ou procure por novas turmas para se registrar
 		{% endif %}
-		<input type="text" placeholder="Encontrar uma turma..." class="searchbar">
-		<a href="#" class="btn bg-dark text-white">Buscar</a>
+		<form method="post" action="/index/">
+			{% csrf_token %}
+			<input type="text" name="search_course" placeholder="Encontrar uma turma..." class="searchbar">
+			<a href="#" class="btn bg-dark text-white">Buscar</a>
+		</form>
 	</div>
 </div>
 <div class="card">

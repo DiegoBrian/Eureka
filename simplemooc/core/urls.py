@@ -10,7 +10,8 @@ urlpatterns = [
 
     #content
     path('aula/<int:pk>', views.aula, name='aula'),
-    path('exercicio/<int:pk>', views.exercicio, name='exercicio'),
+    path('exercicio/<int:exercise_id>', views.exercicio, name='exercicio'),
+    path('pergunta/<int:exercise_id>/<int:number>', views.proxima_pergunta, name='proxima_pergunta'),
     path('experimentacao/<int:pk>', views.experimentacao, name='experimentacao'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
     path('tema/<int:pk>/', views.tema, name='tema'),
@@ -34,5 +35,4 @@ urlpatterns = [
     path('criar_tema/<int:turma_id>/', views.criar_tema, name='criar_tema'),
     path('criar_turma/<int:profesor_id>/', views.criar_turma, name='criar_turma'),
     path('criar_pergunta/<int:exercise_id>/', views.criar_pergunta, name='criar_pergunta'),
-    path('criar_pergunta_fechada/<int:exercise_id>/', views.criar_pergunta_fechada, name='criar_pergunta_fechada'),
 ]

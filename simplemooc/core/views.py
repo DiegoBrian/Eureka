@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.conf import settings
+from django.db.models import Q
 from core.models import *
 from .forms import *
 
@@ -22,7 +23,7 @@ def testes(request):
 
 @login_required
 def index(request):
-	print(request.user.user_type)
+	
 	turmas = Turma.objects.filter(responsible= request.user)
 	resultado = []
 	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
@@ -30,7 +31,6 @@ def index(request):
 		if not esta_matriculado(request.user, turma.pk):
 			resultado.append(turma)
 
-	print(resultado)
 
 	context = {
 		'turmas': turmas,
@@ -69,20 +69,83 @@ def experimentacao(request, pk):
 
 
 @login_required
-def exercicio(request, pk):
-	exercicio = get_object_or_404(Exercicio, pk=pk)
+def exercicio(request, exercise_id):
+	exercicio = get_object_or_404(Exercicio, pk=exercise_id)
 
+	#se o usuario digita um url de uma turma que não é dono ou não está matriculado, acesso negado
 	if not tem_acesso(request.user, exercicio.tema_id.turma_id.pk):
 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 		return redirect('index')
 
-	perguntas = Pergunta.objects.filter(exercise_id = pk)
+	exercicio_concluido = Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercise_id)
+	if exercicio_concluido:
+		if exercicio_concluido[0].exercicio_id.multiple_times == False:
+			messages.error(request, 'Você já concluiu este exercício!')
+			return redirect('tema', pk = exercicio.tema_id.pk)
+		else:
+			Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio).delete()
+			Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercicio).delete()
+
+
+
+	#verifica se o usuario ja respondeu alguma pergunta deste exercicio
+	respondidos = Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio)
+	#se ele ainda não respondeu nenhuma pergunta
+	if not respondidos:
+		#busca a primeira pergunta do exercicio
+		pergunta = Pergunta.objects.filter(exercise_id=exercise_id, number=1)
+		#coloca a primeira pergunta pra ser respondida apenas se existir alguma pergunta
+		if pergunta:
+			Usuario_Pergunta.objects.create(aluno_id=request.user, 
+											question_id=pergunta[0],
+											answered=False)
+
+	#ve todas as perguntas que o usuario ja respondeu/esta respondendo
+	respondidos = Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio, answered=False)
+
+	#se tem pergunta no exercicio
+	if respondidos:
+		#pega a pergunta que está pra ser respondida
+		pergunta = Pergunta.objects.get(exercise_id = exercise_id, number=respondidos[0].question_id.number)
+		todas_perguntas = Pergunta.objects.filter(exercise_id= exercise_id)
+	#se exercicio nao tem pergunta nenhuma, não manda nada
+	else:
+		pergunta = None
+		todas_perguntas = None
 
 	context = {
 		'exercicio' : exercicio,
-		'perguntas' : perguntas
+		'pergunta' : pergunta,
+		'perguntas' : todas_perguntas
 	}
 	return render(request, 'content/exercicio.html', context)
+
+@login_required
+def proxima_pergunta(request, exercise_id, number):
+	exercicio = get_object_or_404(Exercicio, pk=exercise_id)
+	# ve qual foi a resposta do aluno
+	# vai na tabela usuario_pergunta
+	pergunta = Pergunta.objects.get(exercise_id=exercicio, number = number)
+	# se multipla escolha
+	# 	resposta_fechada = resposta
+	# se aberta
+	# 	resposta_aberta = resposta
+	# respondido = true
+	Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(answered=True)
+	# vai na tabela exercicio_pergunta e ve se existe pergunta com numero = pergunta.numero+1
+	proxima_pergunta = Pergunta.objects.filter(exercise_id=exercise_id, number=number+1)
+	# se existe
+	if proxima_pergunta:
+	# 	cria elemento na tabela usuario_pergunta com o numero pergunta.numero+1, respondido = false
+		Usuario_Pergunta.objects.create(aluno_id=request.user, question_id=proxima_pergunta[0], answered = False)
+		return redirect('exercicio', exercise_id=exercise_id)
+	# senao
+	else:
+	# 	finalizar exercicio
+		Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
+		return redirect('tema', pk = exercicio.tema_id.pk)
+
+	
 	
 
 @login_required
@@ -93,7 +156,11 @@ def turma(request, pk):
 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 		return redirect('index')
 
-	temas = Tema.objects.filter(turma_id = pk)
+	if request.method == 'POST':
+		srch = request.POST['search']
+		temas = Tema.objects.filter(Q(turma_id = pk) | Q(name__incontains=srch))
+	else:
+		temas = Tema.objects.filter(turma_id = pk)
 	context = {
 		'turma': turma,
 		'temas' : temas
@@ -234,8 +301,8 @@ def criar_experimentacao(request, tema_id):
 def criar_exercicio(request, tema_id):
 	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
-		form.save()
-		return redirect('tema', pk = tema_id)
+		exercise = form.save()
+		return redirect('criar_pergunta', exercise_id = exercise.pk)
 
 	context = {
 		'form' : form
@@ -278,26 +345,25 @@ def criar_turma(request, profesor_id):
 
 @login_required
 def criar_pergunta(request, exercise_id):
-	context = {
-		'exercise_id' : exercise_id
-	}
-	return render(request, 'creation/escolher_tipo_exercicio.html', context)
+	perguntas = Pergunta.objects.filter(exercise_id=exercise_id).order_by('-number')
+	if perguntas:
+		number = perguntas[0].number+1
+	else:
+		number = 1
 
-
-
-@login_required
-def criar_pergunta_fechada(request, exercise_id):
-	form = FormularioPerguntaFechada(request.POST or None, initial={'exercise_id': exercise_id})
+	form = FormularioPergunta(request.POST or None, initial={'exercise_id': exercise_id, 'number' : number})
 	if form.is_valid():
 		#print(form)
 		form.save()
-		return redirect('exercicio', pk = exercise_id)
+		return redirect('exercicio', exercise_id = exercise_id)
 
 	context = {
 		'form' : form
 	}
 
 	return render (request, "creation/criar_pergunta.html", context)
+
+	
 
 
 def esta_matriculado(user, turma_pk):
