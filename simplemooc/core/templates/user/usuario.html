@@ -5,83 +5,102 @@
 
 {% block content %}
 <div class="card cardEspecial">
-    <div class="card-header bg-dark text-white">
-        <h1>Perfil do Usuário</h1>
-    </div>
-    <div class="card-body">
-        <div class="pure-u-1">
-            <ul class="breadcrumb">
-                {% block breadcrumb %}
-                <li><a href="{% url 'usuario' %}">Meu Painel</a></li>
-                {% endblock %}
-            </ul>
-        </div>
-        <div>
-            {% block dashboard_content %}
-                <div class="card cardEspecial">
-                    <div class="card-header bg-dark text-white">
-                        <h1>Minhas turmas</h1>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead class="bg-dark text-white">
-                                <tr>
-                                    <th scope="col">Turma</th>
-                                    <th scope="col" style="width: 20%">Opções</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if user.user_type == 'ALUNO' %}
-                                {% load_my_courses user as matriculas %}
-                                {% for matricula in matriculas %}
-                                    <tr>
-                                        <td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
-                                        <td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td>Nenhuma turma disponível...</td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                {% for turma in turmas %}
-                                    <tr>
-                                        <td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
-                                        <td><a href="{% url 'desmatricular' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td>Nenhuma Turma disponível</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                          </tbody>
-                        </table>
-                    </div>
-                </div>
+	<div class="card-header bg-dark text-white">
+		<h1>Perfil do Usuário</h1>
+	</div>
+	<div class="card-body">
+		<div class="pure-u-1">
+			<ul class="breadcrumb">
+				{% block breadcrumb %}
+				<li><a href="{% url 'usuario' %}">Meu Painel</a></li>
+				{% endblock %}
+			</ul>
+		</div>
+		<div>
+			{% block dashboard_content %}
+				<div class="card cardEspecial">
+					<div class="card-header bg-dark text-white">
+						<h1>Minhas turmas</h1>
+					</div>
+					<div class="card-body">
+						<table class="table">
+							<thead class="bg-dark text-white">
+								<tr>
+									<th scope="col">Turma</th>
+									<th scope="col" style="width: 20%">Opções</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if user.user_type == 'ALUNO' %}
+								{% load_my_courses user as matriculas %}
+								{% for matricula in matriculas %}
+									<tr>
+										<td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
+										<td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
+									</tr>
+								{% empty %}
+									<tr>
+										<td>Nenhuma turma disponível...</td>
+									</tr>
+								{% endfor %}
+							{% else %}
+								{% for turma in turmas %}
+									<tr>
+										<td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
+										<td><a href="{% url 'desmatricular' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
+									</tr>
+								{% empty %}
+									<tr>
+										<td>Nenhuma Turma disponível</td>
+									</tr>
+								{% endfor %}
+							{% endif %}
+						  </tbody>
+						</table>
+					</div>
+				</div>
 
-                <form action="{% url 'editar_usuario' %}" style="display:inline-block;">
-                    <input type="submit" value="Editar usuário" class="btn btn-dark"/>
-                </form>
-                <form action="{% url 'editar_senha' %}" style="display:inline-block;">
-                    <input type="submit" value="Editar senha" class="btn btn-dark"/>
-                </form>
-            {% endblock %}
-            <!-- Modal Download DOC/PDF-->
-            <div class="modal fade" id="chooseDocPdfModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <p class="lead m-0">Do you want to download the lesson in PDF or Word format?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn_download_word">Download Word</button>
-                            <button type="button" class="btn btn-primary" id="btn_download_pdf">Download PDF</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="card cardEspecial">
+					<div class="card-header bg-dark text-white">
+						<h1>Exercícios</h1>
+					</div>
+					<div class="card-body">
+						<table class="table">
+							<thead class="bg-dark text-white">
+								<tr>
+									<th scope="col">Tema</th>
+									<th scope="col">Exercício</th>
+									<th scope="col">&#10003;</th>
+									<th scope="col">&#10005;</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								{% for aluno_exercicio in aluno_exercicios %}
+									<tr>
+										<td>{{aluno_exercicio.exercicio_id.tema_id}}</td>
+										<td>{{aluno_exercicio.exercicio_id}}</td>
+										<td>{{aluno_exercicio.corrects}}</td>
+										<td>{{aluno_exercicio.wrongs}}</td>
+									</tr>
+								{% empty %}
+									<tr>
+										<td>Nenhum exercício disponível...</td>
+									</tr>
+								{% endfor %}
+						  </tbody>
+						</table>
+					</div>
+				</div>
+
+				<form action="{% url 'editar_usuario' %}" style="display:inline-block;">
+					<input type="submit" value="Editar usuário" class="btn btn-dark"/>
+				</form>
+				<form action="{% url 'editar_senha' %}" style="display:inline-block;">
+					<input type="submit" value="Editar senha" class="btn btn-dark"/>
+				</form>
+			{% endblock %}
+		</div>
+	</div>
 </div>
 {% endblock %}

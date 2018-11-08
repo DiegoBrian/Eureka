@@ -86,8 +86,6 @@ def exercicio(request, exercise_id):
 			Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio).delete()
 			Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercicio).delete()
 
-
-
 	#verifica se o usuario ja respondeu alguma pergunta deste exercicio
 	respondidos = Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio)
 	#se ele ainda não respondeu nenhuma pergunta
@@ -113,6 +111,35 @@ def exercicio(request, exercise_id):
 		pergunta = None
 		todas_perguntas = None
 
+	if request.method == 'POST':
+		# se multipla escolha
+		if pergunta.quesion_type=='FECHADA':
+		# 	resposta_fechada = resposta
+			resposta = request.POST.get('answer')
+			Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(student_answer=resposta)
+			print(resposta)
+		# se aberta
+		else:
+		# 	resposta_aberta = resposta
+			resposta = request.POST.get('text')
+			Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(student_text=resposta)
+			print(resposta)
+		# respondido = true
+		Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(answered=True)
+		# vai na tabela exercicio_pergunta e ve se existe pergunta com numero = pergunta.numero+1
+		proxima_pergunta = Pergunta.objects.filter(exercise_id=exercise_id, number=pergunta.number+1)
+		# se existe
+		if proxima_pergunta:
+		# 	cria elemento na tabela usuario_pergunta com o numero pergunta.numero+1, respondido = false
+			Usuario_Pergunta.objects.create(aluno_id=request.user, question_id=proxima_pergunta[0], answered = False)
+			return redirect('exercicio', exercise_id=exercise_id)
+		# senao
+		else:
+		# 	finalizar exercicio
+			Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
+			corrige_exercicio(request.user,exercicio)
+			return redirect('tema', pk = exercicio.tema_id.pk)
+
 	context = {
 		'exercicio' : exercicio,
 		'pergunta' : pergunta,
@@ -120,33 +147,23 @@ def exercicio(request, exercise_id):
 	}
 	return render(request, 'content/exercicio.html', context)
 
-@login_required
-def proxima_pergunta(request, exercise_id, number):
-	exercicio = get_object_or_404(Exercicio, pk=exercise_id)
-	# ve qual foi a resposta do aluno
-	# vai na tabela usuario_pergunta
-	pergunta = Pergunta.objects.get(exercise_id=exercicio, number = number)
-	# se multipla escolha
-	# 	resposta_fechada = resposta
-	# se aberta
-	# 	resposta_aberta = resposta
-	# respondido = true
-	Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(answered=True)
-	# vai na tabela exercicio_pergunta e ve se existe pergunta com numero = pergunta.numero+1
-	proxima_pergunta = Pergunta.objects.filter(exercise_id=exercise_id, number=number+1)
-	# se existe
-	if proxima_pergunta:
-	# 	cria elemento na tabela usuario_pergunta com o numero pergunta.numero+1, respondido = false
-		Usuario_Pergunta.objects.create(aluno_id=request.user, question_id=proxima_pergunta[0], answered = False)
-		return redirect('exercicio', exercise_id=exercise_id)
-	# senao
-	else:
-	# 	finalizar exercicio
-		Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
-		return redirect('tema', pk = exercicio.tema_id.pk)
 
-	
-	
+def corrige_exercicio(user, exercise_id):
+	usuario_perguntas = Usuario_Pergunta.objects.filter(aluno_id=user, question_id__exercise_id=exercise_id)
+	for pergunta in usuario_perguntas:
+		questao = Pergunta.objects.get(pk = pergunta.question_id.pk)
+		if questao.quesion_type == 'FECHADA':
+			if questao.correct_answer == pergunta.student_answer:
+				Usuario_Pergunta.objects.filter(aluno_id=user, question_id=questao).update(correction='C')
+				aluno_exercicio = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
+				corrects = aluno_exercicio.corrects + 1
+				Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(corrects=corrects)
+			else:
+				Usuario_Pergunta.objects.filter(aluno_id=user, question_id=questao).update(correction='E')
+				aluno_exercicio = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
+				wrongs = aluno_exercicio.wrongs + 1
+				Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(wrongs=wrongs)
+
 
 @login_required
 def turma(request, pk):
@@ -232,8 +249,11 @@ def cadastrar(request, user_type):
 @login_required
 def usuario(request):
 	turmas = Turma.objects.filter(responsible= request.user)
+	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=request.user)
+	print(aluno_exercicios)
 	context = {
-		'turmas' : turmas
+		'turmas' : turmas,
+		'aluno_exercicios' : aluno_exercicios
 	}
 	return render(request,'user/usuario.html', context)
 

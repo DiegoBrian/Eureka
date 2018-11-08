@@ -129,14 +129,24 @@ class Pergunta(models.Model):
 		return self.text
 
 class Usuario_Pergunta(models.Model):
+	CORRECTION_OPTIONS = (
+		('C', 'Certo'),
+		('E', 'Errado'),
+		('N', 'Não corrigido'),
+	)
 	aluno_id = models.ForeignKey(get_user_model(), verbose_name = 'Usuário', on_delete=models.CASCADE, null = True)
 	question_id = models.ForeignKey('Pergunta', verbose_name = 'Pergunta', related_name = 'respostas', on_delete=models.CASCADE, null = True)
-	student_answer = models.CharField('Resposta', max_length=1, default='A')
+	student_answer = models.CharField('Resposta', max_length=1, default='a')
 	student_text = models.TextField('Resposta', null=True, blank = True)
 	answered = models.BooleanField('Respondido', default= False)
+	correction = models.CharField('Correção', max_length=9, choices=CORRECTION_OPTIONS, default='N')
+
 
 	def __str__(self):
-		return self.aluno_id.name+" respondeu a pergunta "+self.question_id.text
+		if self.answered:
+			return '('+self.correction+')'+self.aluno_id.name+" respondeu a pergunta "+self.question_id.text
+		else:
+			return '('+self.correction+')'+self.aluno_id.name+" está respondendo a pergunta "+self.question_id.text
 
 class Aluno_Turma(models.Model):
 	turma_id = models.ForeignKey('Turma', related_name = 'matriculas', on_delete=models.CASCADE)
@@ -150,6 +160,8 @@ class Aluno_Turma(models.Model):
 class Aluno_Exercicio(models.Model):
 	exercicio_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, default=1)
 	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	corrects = models.IntegerField('Certos', default=0)
+	wrongs = models.IntegerField('Errados', default=0)
 
 	def __str__(self):
 		return self.aluno_id.name+" concluiu o exercício "+self.exercicio_id.name

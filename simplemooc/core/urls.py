@@ -11,7 +11,6 @@ urlpatterns = [
     #content
     path('aula/<int:pk>', views.aula, name='aula'),
     path('exercicio/<int:exercise_id>', views.exercicio, name='exercicio'),
-    path('pergunta/<int:exercise_id>/<int:number>', views.proxima_pergunta, name='proxima_pergunta'),
     path('experimentacao/<int:pk>', views.experimentacao, name='experimentacao'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
     path('tema/<int:pk>/', views.tema, name='tema'),

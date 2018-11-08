@@ -13,25 +13,49 @@
             
             {% if pergunta %}
             <div>
-            	<div>{{pergunta.number}}. {{pergunta.text}}</div>
             	{% if user.user_type == 'ALUNO' %}
-                    {% if pergunta.quesion_type == 'FECHADA' %}
-                        <div><input type="radio" name="{{pergunta.pk}}">{{pergunta.answer_a}}</div>
-                        <div><input type="radio" name="{{pergunta.pk}}">{{pergunta.answer_b}}</div>
-                        <div><input type="radio" name="{{pergunta.pk}}">{{pergunta.answer_c}}</div>
-                        <div><input type="radio" name="{{pergunta.pk}}">{{pergunta.answer_d}}</div>
-                    {% else %}
-                        <div>
-                            <input type="texarea">
+                    <div>{{pergunta.number}}. {{pergunta.text}}</div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if pergunta.quesion_type == 'FECHADA' %}
+                            <div>
+                                <input type="radio" value="A" name="answer" id="answer_a">{{pergunta.answer_a}}
+                            </div>
+                            <div>
+                                <input type="radio" value="B" name="answer" id="answer_b">{{pergunta.answer_b}}
+                            </div>
+                            <div>
+                                <input type="radio" value="C" name="answer" id="answer_c">{{pergunta.answer_c}}
+                            </div>
+                            <div>
+                                <input type="radio" value="D" name="answer" id="answer_d">{{pergunta.answer_d}}
+                            </div>
+                        {% else %}
+                            <div>
+                                <input name="text" type="texarea">
+                            </div>
+                        {% endif %}
+                        <div style="margin-top: 2%;">
+                        {% if pergunta.number == perguntas|length %}
+                            <input type="submit" value="Finalizar" class="btn btn-dark"/>
+                        {% else %}
+                            <input type="submit" value="Próxima" class="btn btn-dark"/>
+                        {% endif %}
                         </div>
-                    {% endif %}
+                    </form>
                 {% else %}
-                    {% if pergunta.quesion_type == 'FECHADA' %}
-                		<div>a) {{pergunta.answer_a}}</div>
-                		<div>b) {{pergunta.answer_b}}</div>
-                		<div>c) {{pergunta.answer_c}}</div>
-                		<div>d) {{pergunta.answer_d}}</div>
-                	{% endif %}
+                    {% for perg in perguntas %}
+                        <div>{{perg.number}}. {{perg.text}}</div>
+                        {% if perg.quesion_type == 'FECHADA' %}
+                    		<div>a) {{perg.answer_a}}</div>
+                    		<div>b) {{perg.answer_b}}</div>
+                    		<div>c) {{perg.answer_c}}</div>
+                    		<div>d) {{perg.answer_d}}</div>
+                    	{% endif %}
+                    {% endfor %}
+                    <div style="margin-top: 2%;">
+                        <a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
+                    </div>
                 {% endif %}
             </div>
             {% else %}
@@ -42,13 +66,9 @@
             
             <div style="margin-top: 2%;">
 		        {% if user.user_type == 'PROFESSOR' %}
-                	<a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
+                	
             	{% else %}
-                    {% if pergunta.pk == perguntas|length %}
-                        <a href="{% url 'proxima_pergunta' exercicio.pk pergunta.number %}" class="btn bg-dark text-white">Finalizar</a>
-                    {% else %}
-                        <a href="{% url 'proxima_pergunta' exercicio.pk pergunta.number %}" class="btn bg-dark text-white">Próxima</a>
-                    {% endif %}
+                   
                 {% endif %}
 		        <!--<form action="#" style="display:inline-block;">
 		            <input type="submit" value="Aula" class="btn btn-dark"/>
