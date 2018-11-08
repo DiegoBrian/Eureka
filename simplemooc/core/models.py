@@ -165,3 +165,25 @@ class Aluno_Exercicio(models.Model):
 
 	def __str__(self):
 		return self.aluno_id.name+" concluiu o exercício "+self.exercicio_id.name
+
+class Forum (models.Model):
+	name = models.CharField('Título', max_length=100, default='Experimentacao')
+	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
+	body =  models.TextField('Mensagem')
+	views = models.IntegerField('Vizualizações', blank=True, default=0)
+	answers = models.IntegerField('Vizualizações', blank=True, default=0)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.name
+
+class Resposta (models.Model):
+	reply = models.TextField('Resposta')
+	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.reply[:100]
+

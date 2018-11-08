@@ -23,7 +23,3 @@ def youtube(text):
 @register.simple_tag
 def load_my_courses(user):
 	return Aluno_Turma.objects.filter(aluno_id=user)
-
-@register.simple_tag
-def load_avaliable_courses(user):
-	return Aluno_Turma.objects.exclude(aluno_id=user)

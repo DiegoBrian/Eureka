@@ -1,43 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from django.conf import settings
-from django.db.models import Q
 from core.models import *
-from .forms import *
-
-# Create your views here.
-def home(request):
-	return render(request, 'home.html')
-
-
-def sobre(request):
-	return render(request, 'sobre.html')
-
-
-def testes(request):
-	return render(request, 'testes.html')
-
-
-@login_required
-def index(request):
-	
-	turmas = Turma.objects.filter(responsible= request.user)
-	resultado = []
-	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
-	for turma in turmas_publicas:
-		if not esta_matriculado(request.user, turma.pk):
-			resultado.append(turma)
-
-
-	context = {
-		'turmas': turmas,
-		'turmas_publicas': resultado
-	}
-	return render(request, 'index.html', context)
-
 
 @login_required
 def aula(request, pk):
@@ -175,7 +139,7 @@ def turma(request, pk):
 
 	if request.method == 'POST':
 		srch = request.POST['search']
-		temas = Tema.objects.filter(Q(turma_id = pk) , Q(name__icontains=srch))
+		temas = Tema.objects.filter(turma_id = pk , name__icontains=srch)
 	else:
 		temas = Tema.objects.filter(turma_id = pk)
 	context = {
@@ -193,9 +157,18 @@ def tema(request, pk):
 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 		return redirect('index')
 
-	aulas = Aula.objects.filter(tema_id = pk)
-	exercicios = Exercicio.objects.filter(tema_id = pk)
-	experimentacoes = Experimentacao.objects.filter(tema_id = pk)
+
+	if request.method == 'POST':
+		srch = request.POST['search']
+		aulas = Aula.objects.filter(tema_id = pk , name__icontains=srch)
+		exercicios = Exercicio.objects.filter(tema_id = pk , name__icontains=srch)
+		experimentacoes = Experimentacao.objects.filter(tema_id = pk , name__icontains=srch)
+	else:
+		aulas = Aula.objects.filter(tema_id = pk)
+		exercicios = Exercicio.objects.filter(tema_id = pk)
+		experimentacoes = Experimentacao.objects.filter(tema_id = pk)
+
+
 	context = {
 		'tema': tema,
 		'aulas': aulas,
@@ -203,188 +176,6 @@ def tema(request, pk):
 		'experimentacoes':experimentacoes
 	}
 	return render(request,'content/tema.html', context)
-
-
-@login_required
-def matricula(request, pk):
-	turma = get_object_or_404(Turma, pk = pk)
-	matricula, created = Aluno_Turma.objects.get_or_create(aluno_id = request.user, turma_id = turma)
-	if created:
-		messages.success(request, 'Você foi inscrito nesta turma com sucesso')
-	else:
-		messages.info(request, 'Você já está inscrito nesta turma')
-	return redirect('turma',pk)
-
-
-@login_required
-def desfazer_matricula(request, pk):
-	turma = get_object_or_404(Turma, pk = pk)
-	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)
-	matricula.delete()
-	messages.success(request, 'Sua inscrição foi cancelada com sucesso')
-	return redirect ('usuario')
-
-
-def cadastrar(request, user_type):
-	if request.method == 'POST':
-		if user_type == 0:
-			form = FormularioRegistroAluno(request.POST)
-		else:
-			form = FormularioRegistroProfessor(request.POST)
-		if form.is_valid():
-			form.save()
-			username = form.cleaned_data.get('username')
-			raw_password = form.cleaned_data.get('password1')
-			user = authenticate(username=username, password=raw_password)
-			login(request, user)
-			return redirect('home')
-	else:
-		if user_type == 0:
-			form = FormularioRegistroAluno()
-		else:
-			form = FormularioRegistroProfessor()
-	return render(request, 'registration/cadastrar.html', {'form': form})
-
-
-@login_required
-def usuario(request):
-	turmas = Turma.objects.filter(responsible= request.user)
-	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=request.user)
-	print(aluno_exercicios)
-	context = {
-		'turmas' : turmas,
-		'aluno_exercicios' : aluno_exercicios
-	}
-	return render(request,'user/usuario.html', context)
-
-
-@login_required
-def editar_usuario(request):
-	context = {}
-	if request.method == 'POST':
-		form = FormularioEditarConta(request.POST, instance = request.user)
-		if form.is_valid():
-			form.save()
-			messages.success(request, 'Os dados foram alterados com sucesso')
-			redirect('usuario')
-	else:
-		form = FormularioEditarConta(instance = request.user)
-	context ['form'] = form
-
-	return render(request,'user/editar_usuario.html', context)
-
-
-@login_required
-def editar_senha(request):
-	context = {}
-	if request.method == 'POST':
-		form = PasswordChangeForm(data=request.POST, user=request.user)
-		if form.is_valid():
-			form.save()
-			context['success'] = True
-	else:
-		form = PasswordChangeForm(user = request.user)
-	context ['form'] = form
-
-	return render(request,'user/editar_senha.html', context)
-
-
-@login_required
-def criar_aula(request, tema_id):
-	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
-	if form.is_valid():
-		form.save()
-		return redirect('tema', pk = tema_id)
-
-	context = {
-		'form' : form
-	}
-
-	return render (request, "creation/criar_aula.html", context)
-
-
-@login_required
-def criar_experimentacao(request, tema_id):
-	form = FormularioExperimentacao(request.POST or None, initial={'tema_id': tema_id})
-	if form.is_valid():
-		form.save()
-		return redirect('tema', pk = tema_id)
-
-	context = {
-		'form' : form
-	}
-
-	return render (request, "creation/criar_experimentacao.html", context)
-
-
-@login_required
-def criar_exercicio(request, tema_id):
-	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id})
-	if form.is_valid():
-		exercise = form.save()
-		return redirect('criar_pergunta', exercise_id = exercise.pk)
-
-	context = {
-		'form' : form
-	}
-
-	return render (request, "creation/criar_exercicio.html", context)
-
-
-@login_required
-def criar_tema(request, turma_id):
-	turma = Turma.objects.filter(pk = turma_id)
-
-
-	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id})
-	if form.is_valid():
-		#print(form)
-		form.save()
-		return redirect('turma', pk = turma_id)
-
-	context = {
-		'form' : form
-	}
-
-	return render (request, "creation/criar_tema.html", context)
-
-
-@login_required
-def criar_turma(request, profesor_id):
-	form = FormularioTurma(request.POST or None, initial={'responsible': profesor_id})
-	if form.is_valid():
-		form.save()
-		return redirect('index')
-
-	context = {
-		'form' : form
-	}
-
-	return render (request, "creation/criar_turma.html", context)
-
-
-@login_required
-def criar_pergunta(request, exercise_id):
-	perguntas = Pergunta.objects.filter(exercise_id=exercise_id).order_by('-number')
-	if perguntas:
-		number = perguntas[0].number+1
-	else:
-		number = 1
-
-	form = FormularioPergunta(request.POST or None, initial={'exercise_id': exercise_id, 'number' : number})
-	if form.is_valid():
-		#print(form)
-		form.save()
-		return redirect('exercicio', exercise_id = exercise_id)
-
-	context = {
-		'form' : form
-	}
-
-	return render (request, "creation/criar_pergunta.html", context)
-
-	
-
 
 def esta_matriculado(user, turma_pk):
 	turma = Turma.objects.get(pk = turma_pk)
