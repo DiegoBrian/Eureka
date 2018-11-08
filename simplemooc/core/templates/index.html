@@ -18,10 +18,10 @@
 		{% if user.user_type == 'ALUNO' %}
 		ou procure por novas turmas para se registrar
 		{% endif %}
-		<form method="post" action="/index/">
+		<form method="POST">
 			{% csrf_token %}
-			<input type="text" name="search_course" placeholder="Encontrar uma turma..." class="searchbar">
-			<a href="#" class="btn bg-dark text-white">Buscar</a>
+			<input type="text" name="search" placeholder="Encontrar uma turma..." class="searchbar">
+			<input type="submit" value="Buscar" class="btn btn-dark"/>
 		</form>
 	</div>
 </div>

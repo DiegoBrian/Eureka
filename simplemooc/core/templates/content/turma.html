@@ -19,11 +19,11 @@
 		</div>
 		<div class="card-body">
 			Busque por um assunto para encontrá-lo com mais facilidade
-			<form method="post" action="/turma/">
-			{% csrf_token %}
-			<input type="text" name="search" placeholder="Encontrar um assunto..." class="searchbar">
-			<a type="submit" class="btn bg-dark text-white">Buscar</a>
-		</form>
+			<form method="POST">
+				{% csrf_token %}
+				<input type="text" name="search" placeholder="Encontrar um assunto..." class="searchbar">
+				<input type="submit" value="Buscar" class="btn btn-dark"/>
+			</form>
 		</div>
 	</div>
 
@@ -39,7 +39,7 @@
 							<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</p>
 						</div>
 					</div>
-			{% if forloop.counter|divisibleby:4 %}
+			{% if forloop.counter|divisibleby:2 %}
 				</div>
 				<div class="card-deck" style="margin-bottom: 1%;">
 			{% endif %}

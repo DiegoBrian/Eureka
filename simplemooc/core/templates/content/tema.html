@@ -14,8 +14,11 @@
             Você está vendo conteúdo sobre {{tema.name}}!
         </div>
         <div class="card-body">
-            <input type="text" placeholder="Encontrar uma aula, exercício, experimentação..." class="searchbar">
-            <a href="#" class="btn bg-dark text-white">Pesquisar</a>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="Encontrar uma aula, exercício, experimentação..." class="searchbar">
+                <input type="submit" value="Buscar" class="btn btn-dark"/>
+            </form>
         </div>
     </div>
 

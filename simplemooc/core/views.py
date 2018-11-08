@@ -175,7 +175,7 @@ def turma(request, pk):
 
 	if request.method == 'POST':
 		srch = request.POST['search']
-		temas = Tema.objects.filter(Q(turma_id = pk) | Q(name__incontains=srch))
+		temas = Tema.objects.filter(Q(turma_id = pk) , Q(name__icontains=srch))
 	else:
 		temas = Tema.objects.filter(turma_id = pk)
 	context = {
