@@ -37,4 +37,5 @@ urlpatterns = [
 
     #forum
     path('forum/', views.ForumView.as_view(), name='forum'),
+    path('forum/<str:content>/<int:pk>/', views.forum_topic, name='forum_topic'),
 ]

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Fórum{% endblock %}
+
+{% block content %}
+	Fórum
+	{% if content == 'id' %}
+		{{topic.pk}}
+	{% elif content == 'exp' %}
+		da experimentação: {{topic.experimentation_id.name}}
+	{% elif content == 'exe' %}
+		do exercício: {{topic.exercise_id.name}}
+	{% elif content == 'cla' %}
+		da aula: {{topic.class_id.name}}
+{% endblock %}

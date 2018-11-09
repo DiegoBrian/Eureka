@@ -174,6 +174,9 @@ class Forum (models.Model):
 	answers = models.IntegerField('Respostas', blank=True, default=0)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, blank=True, null=True)
+	class_id = models.ForeignKey('Aula', on_delete=models.CASCADE, blank=True, null=True)
+	experimentation_id = models.ForeignKey('Experimentacao', on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
 		return self.name
