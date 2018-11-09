@@ -34,4 +34,7 @@ urlpatterns = [
     path('criar_tema/<int:turma_id>/', views.criar_tema, name='criar_tema'),
     path('criar_turma/<int:profesor_id>/', views.criar_turma, name='criar_turma'),
     path('criar_pergunta/<int:exercise_id>/', views.criar_pergunta, name='criar_pergunta'),
+
+    #forum
+    path('forum/', views.ForumView.as_view(), name='forum'),
 ]

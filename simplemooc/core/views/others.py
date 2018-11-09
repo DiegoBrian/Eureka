@@ -53,19 +53,3 @@ def esta_matriculado(user, turma_pk):
 		return True
 	else:
 		return False
-
-
-def eh_responsavel(user, turma_pk):
-	turma = Turma.objects.get(pk = turma_pk)
-
-	if turma.responsible == user:
-		return True
-	else:
-		return False
-
-
-def tem_acesso(user, turma):
-	if (user.user_type == 'ALUNO' and esta_matriculado(user, turma)) or (user.user_type == 'PROFESSOR' and eh_responsavel(user, turma)):
-		return True
-	else:
-		return False

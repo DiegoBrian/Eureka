@@ -167,11 +167,11 @@ class Aluno_Exercicio(models.Model):
 		return self.aluno_id.name+" concluiu o exercício "+self.exercicio_id.name
 
 class Forum (models.Model):
-	name = models.CharField('Título', max_length=100, default='Experimentacao')
+	name = models.CharField('Título', max_length=100)
 	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
 	body =  models.TextField('Mensagem')
 	views = models.IntegerField('Vizualizações', blank=True, default=0)
-	answers = models.IntegerField('Vizualizações', blank=True, default=0)
+	answers = models.IntegerField('Respostas', blank=True, default=0)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
@@ -179,6 +179,7 @@ class Forum (models.Model):
 		return self.name
 
 class Resposta (models.Model):
+	forum_id = models.ForeignKey('Forum', verbose_name="Tópico", on_delete=models.CASCADE, default=0)
 	reply = models.TextField('Resposta')
 	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
