@@ -3,13 +3,55 @@
 {% block title %}Fórum{% endblock %}
 
 {% block content %}
-	Fórum
-	{% if content == 'id' %}
-		{{topic.pk}}
-	{% elif content == 'exp' %}
-		da experimentação: {{topic.experimentation_id.name}}
-	{% elif content == 'exe' %}
-		do exercício: {{topic.exercise_id.name}}
-	{% elif content == 'cla' %}
-		da aula: {{topic.class_id.name}}
+	<div class="card cardEspecial">
+		<div class="card-header bg-dark text-white">
+			<h1>{{topic.name}}</h1>
+		</div>
+		<div class="card-body">
+			<div class="card cardEspecial">
+				<div class="card-header bg-dark text-white">
+					<h5>Por {{ topic.author }} em {{topic.created_at}}</h5>
+				</div>
+				<div class="card-body">
+					<p>
+						{{topic.body|linebreaks}}
+					</p>					
+				</div>
+			</div>
+			<h2>Respostas</h2>
+			{% for reply in replies %}
+			<div class="card cardEspecial">
+				<div class="card-header bg-dark text-white">
+					<h5>Por {{ reply.author }} em {{reply.created_at}}</h5>
+				</div>
+				<div class="card-body">
+					<p>
+						{{reply.reply|linebreaks}}
+					</p>					
+				</div>
+			</div>
+			{% endfor %}
+			<div class="card cardEspecial">
+				<div class="card-header bg-dark text-white">
+					<h5>Responder</h5>
+				</div>
+				<div class="card-body">
+					<form method="post">
+		            {% csrf_token %}
+			            <fieldset>
+		                {{ form.non_field_errors }}
+						{% for field in form %}
+			                <div class="form-group">
+			                    <label for="{{ field.name }}">{{ field.label_tag }}</label>
+			                    {{ field }}
+			                    {{ field.errors }}
+			                </div>
+			            {% endfor %}
+			            <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+				        </fieldset>
+			    	</form>
+		        </div>
+		    </div>
+		</div>
+	</div>
 {% endblock %}

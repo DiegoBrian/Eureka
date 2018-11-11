@@ -5,47 +5,58 @@
 
 {% block content %}
 <div class="card cardEspecial">
-    <div class="card-header bg-dark text-white">
-        <h1>Fórum</h1>
-    </div>
-    <div class="card-body">
-            <a href="?order=" class="btn bg-dark text-white">Mais Recentes</a>
-            <a href="?order=views" class="btn bg-dark text-white">Mais Visualizados</a>
-            <a href="?order=answers" class="btn bg-dark text-white">Mais Comentados</a>
+	<div class="card-header bg-dark text-white">
+		{% if content == 'cla' %}
+			<h1>Fórum da aula: {{pk}}</h1>
+		{% elif content == 'exe' %}
+			<h1>Fórum do exercício: {{pk}}</h1>
+		{% elif content == 'exp' %}
+			<h1>Fórum da experimentação: {{pk}}</h1>
+		{% endif %}
+	</div>
+	<div class="card-body">
+			{% if object_list %}
+				<a href="?order=" class="btn bg-dark text-white">Mais Recentes</a>
+				<a href="?order=views" class="btn bg-dark text-white">Mais Visualizados</a>
+				<a href="?order=answers" class="btn bg-dark text-white">Mais Comentados</a>
 
-            {% for forum in object_list %}
-            <div class="card cardEspecial">
-                <div class="card-header bg-dark text-white">
-                    <h3>{{forum.name}}</h3>
-                </div>
-                <div class="card-body">
-	                <h5>
-	                    Criado por {{ forum.author }} | {{ forum.answers }} resposta{{ forum.answers|pluralize }} | {{ forum.views }} Visualizaç{{ forum.views|pluralize:"ão,ões" }} 
-	                </h5>
-	                <p>
-	                    <a class="fright" href="" title="">Atualizado há {{ forum.updated_at|timesince }}</a>
-	                </p>
-	            </div>
-            </div>
-            {% endfor %}
-            <ul class="pagination pagination-centered">
-                {% if page_obj.has_previous %}
-                <li>
-                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" title="">Anterior</a>
-                </li>
-                {% endif %}
-                {% for page in paginator.page_range %}
-                <li{% if page == page_obj.number %} class="active"{% endif %}>
-                    <a href="?page={{ page }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" title="">{{ page }}</a>
-                </li>
-                {% endfor %}
-                {% if page_obj.has_next %}
-                <li>
-                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" title="">Próxima</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
+				{% for forum in object_list %}
+				<div class="card cardEspecial">
+					<div class="card-header bg-dark text-white">
+						<h3><a href="{% url 'forum_topic' forum.pk %}" class="nav-link">{{forum.name}}</a></h3>
+					</div>
+					<div class="card-body">
+						<h5>
+							Criado por {{ forum.author }} | {{ forum.answers }} resposta{{ forum.answers|pluralize }} | {{ forum.views }} Visualizaç{{ forum.views|pluralize:"ão,ões" }} 
+						</h5>
+						<p>
+							<a class="fright" href="" title="">Atualizado há {{ forum.updated_at|timesince }}</a>
+						</p>
+					</div>
+				</div>
+				{% endfor %}
+				<ul class="pagination pagination-centered">
+					{% if page_obj.has_previous %}
+					<li>
+						<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" title="">Anterior</a>
+					</li>
+					{% endif %}
+					{% for page in paginator.page_range %}
+					<li{% if page == page_obj.number %} class="active"{% endif %}>
+						<a href="?page={{ page }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" title="">{{ page }}</a>
+					</li>
+					{% endfor %}
+					{% if page_obj.has_next %}
+					<li>
+						<a href="?page={{ page_obj.next_page_number }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" title="">Próxima</a>
+					</li>
+					{% endif %}
+				</ul>
+			{% else %}
+				<p>Nenhum tópico para exibir...</p>
+			{% endif %}
+			<a href="#" class="btn bg-dark text-white">Novo tópico</a>
+		</div>
+	</div>
 </div>
 {% endblock %}

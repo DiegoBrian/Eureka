@@ -36,6 +36,6 @@ urlpatterns = [
     path('criar_pergunta/<int:exercise_id>/', views.criar_pergunta, name='criar_pergunta'),
 
     #forum
-    path('forum/', views.ForumView.as_view(), name='forum'),
-    path('forum/<str:content>/<int:pk>/', views.forum_topic, name='forum_topic'),
+    path('forum/<str:content>/<int:pk>/', views.ForumView.as_view(), name='forum'),
+    path('topic/<int:pk>', views.forum_topic, name='forum_topic'),
 ]

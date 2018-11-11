@@ -7,7 +7,7 @@ from core.models import *
 def criar_aula(request, tema_id):
 	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
-		form.save()
+		new_class = form.save()
 		return redirect('tema', pk = tema_id)
 
 	context = {
@@ -21,7 +21,7 @@ def criar_aula(request, tema_id):
 def criar_experimentacao(request, tema_id):
 	form = FormularioExperimentacao(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
-		form.save()
+		new_experimentation = form.save()
 		return redirect('tema', pk = tema_id)
 
 	context = {
@@ -35,8 +35,8 @@ def criar_experimentacao(request, tema_id):
 def criar_exercicio(request, tema_id):
 	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
-		exercise = form.save()
-		return redirect('criar_pergunta', exercise_id = exercise.pk)
+		new_exercise = form.save()
+		return redirect('criar_pergunta', exercise_id = new_exercise.pk)
 
 	context = {
 		'form' : form

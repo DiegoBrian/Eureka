@@ -236,3 +236,8 @@ a.pure-button-primary {
 .text-left {
   text-align: left;
 }
+
+a.nav-link {
+   color: white;
+   text-decoration: none;
+}

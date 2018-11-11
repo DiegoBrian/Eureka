@@ -49,7 +49,7 @@
 <div class="content">
 
 	{% for message in messages %}
-		<div class="alert alert-info alert-dismissible">
+		<div class="alert {% if message.level == 40 %}alert-danger{% elif message.level == 25 %}alert-success{% endif %} alert-dismissible" role="alert">
   			<a href="#" class="close" data-dismiss="alert" aria-label="Fechar">&times;</a>
         	<p>{{message}}</p>
         </div>

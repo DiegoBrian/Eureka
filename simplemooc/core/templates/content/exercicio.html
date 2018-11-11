@@ -64,20 +64,7 @@
             </div>
             {% endif %}
             
-            <div style="margin-top: 2%;">
-		        {% if user.user_type == 'PROFESSOR' %}
-                	
-            	{% else %}
-                   
-                {% endif %}
-		        <!--<form action="#" style="display:inline-block;">
-		            <input type="submit" value="Aula" class="btn btn-dark"/>
-		        </form>
-		        <form action="#" style="display:inline-block;">
-		            <input type="submit" value="Exeperimentação" class="btn btn-dark"/>
-		        </form>-->
-		    </div>
-		    <a href="#">Acessar o fórum de dúvidas</a>
+            <a href="{% url 'forum' content='exe' pk=exercicio.pk %}">Acessar o fórum de dúvidas</a>
         </div>
     </div>
 {% endblock %}

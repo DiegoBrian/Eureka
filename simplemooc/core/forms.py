@@ -5,6 +5,18 @@ from django.contrib.auth import get_user_model
 from django.forms import Textarea, HiddenInput, DateInput, NumberInput
 from django.contrib.admin.widgets import AdminDateWidget
 
+class BaseForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BaseForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class FormularioResposta(BaseForm):
+	class Meta:
+		model = Resposta
+		fields = ['reply']
+
 class FormularioAula(forms.ModelForm):
 	class Meta:
 		model = Aula
