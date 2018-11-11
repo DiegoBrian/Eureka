@@ -36,9 +36,7 @@ class ForumView(ListView):
 
 		
 		order = self.request.GET.get('order', '')
-		if order == 'views':
-			queryset = queryset.order_by('-views')
-		elif order == 'answers':
+		if order == 'answers':
 			queryset = queryset.order_by('-answers')
 		return queryset
 		
@@ -65,3 +63,19 @@ def forum_topic(request, pk):
 	}
 	
 	return render(request, "forum/topic.html", context)
+
+def post_save_reply(created, instance, **kwargs):
+	instance.forum_id.answers = instance.forum_id.replies.count()
+	instance.forum_id.save()
+
+def post_delete_reply(instance, **kwargs):
+	instance.forum_id.answers = instance.forum_id.replies.count()
+	instance.forum_id.save()
+
+models.signals.post_save.connect(
+	post_save_reply, sender=Resposta, dispatch_uid='post_save_reply'
+)
+
+models.signals.post_delete.connect(
+	post_delete_reply, sender=Resposta, dispatch_uid='post_delete_reply'
+)

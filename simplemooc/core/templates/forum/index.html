@@ -17,7 +17,6 @@
 	<div class="card-body">
 			{% if object_list %}
 				<a href="?order=" class="btn bg-dark text-white">Mais Recentes</a>
-				<a href="?order=views" class="btn bg-dark text-white">Mais Visualizados</a>
 				<a href="?order=answers" class="btn bg-dark text-white">Mais Comentados</a>
 
 				{% for forum in object_list %}
@@ -27,7 +26,7 @@
 					</div>
 					<div class="card-body">
 						<h5>
-							Criado por {{ forum.author }} | {{ forum.answers }} resposta{{ forum.answers|pluralize }} | {{ forum.views }} Visualizaç{{ forum.views|pluralize:"ão,ões" }} 
+							Criado por {{ forum.author }} | {{ forum.answers }} resposta{{ forum.answers|pluralize }}
 						</h5>
 						<p>
 							<a class="fright" href="" title="">Atualizado há {{ forum.updated_at|timesince }}</a>

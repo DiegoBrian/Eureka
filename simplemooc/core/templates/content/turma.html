@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{{turma.name}}{% endblock %}
-{% block css %}
-<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+{% block javascript %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 {% endblock %}
 {% block content %}
 	<div class="card">
@@ -22,7 +24,7 @@
 			<form method="POST">
 				{% csrf_token %}
 				<input type="text" name="search" placeholder="Encontrar um assunto..." class="searchbar">
-				<input type="submit" value="Buscar" class="btn btn-dark"/>
+				<input type="submit" value="Buscar" name="btnsearch" class="btn btn-dark"/>
 			</form>
 		</div>
 	</div>
@@ -36,7 +38,7 @@
 				{% for tema in temas %}
 					<div class="card">
 						<div class="card-body">
-							<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</p>
+							<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></p>
 						</div>
 					</div>
 			{% if forloop.counter|divisibleby:2 %}
@@ -44,7 +46,9 @@
 				<div class="card-deck" style="margin-bottom: 1%;">
 			{% endif %}
 				{% empty %}
-					<p>Nenhum conteúdo disponível...</p>
+					<div>
+						<p>Nenhum conteúdo disponível...</p>
+					</div>
 				{% endfor %}
 
 			</div>
@@ -54,5 +58,31 @@
 			{% endif %}
 		</div>
 	</div>
-	
+	{% if user == turma.responsible %}
+	<div class="card">
+		<div class="card-header bg-dark text-white">
+			Matricular aluno
+		</div>
+		<div class="card-body">
+			Selecione um aluno para matriculá-lo nesta turma.
+			<form method="POST">
+				{% csrf_token %}
+				<select class="searchbar chosen" multiple name="alunos">
+					<option value=""></option>
+					{% for aluno in alunos %} 
+					<option value={{aluno.pk}}>"{{aluno.name}} "{{aluno.email}}"</option>
+					{% endfor %}
+				</select>
+				<input type="submit" value="Matricular" class="btn btn-dark" name="btnmatricula" />
+			</form>
+		</div>
+	</div>
+	{% endif %}
+	<script type="text/javascript">
+		$(".chosen").chosen({
+			no_results_text: "Sem resultados para",
+    		placeholder_text_single: "Selecione um aluno",
+    		placeholder_text_multiple: "Selecione os alunos"
+		})
+	</script>
 {% endblock %}

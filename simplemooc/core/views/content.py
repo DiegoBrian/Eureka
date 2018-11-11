@@ -137,14 +137,32 @@ def turma(request, pk):
 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 		return redirect('index')
 
-	if request.method == 'POST':
+	if request.method == 'POST' and 'btnsearch' in request.POST:
 		srch = request.POST['search']
 		temas = Tema.objects.filter(turma_id = pk , name__icontains=srch)
 	else:
 		temas = Tema.objects.filter(turma_id = pk)
+
+	if request.method == 'POST' and 'btnmatricula' in request.POST:
+		resposta = request.POST.get('alunos')
+		selecionado = Usuario.objects.get(pk=resposta)
+		if Aluno_Turma.objects.filter(aluno_id=selecionado, turma_id=turma).exists():
+			print ("Aluno ja matriculado")
+		else:
+			Aluno_Turma.objects.create(aluno_id=selecionado, turma_id=turma)
+			messages.success(request, "Aluno matriculado com sucesso!")
+
+	
+	alunos = Usuario.objects.filter(user_type= 'ALUNO')
+	nao_matriculados = []
+	for aluno in alunos:
+		if not esta_matriculado(aluno, turma.pk):
+			nao_matriculados.append(aluno)
+
 	context = {
 		'turma': turma,
-		'temas' : temas
+		'temas' : temas,
+		'alunos' : nao_matriculados
 	}
 	return render(request, 'content/turma.html', context)
 

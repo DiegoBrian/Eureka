@@ -168,7 +168,7 @@ class Aluno_Exercicio(models.Model):
 
 class Forum (models.Model):
 	name = models.CharField('Título', max_length=100)
-	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
+	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', related_name='threads', on_delete=models.CASCADE)
 	body =  models.TextField('Mensagem')
 	views = models.IntegerField('Vizualizações', blank=True, default=0)
 	answers = models.IntegerField('Respostas', blank=True, default=0)
@@ -182,7 +182,7 @@ class Forum (models.Model):
 		return self.name
 
 class Resposta (models.Model):
-	forum_id = models.ForeignKey('Forum', verbose_name="Tópico", on_delete=models.CASCADE, default=0)
+	forum_id = models.ForeignKey('Forum', verbose_name="Tópico", related_name='replies', on_delete=models.CASCADE, default=0)
 	reply = models.TextField('Resposta')
 	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
