@@ -28,7 +28,7 @@ class FormularioForum(BaseForm):
 class FormularioAula(forms.ModelForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'tema_id', 'text_content', 'visual_content']
+		fields = ['name', 'tema_id']
 		widgets = {'tema_id' : HiddenInput()}
 
 

@@ -66,7 +66,6 @@ class Aula(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Aula X')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
 	text_content = models.TextField('Conteúdo textual')
-	visual_content = models.CharField('Conteúdo visual', max_length=2048)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 

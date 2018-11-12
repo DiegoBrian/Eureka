@@ -1,19 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
-</script>
-</head>
-<body>
-<p><a href="javascript:OpenLatexEditor('testbox','html','')">
-Launch CodeCogs Equation Editor
-</a></p>
-<textarea id="testbox" rows="3" cols="40"></textarea>
+{% extends "base.html" %}
+{% block title %}{{tema.name}}{% endblock %}
+{% block javascript %}
 
-<p>When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        {% if user.gender == 'MASCULINO' %}
+            Bem-vindo {{user.name}}!
+        {% elif user.gender == 'FEMININO' %}
+            Bem-vinda {{user.name}}!
+        {% endif %}
+        Você está vendo conteúdo sobre {{tema.name}}!
+    </div>
+    <div class="card-body">
+        	<textarea></textarea>
+    </div>
+</div>
 
-</body>
-</html>
+{% endblock %}

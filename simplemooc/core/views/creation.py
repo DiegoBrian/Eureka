@@ -32,7 +32,10 @@ def criar_forum(request, content, pk):
 def criar_aula(request, tema_id):
 	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
-		new_class = form.save()
+		new_class = form.save(commit = False)
+		content = request.POST.get('content')
+		new_class.text_content = content
+		new_class.save()
 		return redirect('tema', pk = tema_id)
 
 	context = {
