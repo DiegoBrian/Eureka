@@ -4,6 +4,31 @@ from core.forms import *
 from core.models import *
 
 @login_required
+def criar_forum(request, content, pk):
+
+	form = FormularioForum(request.POST or None, initial={'author' : request.user})
+	if form.is_valid():
+		newforum = form.save(commit = False)
+		if content == 'cla':
+			aula = Aula.objects.get(pk=pk)
+			newforum.class_id = aula
+		elif content == 'exe':
+			exercicio = Exercicio.objects.get(pk=pk)
+			newforum.exercise_id = exercicio
+		elif content == 'exp':
+			experimentacao = Experimentacao.objects.get(pk=pk)
+			newforum.experimentation_id = experimentacao
+		newforum.save()
+		return redirect('forum', content = content, pk = pk)
+
+	context = {
+		'form' : form
+	}
+
+	return render (request, "creation/criar_forum.html", context)
+
+
+@login_required
 def criar_aula(request, tema_id):
 	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():

@@ -7,11 +7,11 @@
 <div class="card cardEspecial">
 	<div class="card-header bg-dark text-white">
 		{% if content == 'cla' %}
-			<h1>Fórum da aula: {{pk}}</h1>
+			<h1>Fórum da aula: {{pk.name}}</h1>
 		{% elif content == 'exe' %}
-			<h1>Fórum do exercício: {{pk}}</h1>
+			<h1>Fórum do exercício: {{pk.name}}</h1>
 		{% elif content == 'exp' %}
-			<h1>Fórum da experimentação: {{pk}}</h1>
+			<h1>Fórum da experimentação: {{pk.name}}</h1>
 		{% endif %}
 	</div>
 	<div class="card-body">
@@ -54,7 +54,7 @@
 			{% else %}
 				<p>Nenhum tópico para exibir...</p>
 			{% endif %}
-			<a href="#" class="btn bg-dark text-white">Novo tópico</a>
+			<a href="{% url 'criar_forum' content=content pk=pk.pk %}" class="btn bg-dark text-white">Novo tópico</a>
 		</div>
 	</div>
 </div>

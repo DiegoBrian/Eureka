@@ -145,6 +145,7 @@ def turma(request, pk):
 
 	if request.method == 'POST' and 'btnmatricula' in request.POST:
 		resposta = request.POST.get('alunos')
+		####################.getlist########################
 		selecionado = Usuario.objects.get(pk=resposta)
 		if Aluno_Turma.objects.filter(aluno_id=selecionado, turma_id=turma).exists():
 			print ("Aluno ja matriculado")

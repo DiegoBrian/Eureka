@@ -17,6 +17,14 @@ class FormularioResposta(BaseForm):
 		model = Resposta
 		fields = ['reply']
 
+
+class FormularioForum(BaseForm):
+	class Meta:
+		model = Forum
+		fields = ['name','body', 'author']
+		widgets = {'author' : HiddenInput()}
+
+
 class FormularioAula(forms.ModelForm):
 	class Meta:
 		model = Aula

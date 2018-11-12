@@ -16,11 +16,11 @@ class ForumView(ListView):
 		context = super(ForumView, self).get_context_data(**kwargs)
 		context['content'] = self.kwargs['content']
 		if self.kwargs['content'] == 'exp':
-			context['pk'] = Experimentacao.objects.get(pk = self.kwargs['pk']).name
+			context['pk'] = Experimentacao.objects.get(pk = self.kwargs['pk'])
 		elif self.kwargs['content'] == 'exe':
-			context['pk'] = Exercicio.objects.get(pk = self.kwargs['pk']).name
+			context['pk'] = Exercicio.objects.get(pk = self.kwargs['pk'])
 		elif self.kwargs['content'] == 'cla':
-			context['pk'] = Aula.objects.get(pk = self.kwargs['pk']).name
+			context['pk'] = Aula.objects.get(pk = self.kwargs['pk'])
 
 		return context
 
