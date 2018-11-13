@@ -10,11 +10,7 @@
             <h1>{{experimentacao.name}}</h1>
         </div>
         <div class="card-body">
-        	{% if experimentacao.visual_content %}
-            	<div class="embed-responsive embed-responsive-16by9">{{experimentacao.visual_content|youtube|safe}}</div>
-            {% endif %}
-            
-            <div>{{experimentacao.text_content|linebreaks}}</div>
+            <div>{{experimentacao.text_content|safe}}</div>
 
             <div style="text-align: right;">Fonte: <a href="{{experimentacao.source}}">{{experimentacao.source}}</a></div>
 

@@ -9,21 +9,24 @@
         <h2>Nova Publicação</h2>
     </div>
     <div class="card-body">
-        <form class="pure-form pure-form-aligned" method="post">
+        <div class="card-body">
+        <form method="post">
             {% csrf_token %}
-            <fieldset>
+                <fieldset>
                 {{ form.non_field_errors }}
-
                 {% for field in form %}
-                <div class="pure-control-group">
-                    {% if field.name != 'class_id' and field.name != 'exercise_id' and field.name != 'experimentation_id' and field.name != 'author' %}
+                    <div class="form-group">
+                        {% if field.name != 'author' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
-                    {% endif %}
-                    {{ field }}
-                    {{ field.errors }}
-                </div>
+                        {% endif %}
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
                 {% endfor %}
-
+                <div class="form-group">
+                    <label for="mensagem" class="form-group">Mensagem:</label>
+                    <textarea name="mensagem"></textarea>
+                </div>
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Publicar</button>
                 </div>

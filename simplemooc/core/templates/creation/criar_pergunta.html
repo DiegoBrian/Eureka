@@ -9,20 +9,24 @@
         <h2>Nova pergunta</h2>
     </div>
     <div class="card-body">
-        <form class="pure-form pure-form-aligned" method="post">
+        <form method="post">
             {% csrf_token %}
-            <fieldset>
+                <fieldset>
                 {{ form.non_field_errors }}
-
-                {% for field in form %}
-                <div class="pure-control-group">
-                    {% if field.name != 'exercise_id' and  field.name != 'number' %}
-                        <label for="{{ field.name }}">{{ field.label_tag }}</label>
-                    {% endif %}
-                    {{ field }}
-                    {{ field.errors }}
+                <div class="form-group">
+                    <label for="enunciado" class="form-group">Enunciado:</label>
+                    <textarea name="enunciado"></textarea>
                 </div>
+                {% for field in form %}
+                    <div class="form-group">
+                        {% if field.name != 'exercise_id' and  field.name != 'number' %}
+                        <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                        {% endif %}
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
                 {% endfor %}
+
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Criar pergunta</button>
                 </div>

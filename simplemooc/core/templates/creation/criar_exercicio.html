@@ -9,19 +9,18 @@
         <h2>Novo exercício</h2>
     </div>
     <div class="card-body">
-        <form class="pure-form pure-form-aligned" method="post">
+        <form method="post">
             {% csrf_token %}
-            <fieldset>
+                <fieldset>
                 {{ form.non_field_errors }}
-
                 {% for field in form %}
-                <div class="pure-control-group">
-                    {% if field.name != 'tema_id' %}
+                    <div class="form-group">
+                        {% if field.name != 'tema_id' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
-                    {% endif %}
-                    {{ field }}
-                    {{ field.errors }}
-                </div>
+                        {% endif %}
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
                 {% endfor %}
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Criar exercício</button>

@@ -52,6 +52,9 @@ def forum_topic(request, pk):
 		reply = form.save(commit=False)
 		reply.forum_id = topic
 		reply.author = request.user
+		mensagem = request.POST.get('mensagem')
+		print("Resposta: "+mensagem)
+		reply.reply = mensagem
 		reply.save()
 
 		return redirect('forum_topic', pk=pk)

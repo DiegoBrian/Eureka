@@ -14,7 +14,7 @@
             {% if pergunta %}
             <div>
             	{% if user.user_type == 'ALUNO' %}
-                    <div>{{pergunta.number}}. {{pergunta.text}}</div>
+                    <div>{{pergunta.number}}. {{pergunta.text|safe}}</div>
                     <form method="POST">
                         {% csrf_token %}
                         {% if pergunta.quesion_type == 'FECHADA' %}
@@ -61,6 +61,9 @@
             {% else %}
             <div>
                 Nenhuma pergunta para exibir
+            </div>
+            <div style="margin-top: 2%;">
+                <a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
             </div>
             {% endif %}
             

@@ -9,23 +9,25 @@
         <h2>Nova aula</h2>
     </div>
     <div class="card-body">
-        <form class="pure-form pure-form-aligned" method="post">
+        <form method="post">
             {% csrf_token %}
-            <fieldset>
+                <fieldset>
                 {{ form.non_field_errors }}
-
                 {% for field in form %}
-                <div class="pure-control-group">
-                    {% if field.name != 'tema_id' %}
+                    <div class="form-group">
+                        {% if field.name != 'tema_id' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
-                    {% endif %}
-                    {{ field }}
-                    {{ field.errors }}
-                </div>
+                        {% endif %}
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
                 {% endfor %}
+                <div class="form-group">
+                    <label for="content" class="form-group">Conteúdo:</label>
+                    <textarea name="content"></textarea>
+                </div>
                 <b>Observação:</b>
-				<p>Para transmissões ao vivo é necessário possuir uma conta no YouTube e pode levar até 24 horas para aprovação.<br>Para mais informações sobre transmissões ao vivo <a href="#">clique aqui.</a></p>
-                <textarea name="content"></textarea>
+                <p>Para transmissões ao vivo é necessário possuir uma conta no YouTube e pode levar até 24 horas para aprovação.<br>Para mais informações sobre transmissões ao vivo <a href="#">clique aqui.</a></p>
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Criar aula</button>
                 </div>
