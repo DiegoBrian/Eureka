@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Fórum{% endblock %}
+
+{% block javascript %}
+<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+{% endblock %}
 
 {% block content %}
 	<div class="card cardEspecial">
@@ -54,4 +59,9 @@
 		    </div>
 		</div>
 	</div>
+
+<script>
+    CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+    CKEDITOR.replace('reply', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
+</script>
 {% endblock %}

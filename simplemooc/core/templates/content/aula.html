@@ -4,6 +4,9 @@
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
+{% block javascript %}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+{% endblock %}
 {% block content %}
 	<div class="card cardEspecial">
         <div class="card-header bg-dark text-white">
@@ -14,17 +17,17 @@
             {% for material in materiais %}
             	<div>O nome do material é: <a href="{{material.file}}">{{material.name}}</a></div>
             {% endfor %}
-            <div>{{aula.text_content}}</div>
+            <div>{{aula.text_content|safe}}</div>
             <div style="margin-top: 2%;">
 		        <form action="#" style="display:inline-block;">
 		            <input type="submit" value="Finalizar aula" class="btn btn-dark"/>
 		        </form>
-		        <form action="#" style="display:inline-block;">
+		        <!--<form action="#" style="display:inline-block;">
 		            <input type="submit" value="Exercícios" class="btn btn-dark"/>
 		        </form>
 		        <form action="#" style="display:inline-block;">
 		            <input type="submit" value="Exeperimentação" class="btn btn-dark"/>
-		        </form>
+		        </form>-->
 		    </div>
 		    <a href="{% url 'forum' content='cla' pk=aula.pk %}" >Acessar o fórum de dúvidas</a>
         </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from core.models import *
+from core.forms import *
 
 
 # Create your views here.
@@ -13,7 +14,18 @@ def sobre(request):
 
 
 def testes(request):
-	return render(request, 'testes.html')
+	form = FormularioTeste(request.POST or None)
+	if form.is_valid():
+		new_test = form.save()
+		return redirect('testes')
+
+	context = {
+		'form' : form,
+	}
+
+	print("form: ")
+	print(form)
+	return render(request, 'testes.html', context)
 
 
 @login_required
