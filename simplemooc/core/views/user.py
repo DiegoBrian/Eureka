@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from core.models import *
+from core.forms import *
 
 @login_required
 def usuario(request):

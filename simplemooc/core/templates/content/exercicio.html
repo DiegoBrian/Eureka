@@ -18,7 +18,7 @@
             {% if pergunta %}
             <div>
             	{% if user.user_type == 'ALUNO' %}
-                    <div>{{pergunta.number}}. {{pergunta.text}}</div>
+                    <div>{{pergunta.number}}. {{pergunta.text|safe}}</div>
                     <form method="POST">
                         {% csrf_token %}
                         {% if pergunta.quesion_type == 'FECHADA' %}
@@ -49,7 +49,7 @@
                     </form>
                 {% else %}
                     {% for perg in perguntas %}
-                        <div>{{perg.number}}. {{perg.text}}</div>
+                        <div>{{perg.number}}. {{perg.text|safe}}</div>
                         {% if perg.quesion_type == 'FECHADA' %}
                     		<div>a) {{perg.answer_a}}</div>
                     		<div>b) {{perg.answer_b}}</div>

@@ -14,6 +14,7 @@ urlpatterns = [
     path('experimentacao/<int:pk>', views.experimentacao, name='experimentacao'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
     path('tema/<int:pk>/', views.tema, name='tema'),
+    path('listar_alunos/<int:turma_id>/', views.listar_alunos, name='listar_alunos'),
 
     #registration
     path('turmas/<int:pk>/matricula', views.matricula, name='matricula'),
@@ -35,6 +36,13 @@ urlpatterns = [
     path('criar_turma/<int:profesor_id>/', views.criar_turma, name='criar_turma'),
     path('criar_pergunta/<int:exercise_id>/', views.criar_pergunta, name='criar_pergunta'),
     path('criar_forum/<str:content>/<int:pk>/', views.criar_forum, name='criar_forum'),
+
+    #delete
+    path('excluir_aula/<int:pk>', views.excluir_aula, name='excluir_aula'),
+    path('excluir_exercicio/<int:pk>', views.excluir_exercicio, name='excluir_exercicio'),
+    path('excluir_experimentacao/<int:pk>', views.excluir_experimentacao, name='excluir_experimentacao'),
+    path('excluir_turmas/<int:pk>/', views.excluir_turma, name='excluir_turma'),
+    path('excluir_tema/<int:pk>/', views.excluir_tema, name='excluir_tema'),
 
     #forum
     path('forum/<str:content>/<int:pk>/', views.ForumView.as_view(), name='forum'),

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load version %}
+
+{% block title %}Alunos da turma {{turma}}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-dark text-white">
+		Alunos da turma {{turma}}
+    </div>
+    <div class="card-body">
+    	<table class="table">
+			<thead class="bg-dark text-white">
+				<tr>
+					<th scope="col">Usuário</th>
+					<th scope="col">Nome</th>
+					<th scope="col">Email</th>
+					<th scope="col">Série</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				{% for aluno in alunos %}
+					<tr>
+						<td>{{aluno.username}}</td>
+						<td>{{aluno.name}}</td>
+						<td>{{aluno.email}}</td>
+						<td>{{aluno.grade}}</td>
+					</tr>
+				{% empty %}
+					<tr>
+						<td>Nenhum aluno inscrito nesta turma...</td>
+					</tr>
+				{% endfor %}
+		  </tbody>
+		</table>
+		<a href="{% url 'turma' turma.pk %}" class="btn bg-dark text-white">Voltar</a>
+    </div>
+</div>
+
+{% endblock %}

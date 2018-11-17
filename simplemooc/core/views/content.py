@@ -144,14 +144,16 @@ def turma(request, pk):
 		temas = Tema.objects.filter(turma_id = pk)
 
 	if request.method == 'POST' and 'btnmatricula' in request.POST:
-		resposta = request.POST.get('alunos')
+		resposta = request.POST.getlist('alunos')
+		print(resposta)
 		####################.getlist########################
-		selecionado = Usuario.objects.get(pk=resposta)
-		if Aluno_Turma.objects.filter(aluno_id=selecionado, turma_id=turma).exists():
-			print ("Aluno ja matriculado")
-		else:
-			Aluno_Turma.objects.create(aluno_id=selecionado, turma_id=turma)
-			messages.success(request, "Aluno matriculado com sucesso!")
+		for aluno in resposta:
+			selecionado = Usuario.objects.get(pk=aluno)
+			if Aluno_Turma.objects.filter(aluno_id=selecionado, turma_id=turma).exists():
+				print ("Aluno ja matriculado")
+			else:
+				Aluno_Turma.objects.create(aluno_id=selecionado, turma_id=turma)
+				messages.success(request, "Aluno matriculado com sucesso!")
 
 	
 	alunos = Usuario.objects.filter(user_type= 'ALUNO')
@@ -195,6 +197,21 @@ def tema(request, pk):
 		'experimentacoes':experimentacoes
 	}
 	return render(request,'content/tema.html', context)
+
+@login_required
+def listar_alunos(request, turma_id):
+	alunos = Usuario.objects.filter(user_type= 'ALUNO')
+	matriculados = []
+	for aluno in alunos:
+		if esta_matriculado(aluno, turma_id):
+			matriculados.append(aluno)
+
+	turma = Turma.objects.get(pk = turma_id)
+	context = {
+		'turma': turma,
+		'alunos' : matriculados
+	}
+	return render(request, 'content/listar_alunos.html', context)
 
 def esta_matriculado(user, turma_pk):
 	turma = Turma.objects.get(pk = turma_pk)

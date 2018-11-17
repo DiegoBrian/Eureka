@@ -32,6 +32,9 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Última Atualização</th>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <th scope="col" style="width: 5%;"></th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +42,9 @@
                     <tr>
                         <td><a href="{% url 'aula' aula.pk %}">{{ aula.name }}</a></td>
                         <td>{{ aula.updated_at }}</td>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <td><a href="{% url 'excluir_aula' aula.pk %}" class="btn bg-danger text-white">&#10005;</a></td>
+                        {% endif %}
                     </tr>
                     {% empty %}
                     <tr>
@@ -62,6 +68,9 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Última Atualização</th>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <th scope="col" style="width: 5%;"></th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +78,9 @@
                     <tr>
                         <td><a href="{% url 'exercicio' exercicio.pk %}">{{ exercicio.name }}</a></td>
                         <td>{{ exercicio.updated_at }}</td>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <td><a href="{% url 'excluir_exercicio' exercicio.pk %}" class="btn bg-danger text-white">&#10005;</a></td>
+                        {% endif %}
                     </tr>
                     {% empty %}
                     <tr>
@@ -92,6 +104,9 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Última Atualização</th>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <th scope="col" style="width: 5%;"></th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -99,6 +114,9 @@
                     <tr>
                         <td><a href="{% url 'experimentacao' experimentacao.pk %}">{{ experimentacao.name }}</a></td>
                         <td>{{ experimentacao.updated_at }}</td>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <td><a href="{% url 'excluir_experimentacao' experimentacao.pk %}" class="btn bg-danger text-white">&#10005;</a></td>
+                        {% endif %}
                     </tr>
                     {% empty %}
                     <tr>

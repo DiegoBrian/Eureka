@@ -31,7 +31,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% if user.user_type == 'ALUNO' %}
+							{% if user.user_type == 'ALUNO' %}
 								{% load_my_courses user as matriculas %}
 								{% for matricula in matriculas %}
 									<tr>
@@ -47,7 +47,7 @@
 								{% for turma in turmas %}
 									<tr>
 										<td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
-										<td><a href="{% url 'desmatricular' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
+										<td><a href="{% url 'excluir_turma' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
 									</tr>
 								{% empty %}
 									<tr>

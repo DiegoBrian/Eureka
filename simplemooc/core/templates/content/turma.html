@@ -38,6 +38,9 @@
 				{% for tema in temas %}
 					<div class="card">
 						<div class="card-body">
+							{% if user.user_type == 'PROFESSOR' %}
+							<a href="{% url 'excluir_tema' tema.pk %}" class="close" aria-label="Fechar">&times;</a>
+							{% endif %}
 							<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></p>
 						</div>
 					</div>
@@ -73,6 +76,7 @@
 					<option value={{aluno.pk}}>"{{aluno.name}} "{{aluno.email}}"</option>
 					{% endfor %}
 				</select>
+				<a href="{% url 'listar_alunos' turma.pk %}">Ver alunos já matriculados</a>
 				<input type="submit" value="Matricular" class="btn btn-dark" name="btnmatricula" />
 			</form>
 		</div>
