@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.forms import Textarea, HiddenInput, DateInput, NumberInput
 from django.contrib.admin.widgets import AdminDateWidget
-from ckeditor.fields import RichTextField
+
 
 class BaseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

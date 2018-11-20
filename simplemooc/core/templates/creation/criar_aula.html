@@ -29,7 +29,7 @@
                 {% endfor %}
                 <b>Observação:</b>
 				<p>Para transmissões ao vivo é necessário possuir uma conta no YouTube e pode levar até 24 horas para aprovação.<br>Para mais informações sobre transmissões ao vivo <a href="#">clique aqui.</a></p>
-                <textarea name="aqui"></textarea>
+                
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Criar aula</button>
                 </div>
@@ -40,6 +40,6 @@
 
 <script>
     CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
-    CKEDITOR.replace('aqui', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
+    CKEDITOR.replace('text_content', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
 </script>
 {% endblock %}

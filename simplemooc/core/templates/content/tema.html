@@ -43,7 +43,7 @@
                         <td><a href="{% url 'aula' aula.pk %}">{{ aula.name }}</a></td>
                         <td>{{ aula.updated_at }}</td>
                         {% if user.user_type == 'PROFESSOR' %}
-                        <td><a href="{% url 'excluir_aula' aula.pk %}" class="btn bg-danger text-white">&#10005;</a></td>
+                        <td><a href="{% url 'excluir_aula' aula.pk %}" class="close" aria-label="Excluir aula">&times;</a></td>
                         {% endif %}
                     </tr>
                     {% empty %}
@@ -79,7 +79,7 @@
                         <td><a href="{% url 'exercicio' exercicio.pk %}">{{ exercicio.name }}</a></td>
                         <td>{{ exercicio.updated_at }}</td>
                         {% if user.user_type == 'PROFESSOR' %}
-                        <td><a href="{% url 'excluir_exercicio' exercicio.pk %}" class="btn bg-danger text-white">&#10005;</a></td>
+                        <td><a href="{% url 'excluir_exercicio' exercicio.pk %}" class="close" aria-label="Excluir exercício">&times;</a></td>
                         {% endif %}
                     </tr>
                     {% empty %}
@@ -115,7 +115,7 @@
                         <td><a href="{% url 'experimentacao' experimentacao.pk %}">{{ experimentacao.name }}</a></td>
                         <td>{{ experimentacao.updated_at }}</td>
                         {% if user.user_type == 'PROFESSOR' %}
-                        <td><a href="{% url 'excluir_experimentacao' experimentacao.pk %}" class="btn bg-danger text-white">&#10005;</a></td>
+                        <td><a href="{% url 'excluir_experimentacao' experimentacao.pk %}" class="close" aria-label="Excluir experimentação">&times;</a></td>
                         {% endif %}
                     </tr>
                     {% empty %}
