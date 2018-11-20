@@ -23,40 +23,42 @@
 						<h1>Minhas turmas</h1>
 					</div>
 					<div class="card-body">
-						<table class="table">
-							<thead class="bg-dark text-white">
-								<tr>
-									<th scope="col">Turma</th>
-									<th scope="col" style="width: 20%">Opções</th>
-								</tr>
-							</thead>
-							<tbody>
-							{% if user.user_type == 'ALUNO' %}
-								{% load_my_courses user as matriculas %}
-								{% for matricula in matriculas %}
+						<div class="table-responsive">
+							<table class="table">
+								<thead class="bg-dark text-white">
 									<tr>
-										<td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
-										<td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
+										<th scope="col">Turma</th>
+										<th scope="col" style="width: 20%">Opções</th>
 									</tr>
-								{% empty %}
-									<tr>
-										<td>Nenhuma turma disponível...</td>
-									</tr>
-								{% endfor %}
-							{% else %}
-								{% for turma in turmas %}
-									<tr>
-										<td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
-										<td><a href="{% url 'excluir_turma' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
-									</tr>
-								{% empty %}
-									<tr>
-										<td>Nenhuma Turma disponível</td>
-									</tr>
-								{% endfor %}
-							{% endif %}
-						  </tbody>
-						</table>
+								</thead>
+								<tbody>
+								{% if user.user_type == 'ALUNO' %}
+									{% load_my_courses user as matriculas %}
+									{% for matricula in matriculas %}
+										<tr>
+											<td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
+											<td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
+										</tr>
+									{% empty %}
+										<tr>
+											<td>Nenhuma turma disponível...</td>
+										</tr>
+									{% endfor %}
+								{% else %}
+									{% for turma in turmas %}
+										<tr>
+											<td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
+											<td><a href="{% url 'excluir_turma' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
+										</tr>
+									{% empty %}
+										<tr>
+											<td>Nenhuma Turma disponível</td>
+										</tr>
+									{% endfor %}
+								{% endif %}
+							  </tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 
@@ -65,31 +67,33 @@
 						<h1>Exercícios</h1>
 					</div>
 					<div class="card-body">
-						<table class="table">
-							<thead class="bg-dark text-white">
-								<tr>
-									<th scope="col">Tema</th>
-									<th scope="col">Exercício</th>
-									<th scope="col">&#10003;</th>
-									<th scope="col">&#10005;</th>
-								</tr>
-							</thead>
-							<tbody>
-								
-								{% for aluno_exercicio in aluno_exercicios %}
+						<div class="table-responsive">
+							<table class="table">
+								<thead class="bg-dark text-white">
 									<tr>
-										<td>{{aluno_exercicio.exercicio_id.tema_id}}</td>
-										<td>{{aluno_exercicio.exercicio_id}}</td>
-										<td>{{aluno_exercicio.corrects}}</td>
-										<td>{{aluno_exercicio.wrongs}}</td>
+										<th scope="col">Tema</th>
+										<th scope="col">Exercício</th>
+										<th scope="col">&#10003;</th>
+										<th scope="col">&#10005;</th>
 									</tr>
-								{% empty %}
-									<tr>
-										<td>Nenhum exercício disponível...</td>
-									</tr>
-								{% endfor %}
-						  </tbody>
-						</table>
+								</thead>
+								<tbody>
+									
+									{% for aluno_exercicio in aluno_exercicios %}
+										<tr>
+											<td>{{aluno_exercicio.exercicio_id.tema_id}}</td>
+											<td>{{aluno_exercicio.exercicio_id}}</td>
+											<td>{{aluno_exercicio.corrects}}</td>
+											<td>{{aluno_exercicio.wrongs}}</td>
+										</tr>
+									{% empty %}
+										<tr>
+											<td>Nenhum exercício disponível...</td>
+										</tr>
+									{% endfor %}
+							  </tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 

@@ -9,13 +9,13 @@
         <h2>Nova Turma</h2>
     </div>
     <div class="card-body">
-        <form class="pure-form pure-form-aligned" method="post">
+        <form  method="post">
             {% csrf_token %}
             <fieldset>
                 {{ form.non_field_errors }}
 
                 {% for field in form %}
-                <div class="pure-control-group">
+                <div class="form-group">
                     {% if field.name != 'responsible' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
                     {% endif %}

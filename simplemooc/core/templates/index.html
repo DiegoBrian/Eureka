@@ -30,46 +30,48 @@
 		Minhas turmas
 	</div>
 	<div class="card-body">
-		<table class="table">
-			<thead class="bg-dark text-white">
-				<tr>
-					<th scope="col">Nome</th>
-					<th scope="col">Professor</th>
-					<th scope="col">Tipo</th>
-					<th scope="col">Última Atualização</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% if user.user_type == 'ALUNO' %}
-					
-					{% for matricula in matriculas %}
-		                <tr>
-		                    <td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
-		                    <td> {{matricula.turma_id.responsible}} </td>
-		                    <td> {{matricula.turma_id.get_course_type_display}} </td>
-		                    <td> {{matricula.turma_id.updated_at}} </td>
-		                </tr>
-	                {% empty %}
-		                <tr>
-		                    <td>Nenhuma turma disponível...</td>
-		                </tr>
-	                {% endfor %}
-	            {% else %}
-	            	{% for turma in turmas %}
-		            	<tr>
-							<td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
-							<td>{{ turma.responsible }}</td>
-							<td>{{ turma.get_course_type_display }}</td>
-							<td>{{ turma.updated_at }}</td>
-						</tr>
-					{% empty %}
-						<tr>
-							<td>Nenhuma Turma disponível</td>
-						</tr>
-					{% endfor %}
-	            {% endif %}
-			</tbody>
-		</table>
+		<div class="table-responsive">
+			<table class="table">
+				<thead class="bg-dark text-white">
+					<tr>
+						<th scope="col">Nome</th>
+						<th scope="col">Professor</th>
+						<th scope="col">Tipo</th>
+						<th scope="col">Última Atualização</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% if user.user_type == 'ALUNO' %}
+						
+						{% for matricula in matriculas %}
+			                <tr>
+			                    <td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
+			                    <td> {{matricula.turma_id.responsible}} </td>
+			                    <td> {{matricula.turma_id.get_course_type_display}} </td>
+			                    <td> {{matricula.turma_id.updated_at}} </td>
+			                </tr>
+		                {% empty %}
+			                <tr>
+			                    <td>Nenhuma turma disponível...</td>
+			                </tr>
+		                {% endfor %}
+		            {% else %}
+		            	{% for turma in turmas %}
+			            	<tr>
+								<td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
+								<td>{{ turma.responsible }}</td>
+								<td>{{ turma.get_course_type_display }}</td>
+								<td>{{ turma.updated_at }}</td>
+							</tr>
+						{% empty %}
+							<tr>
+								<td>Nenhuma Turma disponível</td>
+							</tr>
+						{% endfor %}
+		            {% endif %}
+				</tbody>
+			</table>
+		</div>
 		{% if user.user_type == 'PROFESSOR' %}
 		<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
 		{% endif %}		

@@ -26,41 +26,41 @@ class FormularioForum(BaseForm):
 		widgets = {'author' : HiddenInput()}
 
 
-class FormularioAula(forms.ModelForm):
+class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
 		fields = ['name', 'tema_id', 'text_content', 'visual_content']
 		widgets = {'tema_id' : HiddenInput()}
 
 
-class FormularioExercicio(forms.ModelForm):
+class FormularioExercicio(BaseForm):
 	class Meta:
 		model = Exercicio
 		fields = ['name', 'tema_id', 'multiple_times']
 		widgets = {'tema_id' : HiddenInput()}
 
 
-class FormularioExperimentacao(forms.ModelForm):
+class FormularioExperimentacao(BaseForm):
 	class Meta:
 		model = Experimentacao
 		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'source']
 		widgets = {'tema_id' : HiddenInput()}
 
 
-class FormularioTema(forms.ModelForm):
+class FormularioTema(BaseForm):
 	class Meta:
 		model = Tema
 		fields = ['name', 'turma_id']
 		widgets = {'turma_id' : HiddenInput()}
 
-class FormularioTurma(forms.ModelForm):
+class FormularioTurma(BaseForm):
 	class Meta:
 		model = Turma
 		fields = '__all__'
 		widgets = {'responsible' : HiddenInput()}
 
 
-class FormularioPergunta(forms.ModelForm):
+class FormularioPergunta(BaseForm):
 	class Meta:
 		model = Pergunta
 		fields = '__all__'
@@ -69,7 +69,7 @@ class FormularioPergunta(forms.ModelForm):
 
 User = get_user_model()
 
-class FormularioRegistroProfessor(forms.ModelForm):
+class FormularioRegistroProfessor(BaseForm):
 	
 	email = forms.EmailField(label = 'Email')
 	password1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
@@ -96,7 +96,7 @@ class FormularioRegistroProfessor(forms.ModelForm):
 		widgets = {'user_type' : HiddenInput()}
 
 
-class FormularioRegistroAluno(forms.ModelForm):
+class FormularioRegistroAluno(BaseForm):
 	
 	email = forms.EmailField(label = 'Email')
 	password1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
@@ -123,7 +123,7 @@ class FormularioRegistroAluno(forms.ModelForm):
 		widgets = {'user_type' : HiddenInput()}
 
 
-class FormularioEditarConta(forms.ModelForm):
+class FormularioEditarConta(BaseForm):
 
 	class Meta:
 		model = User

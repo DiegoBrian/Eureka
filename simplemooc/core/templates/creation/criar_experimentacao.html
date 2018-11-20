@@ -3,19 +3,23 @@
 
 {% block title %}Nova experimentação{% endblock %}
 
+{% block javascript %}
+<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="card">
 	<div class="card-header bg-dark text-white">
         <h2>Nova experimentação</h2>
     </div>
     <div class="card-body">
-        <form class="pure-form pure-form-aligned" method="post">
+        <form method="post">
             {% csrf_token %}
             <fieldset>
                 {{ form.non_field_errors }}
 
                 {% for field in form %}
-                <div class="pure-control-group">
+                <div class="form-group">
                     {% if field.name != 'tema_id' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
                     {% endif %}
@@ -30,4 +34,9 @@
         </form>
     </div>
 </div>
+
+<script>
+    CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+    CKEDITOR.replace('text_content', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
+</script>
 {% endblock %}

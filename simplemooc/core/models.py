@@ -85,9 +85,13 @@ class Material(models.Model):
 		return self.name
 
 class Exercicio(models.Model):
+	OPTIONS = (
+		(False, 'Não'),
+		(True, 'Sim'),
+	)
 	name = models.CharField('Nome', max_length=100, default='Exercicio')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
-	multiple_times = models.BooleanField('Pode ser feito mais de uma vez', default=False)
+	multiple_times = models.CharField('Pode ser feito mais de uma vez', max_length=9, choices=OPTIONS, default=False)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 

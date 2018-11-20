@@ -23,8 +23,10 @@
 			Busque por um assunto para encontrá-lo com mais facilidade
 			<form method="POST">
 				{% csrf_token %}
-				<input type="text" name="search" placeholder="Encontrar um assunto..." class="searchbar">
-				<input type="submit" value="Buscar" name="btnsearch" class="btn btn-dark"/>
+				<div class="form-group">
+					<input type="text" name="search" placeholder="Encontrar um assunto..." class="searchbar">
+					<input type="submit" value="Buscar" name="btnsearch" class="btn btn-dark"/>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -70,13 +72,15 @@
 			Selecione um aluno para matriculá-lo nesta turma.
 			<form method="POST">
 				{% csrf_token %}
-				<select class="searchbar chosen" multiple name="alunos">
-					<option value=""></option>
-					{% for aluno in alunos %} 
-					<option value={{aluno.pk}}>"{{aluno.name}} "{{aluno.email}}"</option>
-					{% endfor %}
-				</select>
-				<a href="{% url 'listar_alunos' turma.pk %}">Ver alunos já matriculados</a>
+				<div class="form-group">
+					<select class="chosen searchbar" multiple name="alunos">
+						<option value=""></option>
+						{% for aluno in alunos %} 
+						<option value={{aluno.pk}}>"{{aluno.name}} "{{aluno.email}}"</option>
+						{% endfor %}
+					</select>
+				</div>
+				<a href="{% url 'listar_alunos' turma.pk %}">Ver alunos já matriculados</a><br>
 				<input type="submit" value="Matricular" class="btn btn-dark" name="btnmatricula" />
 			</form>
 		</div>
