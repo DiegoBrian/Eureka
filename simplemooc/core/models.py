@@ -4,7 +4,7 @@ from django.core import validators
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.contrib.auth import get_user_model
 import re
-from ckeditor.fields import RichTextField
+
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
@@ -67,7 +67,7 @@ class Tema(models.Model):
 class Aula(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Aula X')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
-	text_content = RichTextField('Conteúdo textual')
+	text_content = models.TextField('Conteúdo textual')
 	visual_content = models.CharField('Conteúdo visual', max_length=2048)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -97,7 +97,7 @@ class Exercicio(models.Model):
 class Experimentacao(models.Model):
 	name = models.CharField('Título', max_length=100, default='Experimentacao')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
-	text_content = RichTextField('Conteúdo textual',null=True, blank = True)
+	text_content = models.TextField('Conteúdo textual',null=True, blank = True)
 	visual_content = models.CharField('Conteúdo visual', max_length=2048, null=True, blank = True)
 	source = models.CharField('Fonte', max_length=2048, default='http://')
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
@@ -119,7 +119,7 @@ class Pergunta(models.Model):
 	)
 	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE)
 	number = models.IntegerField('Número', default=1)
-	text = RichTextField('Enunciado')
+	text = models.TextField('Enunciado')
 	quesion_type = models.CharField('Tipo', max_length=9, choices=QUESTION_OPTIONS, default='FECHADA')
 	answer_a = models.CharField('a)', max_length=2048, null=True, blank = True)
 	answer_b = models.CharField('b)', max_length=2048, null=True, blank = True)
@@ -139,7 +139,7 @@ class Usuario_Pergunta(models.Model):
 	aluno_id = models.ForeignKey(get_user_model(), verbose_name = 'Usuário', on_delete=models.CASCADE, null = True)
 	question_id = models.ForeignKey('Pergunta', verbose_name = 'Pergunta', related_name = 'respostas', on_delete=models.CASCADE, null = True)
 	student_answer = models.CharField('Resposta', max_length=1, default='a')
-	student_text = RichTextField('Resposta', null=True, blank = True)
+	student_text = models.TextField('Resposta', null=True, blank = True)
 	answered = models.BooleanField('Respondido', default= False)
 	correction = models.CharField('Correção', max_length=9, choices=CORRECTION_OPTIONS, default='N')
 
@@ -171,7 +171,7 @@ class Aluno_Exercicio(models.Model):
 class Forum (models.Model):
 	name = models.CharField('Título', max_length=100)
 	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', related_name='threads', on_delete=models.CASCADE)
-	body =  RichTextField('Mensagem')
+	body =  models.TextField('Mensagem')
 	views = models.IntegerField('Vizualizações', blank=True, default=0)
 	answers = models.IntegerField('Respostas', blank=True, default=0)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
@@ -185,7 +185,7 @@ class Forum (models.Model):
 
 class Resposta (models.Model):
 	forum_id = models.ForeignKey('Forum', verbose_name="Tópico", related_name='replies', on_delete=models.CASCADE, default=0)
-	reply = RichTextField('Resposta')
+	reply = models.TextField('Resposta')
 	author = models.ForeignKey(get_user_model(), verbose_name = 'Autor', on_delete=models.CASCADE)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -195,4 +195,4 @@ class Resposta (models.Model):
 
 class Teste (models.Model):
 
-	text = RichTextField("Texto")
+	text = models.TextField("Texto")
