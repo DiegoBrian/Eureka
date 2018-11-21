@@ -37,7 +37,7 @@ class FormularioExercicio(BaseForm):
 	class Meta:
 		model = Exercicio
 		fields = ['name', 'tema_id', 'multiple_times']
-		widgets = {'tema_id' : HiddenInput()}
+		widgets = {'tema_id' : HiddenInput(), 'multiple_times': forms.CheckboxInput(attrs={'style':'width:20px;height:20px;'})}
 
 
 class FormularioExperimentacao(BaseForm):
