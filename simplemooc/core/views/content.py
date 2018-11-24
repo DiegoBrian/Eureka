@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from core.models import *
+from core.forms import FormularioCorrecao
 
 @login_required
 def aula(request, pk):
@@ -17,6 +18,15 @@ def aula(request, pk):
 		'materiais' : materiais
 	}
 	return render(request, 'content/aula.html', context)
+
+
+@login_required
+def finalizar_aula(request, pk):
+	aula = Aula.objects.get(pk=pk)
+	Aluno_Aula.objects.create(aluno_id = request.user, aula_id=aula)
+
+	return redirect ('tema', aula.tema_id.pk)
+
 
 @login_required
 def experimentacao(request, pk):
@@ -41,6 +51,7 @@ def exercicio(request, exercise_id):
 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 		return redirect('index')
 
+	#se o usuario ja concluiu o exercício, verifica se ele é refazivel, se for, ok, se nao for, diz que ele ja fez
 	exercicio_concluido = Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercise_id)
 	if exercicio_concluido:
 		if exercicio_concluido[0].exercicio_id.multiple_times == False:
@@ -85,7 +96,7 @@ def exercicio(request, exercise_id):
 		# se aberta
 		else:
 		# 	resposta_aberta = resposta
-			resposta = request.POST.get('text')
+			resposta = request.POST.get('texto')
 			Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(student_text=resposta)
 			print(resposta)
 		# respondido = true
@@ -101,7 +112,7 @@ def exercicio(request, exercise_id):
 		else:
 		# 	finalizar exercicio
 			Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
-			corrige_exercicio(request.user,exercicio)
+			corrige_multipla_escolha(request.user,exercicio)
 			return redirect('tema', pk = exercicio.tema_id.pk)
 
 	context = {
@@ -112,7 +123,7 @@ def exercicio(request, exercise_id):
 	return render(request, 'content/exercicio.html', context)
 
 
-def corrige_exercicio(user, exercise_id):
+def corrige_multipla_escolha(user, exercise_id):
 	usuario_perguntas = Usuario_Pergunta.objects.filter(aluno_id=user, question_id__exercise_id=exercise_id)
 	for pergunta in usuario_perguntas:
 		questao = Pergunta.objects.get(pk = pergunta.question_id.pk)
@@ -128,6 +139,25 @@ def corrige_exercicio(user, exercise_id):
 				wrongs = aluno_exercicio.wrongs + 1
 				Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(wrongs=wrongs)
 
+@login_required
+def corrige_resposta_aberta(request, turma_pk, aluno_pk):
+	nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id__pk = aluno_pk , question_id__exercise_id__tema_id__turma_id__pk = turma_pk, correction= 'N')
+
+	form = FormularioCorrecao(request.POST or None, instance = nao_corrigidos[0])
+	if form.is_valid():
+		correction = form.save(commit = False)
+		correction.correction = 'C'
+		correction.save()
+		if len(nao_corrigidos)>1:
+			return redirect('corrigir', turma_pk=turma_pk, aluno_pk=aluno_pk)
+		return redirect('listar_alunos', turma_id=turma_pk)
+
+	context = {
+		'pergunta': nao_corrigidos[0],
+		'form': form
+	}
+
+	return render (request, 'content/corrigir.html', context)
 
 @login_required
 def turma(request, pk):
@@ -147,13 +177,17 @@ def turma(request, pk):
 		resposta = request.POST.getlist('alunos')
 		print(resposta)
 		####################.getlist########################
+		matriculados = []
 		for aluno in resposta:
 			selecionado = Usuario.objects.get(pk=aluno)
 			if Aluno_Turma.objects.filter(aluno_id=selecionado, turma_id=turma).exists():
 				print ("Aluno ja matriculado")
 			else:
 				Aluno_Turma.objects.create(aluno_id=selecionado, turma_id=turma)
-				messages.success(request, "Aluno matriculado com sucesso!")
+				matriculados.append(selecionado)
+				
+		if matriculados:
+			messages.success(request, "Aluno(s) matriculado(s) com sucesso!")
 
 	
 	alunos = Usuario.objects.filter(user_type= 'ALUNO')

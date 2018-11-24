@@ -1,9 +1,5 @@
-$('#btn_desinscrever').click(function(event) {
-		$('#chooseDocPdfModal').modal('show');
+CKEDITOR.instances.text.on('change', function() { 
+     var areaText = CKEDITOR.instances['text'].getData();
+    console.log(areaText)
+    $('#texto').val(areaText); 
 });
-
-CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	config.uiColor = '#AADC6E';
-};

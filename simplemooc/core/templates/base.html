@@ -29,7 +29,7 @@
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
 	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'usuario' %}">Perfil</a>
+	                <a class="nav-link" href="{% url 'usuario' user.pk %}">Perfil</a>
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link" href="{% url 'index' %}">Minhas Turmas</a>

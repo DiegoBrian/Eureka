@@ -18,25 +18,26 @@
             {% if pergunta %}
             <div>
             	{% if user.user_type == 'ALUNO' %}
-                    <div>{{pergunta.number}}. {{pergunta.text|safe}}</div>
+                    <div><b>Questão {{pergunta.number}}</b> {{pergunta.text|safe}}</div>
                     <form method="POST">
                         {% csrf_token %}
                         {% if pergunta.quesion_type == 'FECHADA' %}
                             <div>
-                                <input type="radio" value="A" name="answer" id="answer_a">{{pergunta.answer_a}}
+                                <input type="radio" value="a" name="answer" id="answer_a">{{pergunta.answer_a}}
                             </div>
                             <div>
-                                <input type="radio" value="B" name="answer" id="answer_b">{{pergunta.answer_b}}
+                                <input type="radio" value="b" name="answer" id="answer_b">{{pergunta.answer_b}}
                             </div>
                             <div>
-                                <input type="radio" value="C" name="answer" id="answer_c">{{pergunta.answer_c}}
+                                <input type="radio" value="c" name="answer" id="answer_c">{{pergunta.answer_c}}
                             </div>
                             <div>
-                                <input type="radio" value="D" name="answer" id="answer_d">{{pergunta.answer_d}}
+                                <input type="radio" value="d" name="answer" id="answer_d">{{pergunta.answer_d}}
                             </div>
                         {% else %}
                             <div>
-                                <input name="text" type="texarea">
+                                <input name="text" type="textarea">
+                                <input type="hidden" id="texto" name="texto">
                             </div>
                         {% endif %}
                         <div style="margin-top: 2%;">
@@ -49,7 +50,7 @@
                     </form>
                 {% else %}
                     {% for perg in perguntas %}
-                        <div>{{perg.number}}. {{perg.text|safe}}</div>
+                        <div><b>Questão {{perg.number}}</b> {{perg.text|safe}}</div>
                         {% if perg.quesion_type == 'FECHADA' %}
                     		<div>a) {{perg.answer_a}}</div>
                     		<div>b) {{perg.answer_b}}</div>
@@ -76,4 +77,5 @@
         CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
         CKEDITOR.replace('text', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
     </script>
+    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}

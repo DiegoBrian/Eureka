@@ -134,3 +134,9 @@ class FormularioTeste(BaseForm):
 	class Meta:
 		model = Teste
 		fields = ['text']
+
+class FormularioCorrecao(BaseForm):
+
+	class Meta:
+		model = Usuario_Pergunta
+		fields = ['score', 'comment']

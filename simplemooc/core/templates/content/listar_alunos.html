@@ -9,31 +9,39 @@
 		Alunos da turma {{turma}}
     </div>
     <div class="card-body">
-    	<table class="table">
-			<thead class="bg-dark text-white">
-				<tr>
-					<th scope="col">Usuário</th>
-					<th scope="col">Nome</th>
-					<th scope="col">Email</th>
-					<th scope="col">Série</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-				{% for aluno in alunos %}
+	    <div class="table-responsive">
+	    	<table class="table">
+				<thead class="bg-dark text-white">
 					<tr>
-						<td>{{aluno.username}}</td>
-						<td>{{aluno.name}}</td>
-						<td>{{aluno.email}}</td>
-						<td>{{aluno.grade}}</td>
+						<th scope="col">Usuário</th>
+						<th scope="col">Nome</th>
+						<th scope="col">Email</th>
+						<th scope="col">Série</th>
+						<th scope="col">Exercícios</th>
 					</tr>
-				{% empty %}
-					<tr>
-						<td>Nenhum aluno inscrito nesta turma...</td>
-					</tr>
-				{% endfor %}
-		  </tbody>
-		</table>
+				</thead>
+				<tbody>
+					
+					{% for aluno in alunos %}
+						<tr>
+							<td><a href="{% url 'usuario' aluno.pk %}">{{aluno.username}}</a></td>
+							<td>{{aluno.name}}</td>
+							<td>{{aluno.email}}</td>
+							<td>{{aluno.grade}}</td>
+							{% if aluno|corrigir:turma.pk %}
+							<td><a href="{% url 'corrigir' turma.pk aluno.pk %}" class='btn bg-dark text-white'>Corrigir</a></td>
+							{% else %}
+							<td>&#10003;</td>
+							{% endif %}
+						</tr>
+					{% empty %}
+						<tr>
+							<td>Nenhum aluno inscrito nesta turma...</td>
+						</tr>
+					{% endfor %}
+			  </tbody>
+			</table>
+		</div>
 		<a href="{% url 'turma' turma.pk %}" class="btn bg-dark text-white">Voltar</a>
     </div>
 </div>

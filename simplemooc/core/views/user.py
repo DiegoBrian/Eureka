@@ -6,13 +6,16 @@ from core.models import *
 from core.forms import *
 
 @login_required
-def usuario(request):
+def usuario(request, pk):
+	usuario = Usuario.objects.get(pk=pk)
 	turmas = Turma.objects.filter(responsible= request.user)
-	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=request.user)
-	print(aluno_exercicios)
+	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=usuario)
+	matriculas = Aluno_Turma.objects.filter(aluno_id=usuario)
 	context = {
+		'usuario' : usuario,
 		'turmas' : turmas,
-		'aluno_exercicios' : aluno_exercicios
+		'aluno_exercicios' : aluno_exercicios,
+		'matriculas' : matriculas
 	}
 	return render(request,'user/usuario.html', context)
 

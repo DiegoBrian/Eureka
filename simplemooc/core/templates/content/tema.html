@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load version %}
 {% block title %}{{tema.name}}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
@@ -34,6 +35,8 @@
                         <th scope="col">Última Atualização</th>
                         {% if user.user_type == 'PROFESSOR' %}
                         <th scope="col" style="width: 5%;"></th>
+                        {% elif user.user_type == 'ALUNO' %}
+                        <th scope="col">Concluída</th>
                         {% endif %}
                     </tr>
                 </thead>
@@ -44,6 +47,8 @@
                         <td>{{ aula.updated_at }}</td>
                         {% if user.user_type == 'PROFESSOR' %}
                         <td><a href="{% url 'excluir_aula' aula.pk %}" class="close" aria-label="Excluir aula">&times;</a></td>
+                        {% elif user.user_type == 'ALUNO' %}
+                        <td>{{user|aula_concluida:aula.pk|safe}}</td>
                         {% endif %}
                     </tr>
                     {% empty %}
@@ -70,6 +75,8 @@
                         <th scope="col">Última Atualização</th>
                         {% if user.user_type == 'PROFESSOR' %}
                         <th scope="col" style="width: 5%;"></th>
+                        {% elif user.user_type == 'ALUNO' %}
+                        <th scope="col">Concluído</th>
                         {% endif %}
                     </tr>
                 </thead>
@@ -80,6 +87,8 @@
                         <td>{{ exercicio.updated_at }}</td>
                         {% if user.user_type == 'PROFESSOR' %}
                         <td><a href="{% url 'excluir_exercicio' exercicio.pk %}" class="close" aria-label="Excluir exercício">&times;</a></td>
+                        {% elif user.user_type == 'ALUNO' %}
+                        <td>{{user|exercicio_concluido:exercicio.pk|safe}}</td>
                         {% endif %}
                     </tr>
                     {% empty %}

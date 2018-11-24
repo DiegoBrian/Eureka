@@ -1,26 +1,34 @@
 {% extends "base.html" %}
 {% load version %}
 
-{% block title %}Usuário: {{user}}{% endblock %}
+{% block title %}Usuário: {{usuario}}{% endblock %}
 
 {% block content %}
 <div class="card cardEspecial">
 	<div class="card-header bg-dark text-white">
-		<h1>Perfil do Usuário</h1>
+		{% if usuario == user %}
+		<h1>Meu Perfil</h1>
+		{% else %}
+		<h1>Perfil do Usuário: {{usuario.username}}</h1>
+		{% endif %}
 	</div>
 	<div class="card-body">
 		<div class="pure-u-1">
 			<ul class="breadcrumb">
 				{% block breadcrumb %}
-				<li><a href="{% url 'usuario' %}">Meu Painel</a></li>
+				<li><a href="{% url 'usuario' usuario.pk %}">Meu Painel</a></li>
 				{% endblock %}
 			</ul>
 		</div>
 		<div>
 			{% block dashboard_content %}
-				<div class="card cardEspecial">
+				<div class="card">
 					<div class="card-header bg-dark text-white">
-						<h1>Minhas turmas</h1>
+						{% if usuario == user %}
+						Minhas turmas
+						{% else %}
+						Turmas
+						{% endif %}
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -32,8 +40,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								{% if user.user_type == 'ALUNO' %}
-									{% load_my_courses user as matriculas %}
+								{% if usuario.user_type == 'ALUNO' %}
 									{% for matricula in matriculas %}
 										<tr>
 											<td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
@@ -61,10 +68,10 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="card cardEspecial">
+				{% if usuario.user_type == 'ALUNO' %}
+				<div class="card">
 					<div class="card-header bg-dark text-white">
-						<h1>Exercícios</h1>
+						Exercícios
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -96,13 +103,15 @@
 						</div>
 					</div>
 				</div>
-
+				{% endif %}
+				{% if usuario == user %}
 				<form action="{% url 'editar_usuario' %}" style="display:inline-block;">
 					<input type="submit" value="Editar usuário" class="btn btn-dark"/>
 				</form>
 				<form action="{% url 'editar_senha' %}" style="display:inline-block;">
 					<input type="submit" value="Editar senha" class="btn btn-dark"/>
 				</form>
+				{% endif %}
 			{% endblock %}
 		</div>
 	</div>

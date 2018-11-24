@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load version %}
+{% load static %}
+
+{% block title %}Alunos da turma {{turma}}{% endblock %}
+
+{% block javascript %}
+<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-dark text-white">
+		Alunos da turma {{turma}}
+    </div>
+    <div class="card-body">
+
+    
+    <b>Questão {{pergunta.question_id.number}} {{pergunta.question_id.text|safe}}</b>
+    Resposta do aluno:<br>
+    <div class="searchbar">
+    {{pergunta.student_text|safe}}
+    </div>
+
+	<form method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                {{ field }}
+                {{ field.errors }}
+            </div>
+            {% endfor %}
+
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+            </div>
+        </fieldset>
+    </form>
+
+    
+	<div style="margin-top: 5%;">
+		<a href="{% url 'listar_alunos' pergunta.question_id.exercise_id.tema_id.turma_id.pk %}" class="btn bg-dark text-white">Voltar</a>
+	</div>
+   </div>
+</div>
+<script>
+    CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+    CKEDITOR.replace('comment', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
+</script>
+{% endblock %}

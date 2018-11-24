@@ -142,6 +142,8 @@ class Usuario_Pergunta(models.Model):
 	student_text = models.TextField('Resposta', null=True, blank = True)
 	answered = models.BooleanField('Respondido', default= False)
 	correction = models.CharField('Correção', max_length=9, choices=CORRECTION_OPTIONS, default='N')
+	score = models.FloatField('Nota', validators=[MaxValueValidator(10), MinValueValidator(0)], null=True, blank = True)
+	comment = models.TextField('Comentário', null=True, blank = True)
 
 
 	def __str__(self):
@@ -196,3 +198,10 @@ class Resposta (models.Model):
 class Teste (models.Model):
 
 	text = models.TextField("Texto")
+
+class Aluno_Aula(models.Model):
+	aula_id = models.ForeignKey('Aula', on_delete=models.CASCADE, default=1)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	
+	def __str__(self):
+		return self.aluno_id.name+" concluiu a aula "+self.aula_id.name
