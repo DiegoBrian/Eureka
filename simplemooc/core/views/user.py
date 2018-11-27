@@ -6,16 +6,13 @@ from core.models import *
 from core.forms import *
 
 @login_required
-def usuario(request, pk):
-	usuario = Usuario.objects.get(pk=pk)
+def usuario(request):
 	turmas = Turma.objects.filter(responsible= request.user)
-	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=usuario)
-	matriculas = Aluno_Turma.objects.filter(aluno_id=usuario)
+	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=request.user)
+	print(aluno_exercicios)
 	context = {
-		'usuario' : usuario,
 		'turmas' : turmas,
-		'aluno_exercicios' : aluno_exercicios,
-		'matriculas' : matriculas
+		'aluno_exercicios' : aluno_exercicios
 	}
 	return render(request,'user/usuario.html', context)
 
@@ -49,5 +46,4 @@ def editar_senha(request):
 	context ['form'] = form
 
 	return render(request,'user/editar_senha.html', context)
-
 

@@ -26,7 +26,7 @@ urlpatterns = [
     path('conta/cadastrar/<int:user_type>', views.cadastrar, name='cadastrar'),
     
     #user
-    path('usuario/<int:pk>/', views.usuario, name='usuario'),
+    path('usuario/', views.usuario, name='usuario'),
     path('editar_usuario/', views.editar_usuario, name='editar_usuario'),
     path('editar_senha/', views.editar_senha, name='editar_senha'),
     
