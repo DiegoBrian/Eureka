@@ -30,7 +30,8 @@ def criar_forum(request, content, pk):
 
 @login_required
 def criar_aula(request, tema_id):
-	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
+	tema = Tema.objects.get(pk=tema_id)
+	form = FormularioAula(tema, request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
 		new_class = form.save()
 		return redirect('tema', pk = tema_id)
@@ -44,7 +45,8 @@ def criar_aula(request, tema_id):
 
 @login_required
 def criar_experimentacao(request, tema_id):
-	form = FormularioExperimentacao(request.POST or None, initial={'tema_id': tema_id})
+	tema = Tema.objects.get(pk=tema_id)
+	form = FormularioExperimentacao(tema, request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
 		new_experimentation = form.save()
 		return redirect('tema', pk = tema_id)
@@ -58,7 +60,8 @@ def criar_experimentacao(request, tema_id):
 
 @login_required
 def criar_exercicio(request, tema_id):
-	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id})
+	tema = Tema.objects.get(pk=tema_id)
+	form = FormularioExercicio(tema, request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
 		new_exercise = form.save()
 		return redirect('criar_pergunta', exercise_id = new_exercise.pk)

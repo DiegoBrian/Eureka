@@ -29,22 +29,36 @@ class FormularioForum(BaseForm):
 class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'tema_id', 'text_content', 'visual_content']
+		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'exercise_id', 'experimentation_id']
 		widgets = {'tema_id' : HiddenInput()}
+
+	def __init__(self, tema, *args, **kwargs):
+		super(FormularioAula, self).__init__(*args, **kwargs)
+		self.fields['exercise_id'].queryset = Exercicio.objects.filter(tema_id=tema)
+		self.fields['experimentation_id'].queryset = Experimentacao.objects.filter(tema_id=tema)
 
 
 class FormularioExercicio(BaseForm):
 	class Meta:
 		model = Exercicio
-		fields = ['name', 'tema_id', 'multiple_times']
+		fields = ['name', 'tema_id', 'multiple_times', 'class_id', 'experimentation_id']
 		widgets = {'tema_id' : HiddenInput(), 'multiple_times': forms.CheckboxInput(attrs={'style':'width:20px;height:20px;'})}
 
+	def __init__(self, tema, *args, **kwargs):
+	    super(FormularioExercicio, self).__init__(*args, **kwargs)
+	    self.fields['class_id'].queryset = Aula.objects.filter(tema_id=tema)
+	    self.fields['experimentation_id'].queryset = Experimentacao.objects.filter(tema_id=tema)
 
 class FormularioExperimentacao(BaseForm):
 	class Meta:
 		model = Experimentacao
-		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'source']
+		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'source', 'class_id', 'exercise_id']
 		widgets = {'tema_id' : HiddenInput()}
+
+	def __init__(self, tema, *args, **kwargs):
+	    super(FormularioExperimentacao, self).__init__(*args, **kwargs)
+	    self.fields['exercise_id'].queryset = Exercicio.objects.filter(tema_id=tema)
+	    self.fields['class_id'].queryset = Aula.objects.filter(tema_id=tema)
 
 
 class FormularioTema(BaseForm):

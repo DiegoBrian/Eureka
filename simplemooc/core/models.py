@@ -71,6 +71,8 @@ class Aula(models.Model):
 	visual_content = models.CharField('Conteúdo visual', max_length=2048)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+	exercise_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE, blank=True, null=True)
+	experimentation_id = models.ForeignKey('Experimentacao', verbose_name='Experimentacao', on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
 		return self.name
@@ -79,7 +81,7 @@ class Material(models.Model):
 	name = models.CharField('Nome', max_length=100)
 	file = models.FileField(upload_to='core/materials', blank=True, null=True)
 
-	aula_id = models.ForeignKey('Aula', on_delete=models.CASCADE, default=1, related_name='materials')
+	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, default=1, related_name='materials')
 
 	def __str__(self):
 		return self.name
@@ -90,6 +92,8 @@ class Exercicio(models.Model):
 	multiple_times = models.BooleanField('Pode ser feito mais de uma vez', default=False)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+	class_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, blank=True, null=True)
+	experimentation_id = models.ForeignKey('Experimentacao', verbose_name='Experimentacao', on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
 		return self.name
@@ -102,6 +106,8 @@ class Experimentacao(models.Model):
 	source = models.CharField('Fonte', max_length=2048, default='http://')
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+	exercise_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE, blank=True, null=True)
+	class_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
 		return self.name
@@ -117,7 +123,7 @@ class Pergunta(models.Model):
 		('C', 'c'),
 		('D', 'd'),
 	)
-	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE)
+	exercise_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE)
 	number = models.IntegerField('Número', default=1)
 	text = models.TextField('Enunciado')
 	quesion_type = models.CharField('Tipo', max_length=9, choices=QUESTION_OPTIONS, default='FECHADA')
@@ -162,7 +168,7 @@ class Aluno_Turma(models.Model):
 		unique_together = (('aluno_id','turma_id'),)
 
 class Aluno_Exercicio(models.Model):
-	exercicio_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, default=1)
+	exercicio_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE, default=1)
 	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
 	corrects = models.IntegerField('Certos', default=0)
 	wrongs = models.IntegerField('Errados', default=0)
@@ -178,9 +184,9 @@ class Forum (models.Model):
 	answers = models.IntegerField('Respostas', blank=True, default=0)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
-	exercise_id = models.ForeignKey('Exercicio', on_delete=models.CASCADE, blank=True, null=True)
-	class_id = models.ForeignKey('Aula', on_delete=models.CASCADE, blank=True, null=True)
-	experimentation_id = models.ForeignKey('Experimentacao', on_delete=models.CASCADE, blank=True, null=True)
+	exercise_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE, blank=True, null=True)
+	class_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, blank=True, null=True)
+	experimentation_id = models.ForeignKey('Experimentacao', verbose_name='Experimentacao', on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
 		return self.name
@@ -200,7 +206,7 @@ class Teste (models.Model):
 	text = models.TextField("Texto")
 
 class Aluno_Aula(models.Model):
-	aula_id = models.ForeignKey('Aula', on_delete=models.CASCADE, default=1)
+	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, default=1)
 	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
 	
 	def __str__(self):
