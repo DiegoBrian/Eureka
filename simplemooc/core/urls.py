@@ -12,6 +12,7 @@ urlpatterns = [
     path('aula/<int:pk>', views.aula, name='aula'),
     path('finalizar_aula/<int:pk>', views.finalizar_aula, name='finalizar_aula'),
     path('exercicio/<int:exercise_id>', views.exercicio, name='exercicio'),
+    path('ver_correcao/<int:exercise_id>', views.ver_correcao, name='ver_correcao'),
     path('corrigir/<int:turma_pk>/<int:aluno_pk>/', views.corrige_resposta_aberta, name='corrigir'),
     path('experimentacao/<int:pk>', views.experimentacao, name='experimentacao'),
     path('turmas/<int:pk>/', views.turma, name='turma'),

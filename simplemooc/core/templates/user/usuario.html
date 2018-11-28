@@ -6,7 +6,7 @@
 {% block content %}
 <div class="card cardEspecial">
 	<div class="card-header bg-dark text-white">
-		<h1>Perfil do Usuário</h1>
+		Perfil do Usuário
 	</div>
 	<div class="card-body">
 		<div class="pure-u-1">
@@ -18,9 +18,26 @@
 		</div>
 		<div>
 			{% block dashboard_content %}
+				<div class="card">
+					<div class="card-header bg-dark text-white">
+						Dados pessoais
+					</div>
+					
+					<div class="card-body">
+						<img src="https://www.cisidat.org.mx/home/wp-content/uploads/2016/10/no-user.jpg" style="max-width:150px; margin-right: 10px;" class="img-fluid" align="left">
+						<p>Nome de usuário: {{user.username}}<br>
+						Nome: {{user.name}}<br>
+						Email: {{user.email}}<br>
+						Sexo: {{user.gender}}<br>
+						Data de Nascimento: {{user.birth_date}}<br>
+						{% if user.user_type == 'ALUNO' %}
+						Série: {{user.grade}}º ano<br></p>
+						{% endif %}
+					</div>
+				</div>
 				<div class="card cardEspecial">
 					<div class="card-header bg-dark text-white">
-						<h1>Minhas turmas</h1>
+						Minhas turmas
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -62,9 +79,10 @@
 					</div>
 				</div>
 
+				{% if user.user_type == 'ALUNO' %}
 				<div class="card cardEspecial">
 					<div class="card-header bg-dark text-white">
-						<h1>Exercícios</h1>
+						Exercícios
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -94,8 +112,10 @@
 							  </tbody>
 							</table>
 						</div>
+						<a href="#" class="btn bg-dark text-white">Praticar</a>
 					</div>
 				</div>
+				{% endif %}
 
 				<form action="{% url 'editar_usuario' %}" style="display:inline-block;">
 					<input type="submit" value="Editar usuário" class="btn btn-dark"/>

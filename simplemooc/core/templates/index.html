@@ -97,7 +97,7 @@
 			<tbody>
 				{% for turma in turmas_publicas %}
 				<tr>
-					<td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
+					<td>{{ turma.name }}</td>
 					<td>{{ turma.responsible }}</td>
 					<td>{{ turma.updated_at }}</td>
 					<td><a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a></td>

@@ -142,12 +142,13 @@ def corrige_multipla_escolha(user, exercise_id):
 @login_required
 def corrige_resposta_aberta(request, turma_pk, aluno_pk):
 	nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id__pk = aluno_pk , question_id__exercise_id__tema_id__turma_id__pk = turma_pk, correction= 'N')
-
+	print(len(nao_corrigidos))
 	form = FormularioCorrecao(request.POST or None, instance = nao_corrigidos[0])
 	if form.is_valid():
 		correction = form.save(commit = False)
 		correction.correction = 'C'
 		correction.save()
+		print(len(nao_corrigidos))
 		if len(nao_corrigidos)>1:
 			return redirect('corrigir', turma_pk=turma_pk, aluno_pk=aluno_pk)
 		return redirect('listar_alunos', turma_id=turma_pk)
@@ -246,6 +247,21 @@ def listar_alunos(request, turma_id):
 		'alunos' : matriculados
 	}
 	return render(request, 'content/listar_alunos.html', context)
+
+
+@login_required
+def ver_correcao(request, exercise_id):
+	exercicio_concluido = Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercise_id)
+	if exercicio_concluido:
+
+		questoes = Usuario_Pergunta.objects.filter(question_id__exercise_id = exercise_id, aluno_id=request.user)
+
+		context = {
+			'questoes': questoes
+		}
+
+		return render (request, 'content/ver_correcao.html', context)
+
 
 def esta_matriculado(user, turma_pk):
 	turma = Turma.objects.get(pk = turma_pk)

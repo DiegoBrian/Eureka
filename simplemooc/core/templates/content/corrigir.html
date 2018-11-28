@@ -18,7 +18,7 @@
     
     <b>Questão {{pergunta.question_id.number}} {{pergunta.question_id.text|safe}}</b>
     Resposta do aluno:<br>
-    <div class="searchbar">
+    <div class="form-control">
     {{pergunta.student_text|safe}}
     </div>
 
@@ -36,7 +36,7 @@
             {% endfor %}
 
             <div class="pure-controls">
-                <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+                <button type="submit" class="btn bg-dark text-white">Enviar</button>
             </div>
         </fieldset>
     </form>

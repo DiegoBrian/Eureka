@@ -83,7 +83,11 @@
                 <tbody>
                     {% for exercicio in exercicios %}
                     <tr>
+                        {% if user|exercicio_concluido:exercicio.pk == '&#10003;' and exercicio.multiple_times == False %}
+                        <td><a href="{% url 'ver_correcao' exercicio.pk %}">{{ exercicio.name }}</a></td>
+                        {% else %}
                         <td><a href="{% url 'exercicio' exercicio.pk %}">{{ exercicio.name }}</a></td>
+                        {% endif %}
                         <td>{{ exercicio.updated_at }}</td>
                         {% if user.user_type == 'PROFESSOR' %}
                         <td><a href="{% url 'excluir_exercicio' exercicio.pk %}" class="close" aria-label="Excluir exercício">&times;</a></td>

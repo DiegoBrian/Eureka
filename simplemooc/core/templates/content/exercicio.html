@@ -19,7 +19,7 @@
             <div>
             	{% if user.user_type == 'ALUNO' %}
                     <div><b>Questão {{pergunta.number}}</b> {{pergunta.text|safe}}</div>
-                    <form method="POST">
+                    <form method="POST" id="myForm">
                         {% csrf_token %}
                         {% if pergunta.quesion_type == 'FECHADA' %}
                             <div>
@@ -39,12 +39,16 @@
                                 <input name="text" type="textarea">
                                 <input type="hidden" id="texto" name="texto">
                             </div>
+                            <script>
+                                CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+                                CKEDITOR.replace('text', {customConfig: '{% static "ckeditor/custom_config.js" %}'});
+                            </script>
                         {% endif %}
                         <div style="margin-top: 2%;">
                         {% if pergunta.number == perguntas|length %}
-                            <input type="submit" value="Finalizar" class="btn btn-dark"/>
+                            <input id="btn-finnish" type="submit" value="Finalizar" class="btn btn-dark"/>
                         {% else %}
-                            <input type="submit" value="Próxima" class="btn btn-dark"/>
+                            <input id="btn-next" type="submit" value="Próxima" class="btn btn-dark"/>
                         {% endif %}
                         </div>
                     </form>
@@ -58,9 +62,6 @@
                     		<div>d) {{perg.answer_d}}</div>
                     	{% endif %}
                     {% endfor %}
-                    <div style="margin-top: 2%;">
-                        <a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
-                    </div>
                 {% endif %}
             </div>
             {% else %}
@@ -68,14 +69,16 @@
                 Nenhuma pergunta para exibir
             </div>
             {% endif %}
+            {% if user.user_type == 'PROFESSOR' %}
+            <div style="margin-top: 2%;">
+                <a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
+            </div>
+            {% endif %}
             
             <a href="{% url 'forum' content='exe' pk=exercicio.pk %}">Acessar o fórum de dúvidas</a>
         </div>
     </div>
 
-    <script>
-        CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
-        CKEDITOR.replace('text', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
-    </script>
+    
     <script type="text/javascript" src="{% static 'js/exercicio.js' %}"></script>
 {% endblock %}
