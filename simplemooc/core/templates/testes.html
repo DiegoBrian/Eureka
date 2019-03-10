@@ -1,36 +1,15 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 
-
-<form  method="post">
-    {% csrf_token %}
-    <fieldset>
-        {{ form.non_field_errors }}
-
-        {% for field in form %}
-        <div class="form-group">
-            <label for="{{ field.name }}">{{ field.label_tag }}</label>
-            {{ field }}
-            {{ field.errors }}
-        </div>
-        {% endfor %}
-
-        <div class="pure-controls">
-            <button type="submit" class="pure-button pure-button-primary">Criar tema</button>
-        </div>
-    </fieldset>
-</form>
-
-<script>
-CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
-CKEDITOR.replace('text', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
-</script>
+<i class="glyphicon glyphicon-cloud"></i>
+<i class="glyphicon glyphicon-remove"></i>
+<i class="glyphicon glyphicon-user"></i>
+<i class="glyphicon glyphicon-envelope"></i>
+<i class="glyphicon glyphicon-thumbs-up"></i>
 
 </body>
 </html>

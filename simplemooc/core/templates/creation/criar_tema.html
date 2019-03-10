@@ -16,7 +16,7 @@
 
                 {% for field in form %}
                 <div class="form-group">
-                    {% if field.name != 'turma_id' %}
+                    {% if field.name != 'turma_id' and field.name != 'responsible' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
                     {% endif %}
                     {{ field }}

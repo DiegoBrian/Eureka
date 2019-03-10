@@ -17,19 +17,10 @@
             {% for material in materiais %}
             	<div>O nome do material é: <a href="{{material.file}}">{{material.name}}</a></div>
             {% endfor %}
-            <div>{{aula.text_content|safe}}</div>
-            <div style="margin-top: 2%;">
-		        <form action="{% url 'finalizar_aula' pk=aula.pk %}" style="display:inline-block;">
-		            <input type="submit" value="Finalizar aula" class="btn btn-dark"/>
-		        </form>
-		        <!--<form action="#" style="display:inline-block;">
-		            <input type="submit" value="Exercícios" class="btn btn-dark"/>
-		        </form>
-		        <form action="#" style="display:inline-block;">
-		            <input type="submit" value="Exeperimentação" class="btn btn-dark"/>
-		        </form>-->
+            <div>{{aula.text_content|safe}}</div> <br>
+            <a href="{% url 'finalizar_aula' pk=aula.pk %}" class="btn btn-success">Finalizar aula</a>
 		    </div>
-		    <a href="{% url 'forum' content='cla' pk=aula.pk %}" >Acessar o fórum de dúvidas</a>
+		    <a href="{% url 'forum' pk=aula.pk %}" >Acessar o fórum de dúvidas</a>
         </div>
     </div>
 {% endblock %}

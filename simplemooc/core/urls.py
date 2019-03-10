@@ -17,6 +17,8 @@ urlpatterns = [
     path('experimentacao/<int:pk>', views.experimentacao, name='experimentacao'),
     path('turmas/<int:pk>/', views.turma, name='turma'),
     path('tema/<int:pk>/', views.tema, name='tema'),
+    path('exercicios/<int:pk>/<int:tema_id>/', views.exercicios, name='exercicios'),
+    path('experimentacoes/<int:pk>/<int:tema_id>/', views.experimentacoes, name='experimentacoes'),
     path('listar_alunos/<int:turma_id>/', views.listar_alunos, name='listar_alunos'),
 
     #registration
@@ -33,12 +35,12 @@ urlpatterns = [
     
     #creation
     path('criar_aula/<int:tema_id>/', views.criar_aula, name='criar_aula'),
-    path('criar_exercicio/<int:tema_id>/', views.criar_exercicio, name='criar_exercicio'),
-    path('criar_experimentacao/<int:tema_id>/', views.criar_experimentacao, name='criar_experimentacao'),
+    path('criar_exercicio/<int:tema_id>/<int:class_id>/', views.criar_exercicio, name='criar_exercicio'),
+    path('criar_experimentacao/<int:tema_id>/<int:class_id>/', views.criar_experimentacao, name='criar_experimentacao'),
     path('criar_tema/<int:turma_id>/', views.criar_tema, name='criar_tema'),
     path('criar_turma/<int:profesor_id>/', views.criar_turma, name='criar_turma'),
     path('criar_pergunta/<int:exercise_id>/', views.criar_pergunta, name='criar_pergunta'),
-    path('criar_forum/<str:content>/<int:pk>/', views.criar_forum, name='criar_forum'),
+    path('criar_forum/<int:pk>/', views.criar_forum, name='criar_forum'),
 
     #delete
     path('excluir_aula/<int:pk>', views.excluir_aula, name='excluir_aula'),
@@ -48,6 +50,6 @@ urlpatterns = [
     path('excluir_tema/<int:pk>/', views.excluir_tema, name='excluir_tema'),
 
     #forum
-    path('forum/<str:content>/<int:pk>/', views.ForumView.as_view(), name='forum'),
+    path('forum/<int:pk>/', views.ForumView.as_view(), name='forum'),
     path('topic/<int:pk>', views.forum_topic, name='forum_topic'),
 ]

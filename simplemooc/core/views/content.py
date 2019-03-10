@@ -54,12 +54,15 @@ def exercicio(request, exercise_id):
 	#se o usuario ja concluiu o exercício, verifica se ele é refazivel, se for, ok, se nao for, diz que ele ja fez
 	exercicio_concluido = Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercise_id)
 	if exercicio_concluido:
+		first_time = False
 		if exercicio_concluido[0].exercicio_id.multiple_times == False:
 			messages.error(request, 'Você já concluiu este exercício!')
 			return redirect('tema', pk = exercicio.tema_id.pk)
 		else:
 			Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio).delete()
 			Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercicio).delete()
+	else:
+		first_time = True
 
 	#verifica se o usuario ja respondeu alguma pergunta deste exercicio
 	respondidos = Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio)
@@ -112,7 +115,7 @@ def exercicio(request, exercise_id):
 		else:
 		# 	finalizar exercicio
 			Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
-			corrige_multipla_escolha(request.user,exercicio)
+			corrige_multipla_escolha(request.user,exercicio, first_time)
 			return redirect('tema', pk = exercicio.tema_id.pk)
 
 	context = {
@@ -123,11 +126,16 @@ def exercicio(request, exercise_id):
 	return render(request, 'content/exercicio.html', context)
 
 
-def corrige_multipla_escolha(user, exercise_id):
+def praticar (request):
+	aluno_exercicio = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=request.user)
+
+
+def corrige_multipla_escolha(user, exercise_id, first_time):
 	usuario_perguntas = Usuario_Pergunta.objects.filter(aluno_id=user, question_id__exercise_id=exercise_id)
 	for pergunta in usuario_perguntas:
 		questao = Pergunta.objects.get(pk = pergunta.question_id.pk)
 		if questao.quesion_type == 'FECHADA':
+			print("resposta aluno: "+ pergunta.student_answer + " resposta certa: " + questao.correct_answer)
 			if questao.correct_answer == pergunta.student_answer:
 				Usuario_Pergunta.objects.filter(aluno_id=user, question_id=questao).update(correction='C')
 				aluno_exercicio = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
@@ -138,6 +146,17 @@ def corrige_multipla_escolha(user, exercise_id):
 				aluno_exercicio = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
 				wrongs = aluno_exercicio.wrongs + 1
 				Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(wrongs=wrongs)
+
+	corrigido = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
+	if corrigido.corrects+corrigido.wrongs < 0:
+		score = corrigido.corrects / (corrigido.corrects+corrigido.wrongs)
+	else:
+		score = 10.0
+	if first_time:
+		Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(score=score)	
+	else:
+		Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(score2=score)	
+
 
 @login_required
 def corrige_resposta_aberta(request, turma_pk, aluno_pk):
@@ -151,6 +170,7 @@ def corrige_resposta_aberta(request, turma_pk, aluno_pk):
 		print(len(nao_corrigidos))
 		if len(nao_corrigidos)>1:
 			return redirect('corrigir', turma_pk=turma_pk, aluno_pk=aluno_pk)
+		#calcula_nota(aluno_pk, exercise_pk)
 		return redirect('listar_alunos', turma_id=turma_pk)
 
 	context = {
@@ -159,6 +179,27 @@ def corrige_resposta_aberta(request, turma_pk, aluno_pk):
 	}
 
 	return render (request, 'content/corrigir.html', context)
+
+
+def calcula_nota(aluno_pk, exercise_pk):
+	questoes = Usuario_Pergunta.objects.filter(aluno_id__pk = aluno_pk , question_id__exercise_id__pk = exercise_pk).order_by('-number')
+	exercicio = Aluno_Exercicio.objects.get(aluno_id__pk= aluno_pk, exercise_id__pk= exercise_pk)
+
+	soma = 0.0
+
+	for questao in questoes:
+		if questao.question_id.quesion_type == 'FECHADA':
+			if questao.correction == 'C':
+				soma = soma + 10
+		elif questao.question_id.quesion_type == 'ABERTA':
+			soma = soma + score
+
+	nota_final = soma/questoes[0].number
+
+	exercicio.score = nota_final
+	exercicio.corrected = True
+	exercicio.save()
+
 
 @login_required
 def turma(request, pk):
@@ -234,6 +275,44 @@ def tema(request, pk):
 	return render(request,'content/tema.html', context)
 
 @login_required
+def exercicios (request, pk, tema_id):
+	tema = get_object_or_404(Tema, pk = tema_id)
+
+	if not tem_acesso(request.user, tema.turma_id.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
+
+	aula = get_object_or_404(Aula, pk = pk)
+
+	exercicios = Exercicio.objects.filter(class_id = pk)
+
+	context = {
+		'tema' : tema,
+		'aula' : aula,
+		'exercicios':exercicios
+	}
+	return render(request,'content/exercicios.html', context)
+
+@login_required
+def experimentacoes (request, pk, tema_id):
+	tema = get_object_or_404(Tema, pk = tema_id)
+
+	if not tem_acesso(request.user, tema.turma_id.pk):
+		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+		return redirect('index')
+
+	aula = get_object_or_404(Aula, pk = pk)
+
+	experimentacoes = Experimentacao.objects.filter(class_id = pk)
+
+	context = {
+		'tema' : tema,
+		'aula' : aula,
+		'experimentacoes':experimentacoes
+	}
+	return render(request,'content/experimentacoes.html', context)
+
+@login_required
 def listar_alunos(request, turma_id):
 	alunos = Usuario.objects.filter(user_type= 'ALUNO')
 	matriculados = []
@@ -254,10 +333,12 @@ def ver_correcao(request, exercise_id):
 	exercicio_concluido = Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercise_id)
 	if exercicio_concluido:
 
-		questoes = Usuario_Pergunta.objects.filter(question_id__exercise_id = exercise_id, aluno_id=request.user)
+		questoes = Usuario_Pergunta.objects.filter(question_id__exercise_id = exercise_id, aluno_id=request.user, question_id__quesion_type='ABERTA')
+		exercise_name = Exercicio.objects.get(pk = exercise_id).name
 
 		context = {
-			'questoes': questoes
+			'questoes': questoes,
+			'exercise_name': exercise_name
 		}
 
 		return render (request, 'content/ver_correcao.html', context)

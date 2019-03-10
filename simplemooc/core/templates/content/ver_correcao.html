@@ -1,58 +1,21 @@
 {% extends "base.html" %}
 {% load version %}
 
-{% block title %}Correção do exercício: {{questoes.0.question_id.exercise_id}}{% endblock %}
+{% block title %}Correção do exercício: {{exercise_name}}{% endblock %}
 
 {% block content %}
 	<div class="card">
         <div class="card-header bg-dark text-white">
-        	Correção do exercício: {{questoes.0.question_id.exercise_id}}
+        	Correção do exercício: {{exercise_name}}
         </div>
         <div class="card-body">
             {% for questao in questoes %}
+            {% if questao.question_id.quesion_type == 'ABERTA' %}
             <div class="card">
                 <div class="card-header bg-dark text-white">
             		{{questao.question_id.text|safe}}
                 </div>
                 <div class="card-body">
-                    {% if questao.question_id.quesion_type == 'FECHADA' %}
-                		<div>
-                            {% if questao.question_id.correct_answer == 'a' %}
-                            a) {{questao.question_id.answer_a}} &#10003;
-                            {% elif questao.student_answer == 'a' %}
-                            a) {{questao.question_id.answer_a}} &#10005;
-                            {% else %}
-                            a) {{questao.question_id.answer_a}}
-                            {% endif %}
-                        </div>
-                		<div>
-                            {% if questao.question_id.correct_answer == 'b' %}
-                            b) {{questao.question_id.answer_b}} &#10003;
-                            {% elif questao.student_answer == 'b' %}
-                            b) {{questao.question_id.answer_b}} &#10005;
-                            {% else %}
-                            b) {{questao.question_id.answer_b}}
-                            {% endif %}
-                        </div>
-                		<div>
-                            {% if questao.question_id.correct_answer == 'c' %}
-                            c) {{questao.question_id.answer_c}} &#10003;
-                            {% elif questao.student_answer == 'c' %}
-                            c) {{questao.question_id.answer_c}} &#10005;
-                            {% else %}
-                            c) {{questao.question_id.answer_c}}
-                            {% endif %}
-                        </div>
-                		<div>
-                            {% if questao.question_id.correct_answer == 'd' %}
-                            d) {{questao.question_id.answer_d}} &#10003;
-                            {% elif questao.student_answer == 'd' %}
-                            d) {{questao.question_id.answer_d}} &#10005;
-                            {% else %}
-                            d) {{questao.question_id.answer_d}}
-                            {% endif %}
-                        </div>
-                	{% elif questao.question_id.quesion_type == 'ABERTA' %}
                 		Resposta:
                         <div class="form-control">
                             {{questao.student_text|safe}}
@@ -69,10 +32,13 @@
                             {{questao.comment|safe}}
                         </div>
                 		{% endif %}
-                	{% endif %}
                     </div>
                 </div>
-        	{% endfor %}
+                {% endif %}
+        	{% empty %}
+                Nenhuma questão discursiva
+            {% endfor %}
+
     	</div>
     </div>
 {% endblock %}

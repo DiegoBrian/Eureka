@@ -5,3 +5,4 @@ from .user import *
 from .others import *
 from .forum import *
 from .delete import *
+from .practice import *

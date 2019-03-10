@@ -1,0 +1,24 @@
+ao clicar no exercício:
+	se o aluno ja concluiu:
+		Mostrar a correção das questões abertas
+	se o aluno não concuiu:
+		Mostar as questões para ele
+
+
+depois que o aluno concluiu o exercicio:
+	Corrige
+		se o score for menor que 60%
+			adiciona tempo de ontem
+		se o score for entre 60% e 80% 
+			adiciona o tempo de amanhã
+		se o score for entre 80% e 99%
+			adiciona o tempo de depois de amanhã
+		se o score for 100%
+			adiciona o tempo de 100 anos
+
+
+ao clicar em praticar:
+	Pega os exercicios que o aluno já concluiu, ordenando por tempo
+	Vê o tempo do primeiro
+	Mostar as questões para ele
+	Corrige, atuaizando o score 2

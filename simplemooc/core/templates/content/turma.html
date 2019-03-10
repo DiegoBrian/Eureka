@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{{turma.name}}{% endblock %}
 {% block javascript %}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
@@ -6,8 +7,8 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 {% endblock %}
 {% block content %}
-	<div class="card">
-		<div class="card-header bg-dark text-white">
+	<!-- <div class="card">
+		<div class="card-header text-white" style="background-color: #500000;">
 			{% if user.gender == 'MASCULINO' %}
 				Bem-vindo {{user.name}}!
 			{% elif user.gender == 'FEMININO' %}
@@ -20,72 +21,87 @@
 			{% endif %}
 		</div>
 		<div class="card-body">
-			Busque por um assunto para encontrá-lo com mais facilidade
+			Busque por um tema para encontrá-lo com mais facilidade
 			<form method="POST">
 				{% csrf_token %}
 				<div class="form-group">
-					<input type="text" name="search" placeholder="Encontrar um assunto..." class="searchbar">
-					<input type="submit" value="Buscar" name="btnsearch" class="btn btn-dark"/>
+					<input type="text" name="search" placeholder="Encontrar um tema..." class="searchbar">
+					<input type="submit" value="Buscar" name="btnsearch" class="btn text-white" style="background-color: #500000;"/>
 				</div>
 			</form>
 		</div>
-	</div>
-
+	</div> -->
 	<div class="card">
 		<div class="card-header bg-dark text-white">
-			Temas
+			Turma {{turma}}
 		</div>
 		<div class="card-body">
-			<div class="card-deck" style="margin-bottom: 1%;">
-				{% for tema in temas %}
-					<div class="card">
-						<div class="card-body">
-							{% if user.user_type == 'PROFESSOR' %}
-							<a href="{% url 'excluir_tema' tema.pk %}" class="close" aria-label="Excluir tema">&times;</a>
-							{% endif %}
-							<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></p>
-						</div>
-					</div>
-			{% if forloop.counter|divisibleby:2 %}
-				</div>
-				<div class="card-deck" style="margin-bottom: 1%;">
-			{% endif %}
-				{% empty %}
-					<div>
-						<p>Nenhum conteúdo disponível...</p>
-					</div>
-				{% endfor %}
-
+			{% if user == turma.responsible %}
+			<div>
+				<button class="btn bg-dark text-white" id="btn_conteudos">Conteúdos</button>
+				<button class="btn bg-dark text-white" id="btn_alunos">Gerenciar Alunos</button>
 			</div>
-		
-			{% if user.user_type == 'PROFESSOR' %}
-				<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-dark text-white">Novo tema</a>
+			{% endif %}
+			<div class="card" id="conteudos">
+				<div class="card-header bg-dark text-white">
+					Conteúdos
+				</div>
+				<div class="card-body">
+					{% if temas %}
+					<div class="card-deck" style="margin-bottom: 1%;">
+						{% for tema in temas %}
+						<div class="card">
+							<div class="card-body">
+								{% if user.user_type == 'PROFESSOR' %}
+								<a href="{% url 'excluir_tema' tema.pk %}" class="close" aria-label="Excluir tema">&times;</a>
+								{% endif %}
+								<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></p>
+							</div>
+						</div>
+					{% if forloop.counter|divisibleby:2 %}
+					</div>
+					<div class="card-deck" style="margin-bottom: 1%;">
+					{% endif %}
+						{% endfor %}
+					</div>
+					{% else %}
+						<div>
+							Nenhum conteúdo disponível...
+						</div>
+						<br>
+					{% endif %}
+				
+					{% if user.user_type == 'PROFESSOR' %}
+						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-dark text-white">Vincular um conteúdo já existente</a>
+						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-dark text-white">Criar novo conteúdo</a>
+					{% endif %}
+				</div>
+			</div>
+			{% if user == turma.responsible %}
+			<div class="card" id="alunos">
+				<div class="card-header bg-dark text-white">
+					Gerenciar alunos
+				</div>
+				<div class="card-body">
+					Selecione um aluno para matriculá-lo nesta turma.
+					<form method="POST">
+						{% csrf_token %}
+						<div class="form-group">
+							<select class="chosen searchbar" multiple name="alunos">
+								<option value=""></option>
+								{% for aluno in alunos %} 
+								<option value={{aluno.pk}}>"{{aluno.name}} "{{aluno.email}}"</option>
+								{% endfor %}
+							</select>
+						</div>
+						<input type="submit" value="Matricular" class="btn bg-dark text-white" name="btnmatricula"/><br>
+						<a href="{% url 'listar_alunos' turma.pk %}">Ver alunos já matriculados</a>
+					</form>
+				</div>
+			</div>
 			{% endif %}
 		</div>
 	</div>
-	{% if user == turma.responsible %}
-	<div class="card">
-		<div class="card-header bg-dark text-white">
-			Matricular aluno
-		</div>
-		<div class="card-body">
-			Selecione um aluno para matriculá-lo nesta turma.
-			<form method="POST">
-				{% csrf_token %}
-				<div class="form-group">
-					<select class="chosen searchbar" multiple name="alunos">
-						<option value=""></option>
-						{% for aluno in alunos %} 
-						<option value={{aluno.pk}}>"{{aluno.name}} "{{aluno.email}}"</option>
-						{% endfor %}
-					</select>
-				</div>
-				<a href="{% url 'listar_alunos' turma.pk %}">Ver alunos já matriculados</a><br>
-				<input type="submit" value="Matricular" class="btn btn-dark" name="btnmatricula" />
-			</form>
-		</div>
-	</div>
-	{% endif %}
 	<script type="text/javascript">
 		$(".chosen").chosen({
 			no_results_text: "Sem resultados para",
@@ -93,4 +109,5 @@
     		placeholder_text_multiple: "Selecione os alunos"
 		})
 	</script>
+	<script type="text/javascript" src="{% static 'js/turma.js' %}"></script>
 {% endblock %}

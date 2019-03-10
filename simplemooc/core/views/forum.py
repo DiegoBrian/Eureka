@@ -14,27 +14,15 @@ class ForumView(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super(ForumView, self).get_context_data(**kwargs)
-		context['content'] = self.kwargs['content']
-		if self.kwargs['content'] == 'exp':
-			context['pk'] = Experimentacao.objects.get(pk = self.kwargs['pk'])
-		elif self.kwargs['content'] == 'exe':
-			context['pk'] = Exercicio.objects.get(pk = self.kwargs['pk'])
-		elif self.kwargs['content'] == 'cla':
-			context['pk'] = Aula.objects.get(pk = self.kwargs['pk'])
+		
+		context['pk'] = Aula.objects.get(pk = self.kwargs['pk'])
 
 		return context
 
 	def get_queryset(self):
-		if self.kwargs['content'] == 'exp':
-			queryset = Forum.objects.filter(experimentation_id__pk = self.kwargs['pk'])
-		elif self.kwargs['content'] == 'exe':
-			queryset = Forum.objects.filter(exercise_id__pk = self.kwargs['pk'])
-		elif self.kwargs['content'] == 'cla':
-			queryset = Forum.objects.filter(class_id__pk = self.kwargs['pk'])
-		else:
-			raise Http404
-
 		
+		queryset = Forum.objects.filter(class_id__pk = self.kwargs['pk'])
+				
 		order = self.request.GET.get('order', '')
 		if order == 'answers':
 			queryset = queryset.order_by('-answers')

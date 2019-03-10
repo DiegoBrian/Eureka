@@ -14,11 +14,13 @@
     <fieldset>
         {{ form.non_field_errors }}
         {% for field in form %}
+        {% if user.user_type == 'ALUNO' or field.name != 'grade' %}
         <div class="form-group">
             {{ field.label_tag }}
             {{ field }}
             {{ field.errors }}
         </div>
+        {% endif %}
         {% endfor %}
         <div class="pure-controls">
             <button type="submit" class="btn btn-primary">Salvar Modificações</button>

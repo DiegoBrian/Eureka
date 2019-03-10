@@ -1,11 +1,81 @@
 {% extends "base.html" %}
 {% load version %}
+{% load static %}
 {% block title %}Eureka - Turmas{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
+
+{% if user.user_type == 'PROFESSOR' %}
+
+<!-- <div class="card">
+	<div class="card-header bg-dark text-white">
+		Buscar
+	</div>
+	<div class="card-body">
+		Busque pelo nome de sua turma para encontrá-la com mais facilidade
+		<form method="POST">
+			{% csrf_token %}
+			<input type="text" name="search" placeholder="Encontrar uma turma..." class="searchbar">
+			<input type="submit" value="Buscar" class="btn btn-success"/>
+		</form>
+	</div>
+</div> -->
+
 <div class="card">
+	<div class="card-header bg-dark text-white">
+		Início
+	</div>
+	<div class="card-body">
+		<div>
+			<button class="btn bg-dark text-white" id="btn_turmas">Minhas turmas</button>
+			<button class="btn bg-dark text-white" id="btn_conteudos">Meus Conteúdos</button>
+		</div>
+		
+		<div class="card" id="tabela_turmas">
+			<div class="card-header bg-dark text-white">
+				Minhas turmas
+			</div>
+			<div class="card-body">
+				{% for turma in turmas %}
+	            		<a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a><br>
+						{{ turma.responsible }}<br>
+						{{ turma.get_course_type_display }}<br>
+						{{ turma.updated_at }}<br>
+						<br>
+				{% empty %}
+						Nenhuma Turma disponível... <br>
+						<br>
+				{% endfor %}
+				<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
+			</div>
+		</div>		
+
+		<div class="card" id="tabela_conteudos">
+			<div class="card-header bg-dark text-white">
+				Meus conteúdos
+			</div>
+			<div class="card-body">
+				{% for tema in temas %}
+					<a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a><br>
+					{{ tema.responsible }}<br>
+					{{ tema.updated_at }}<br>
+					<br>
+				{% empty %}
+					Nenhum conteúdo disponível...<br>
+					<br>
+				{% endfor %}
+				<a href="{% url 'criar_tema' user.pk %}" class="btn bg-dark text-white">Novo conteúdo</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% else %}
+
+<!-- <div class="card">
 	<div class="card-header bg-dark text-white">
 		{% if user.gender == 'MASCULINO' %}
 		Bem-vindo {{user.name}}!
@@ -14,106 +84,63 @@
 		{% endif %}
 	</div>
 	<div class="card-body">
-		Busque pelo nome de sua turma para encontrá-la com mais facilidade
-		{% if user.user_type == 'ALUNO' %}
-		ou procure por novas turmas para se registrar
-		{% endif %}
+		Busque pelo nome de sua turma para encontrá-la com mais facilidade ou procure por novas turmas para se registrar
 		<form method="POST">
 			{% csrf_token %}
 			<input type="text" name="search" placeholder="Encontrar uma turma..." class="searchbar">
-			<input type="submit" value="Buscar" class="btn btn-dark"/>
+			<input type="submit" value="Buscar" class="btn btn-success"/>
 		</form>
 	</div>
-</div>
+</div> -->
+
 <div class="card">
 	<div class="card-header bg-dark text-white">
-		Minhas turmas
+		Início
 	</div>
 	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table">
-				<thead class="bg-dark text-white">
-					<tr>
-						<th scope="col">Nome</th>
-						<th scope="col">Professor</th>
-						<th scope="col">Tipo</th>
-						<th scope="col">Última Atualização</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% if user.user_type == 'ALUNO' %}
-						
-						{% for matricula in matriculas %}
-			                <tr>
-			                    <td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
-			                    <td> {{matricula.turma_id.responsible}} </td>
-			                    <td> {{matricula.turma_id.get_course_type_display}} </td>
-			                    <td> {{matricula.turma_id.updated_at}} </td>
-			                </tr>
-		                {% empty %}
-			                <tr>
-			                    <td>Nenhuma turma disponível...</td>
-			                </tr>
-		                {% endfor %}
-		            {% else %}
-		            	{% for turma in turmas %}
-			            	<tr>
-								<td><a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a></td>
-								<td>{{ turma.responsible }}</td>
-								<td>{{ turma.get_course_type_display }}</td>
-								<td>{{ turma.updated_at }}</td>
-							</tr>
-						{% empty %}
-							<tr>
-								<td>Nenhuma Turma disponível</td>
-							</tr>
-						{% endfor %}
-		            {% endif %}
-				</tbody>
-			</table>
+		<div>
+			<button class="btn bg-dark text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
+			<button class="btn bg-dark text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
 		</div>
-		{% if user.user_type == 'PROFESSOR' %}
-		<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
-		{% endif %}		
-	</div>
-</div>
+		<br>
+		<div class="card" id="tabela_minhas_turmas">
+			<div class="card-header bg-dark text-white">
+				Minhas turmas
+			</div>
+			<div class="card-body">
+				{% for matricula in matriculas %}
+	                <a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a><br>
+	                {{matricula.turma_id.responsible}}<br>
+	                {{matricula.turma_id.get_course_type_display}}<br>
+	                {{matricula.turma_id.updated_at}}<br>
+	                <br>
+	            {% empty %}
+	                Nenhuma turma disponível... <br>
+	            {% endfor %}
+	        </div>	            
+		</div>
 
-
-{% if user.user_type == 'ALUNO' %}
-<div class="card">
-	<div class="card-header bg-dark text-white">
-		Outras turmas públicas
-	</div>
-	<div class="card-body">
-		<table class="table">
-			<thead class="bg-dark text-white">
-				<tr>
-					<th scope="col">Nome</th>
-					<th scope="col">Professor</th>
-					<th scope="col">Última Atualização</th>
-					<th scope="col" style="width: 10%;"></th>
-				</tr>
-			</thead>
-			<tbody>
+		<div class="card" id="tabela_outras_turmas">
+			<div class="card-header bg-dark text-white">
+				Outras turmas públicas
+			</div>
+			<div class="card-body">
 				{% for turma in turmas_publicas %}
-				<tr>
-					<td>{{ turma.name }}</td>
-					<td>{{ turma.responsible }}</td>
-					<td>{{ turma.updated_at }}</td>
-					<td><a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a></td>
-				</tr>
+					{{ turma.name }}<br>
+					{{ turma.responsible }}<br>
+					{{ turma.updated_at }}<br>
+					<a href="{% url 'matricula' turma.pk %}" class="btn bg-dark text-white">Inscrever-se</a><br>
+					<br>
 				{% empty %}
-				<tr>
-					<td>Nenhuma outra turma disponível...</td>
-				</tr>
+					Nenhuma outra turma disponível...
 				{% endfor %}
-			</tbody>
-		</table>
+			</div>
+		</div>
 	</div>
 </div>
 {% endif %}
 
-<!-- jQuery first, then Bootstrap JS. -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock %}

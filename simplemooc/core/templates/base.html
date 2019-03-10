@@ -15,7 +15,7 @@
 </head>
 <body style="background-color: #F0F0F0;">
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark text-white">
     <a class="navbar-brand abs" href="{% url 'home' %}">EUREKA</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -32,7 +32,7 @@
 	                <a class="nav-link" href="{% url 'usuario' %}">Perfil</a>
 	            </li>
 	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'index' %}">Minhas Turmas</a>
+	                <a class="nav-link" href="{% url 'index' %}">Início</a>
             	</li>
 	            <li class="nav-item">
 	                <a class="nav-link" href="{% url 'logout' %}">Sair</a>
@@ -56,7 +56,7 @@
     {% endfor %}
 
 	{% block content %}{% endblock %}
-	<div class="footer">
+	<div class="footer bg-dark text-white">
 		EUREKA - Descobrindo a Matemática
 	</div>
 </div>

@@ -4,22 +4,16 @@ from core.forms import *
 from core.models import *
 
 @login_required
-def criar_forum(request, content, pk):
+def criar_forum(request, pk):
 
 	form = FormularioForum(request.POST or None, initial={'author' : request.user})
 	if form.is_valid():
 		newforum = form.save(commit = False)
-		if content == 'cla':
-			aula = Aula.objects.get(pk=pk)
-			newforum.class_id = aula
-		elif content == 'exe':
-			exercicio = Exercicio.objects.get(pk=pk)
-			newforum.exercise_id = exercicio
-		elif content == 'exp':
-			experimentacao = Experimentacao.objects.get(pk=pk)
-			newforum.experimentation_id = experimentacao
+		aula = Aula.objects.get(pk=pk)
+		newforum.class_id = aula
+		
 		newforum.save()
-		return redirect('forum', content = content, pk = pk)
+		return redirect('forum', pk = pk)
 
 	context = {
 		'form' : form
@@ -30,8 +24,8 @@ def criar_forum(request, content, pk):
 
 @login_required
 def criar_aula(request, tema_id):
-	tema = Tema.objects.get(pk=tema_id)
-	form = FormularioAula(tema, request.POST or None, initial={'tema_id': tema_id})
+	
+	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
 	if form.is_valid():
 		new_class = form.save()
 		return redirect('tema', pk = tema_id)
@@ -44,9 +38,9 @@ def criar_aula(request, tema_id):
 
 
 @login_required
-def criar_experimentacao(request, tema_id):
-	tema = Tema.objects.get(pk=tema_id)
-	form = FormularioExperimentacao(tema, request.POST or None, initial={'tema_id': tema_id})
+def criar_experimentacao(request, tema_id, class_id):
+	
+	form = FormularioExperimentacao(request.POST or None, initial={'tema_id': tema_id, 'class_id': class_id})
 	if form.is_valid():
 		new_experimentation = form.save()
 		return redirect('tema', pk = tema_id)
@@ -59,9 +53,9 @@ def criar_experimentacao(request, tema_id):
 
 
 @login_required
-def criar_exercicio(request, tema_id):
-	tema = Tema.objects.get(pk=tema_id)
-	form = FormularioExercicio(tema, request.POST or None, initial={'tema_id': tema_id})
+def criar_exercicio(request, tema_id, class_id):
+
+	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id, 'class_id': class_id})
 	if form.is_valid():
 		new_exercise = form.save()
 		return redirect('criar_pergunta', exercise_id = new_exercise.pk)
@@ -78,7 +72,7 @@ def criar_tema(request, turma_id):
 	turma = Turma.objects.filter(pk = turma_id)
 
 
-	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id})
+	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id, 'responsible': request.user})
 	if form.is_valid():
 		#print(form)
 		form.save()

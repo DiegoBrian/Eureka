@@ -18,15 +18,10 @@
 
             <div style="text-align: right;">Fonte: <a href="{{experimentacao.source}}">{{experimentacao.source}}</a></div>
 
-            <div style="margin-top: 2%;">
-		        <form action="#" style="display:inline-block;">
-		            <input type="submit" value="Aula" class="btn btn-dark"/>
-		        </form>
-		        <form action="#" style="display:inline-block;">
-		            <input type="submit" value="Exercícios" class="btn btn-dark"/>
-		        </form>
+            <div>
+		        <a href="#" class="btn btn-success">Finalizar experimentação</a>
 		    </div>
-		    <a href="{% url 'forum' content='exp' pk=experimentacao.pk %}">Acessar o fórum de dúvidas</a>
+		    
         </div>
     </div>
 {% endblock %}

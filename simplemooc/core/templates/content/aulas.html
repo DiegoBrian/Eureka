@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load version %}
+{% block title %}{{tema.name}}{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+{% endblock %}
+{% block content %}
+	<div class="card">
+        <div class="card-header bg-dark text-white">
+            {% if user.gender == 'MASCULINO' %}
+                Bem-vindo {{user.name}}!
+            {% elif user.gender == 'FEMININO' %}
+                Bem-vinda {{user.name}}!
+            {% endif %}
+            Você está vendo conteúdo sobre {{tema.name}}!
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="Encontrar uma aula, exercício, experimentação..." class="searchbar">
+                <input type="submit" value="Buscar" class="btn btn-dark"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Exercícios
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Última Atualização</th>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <th scope="col" style="width: 5%;"></th>
+                        {% elif user.user_type == 'ALUNO' %}
+                        <th scope="col">Concluído</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exercicio in exercicios %}
+                    <tr>
+                        {% if user|exercicio_concluido:exercicio.pk == '&#10003;' and exercicio.multiple_times == False %}
+                        <td><a href="{% url 'ver_correcao' exercicio.pk %}">{{ exercicio.name }}</a></td>
+                        {% else %}
+                        <td><a href="{% url 'exercicio' exercicio.pk %}">{{ exercicio.name }}</a></td>
+                        {% endif %}
+                        <td>{{ exercicio.updated_at }}</td>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <td><a href="{% url 'excluir_exercicio' exercicio.pk %}" class="close" aria-label="Excluir exercício">&times;</a></td>
+                        {% elif user.user_type == 'ALUNO' %}
+                        <td>{{user|exercicio_concluido:exercicio.pk|safe}}</td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>Nenhum exercício disponível...</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="{% url 'criar_exercicio' tema.pk %}" class="btn bg-dark text-white">Novo exercício</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Experimentação
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Última Atualização</th>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <th scope="col" style="width: 5%;"></th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for experimentacao in experimentacoes %}
+                    <tr>
+                        <td><a href="{% url 'experimentacao' experimentacao.pk %}">{{ experimentacao.name }}</a></td>
+                        <td>{{ experimentacao.updated_at }}</td>
+                        {% if user.user_type == 'PROFESSOR' %}
+                        <td><a href="{% url 'excluir_experimentacao' experimentacao.pk %}" class="close" aria-label="Excluir experimentação">&times;</a></td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>Nenhuma experimentação disponível...</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="{% url 'criar_experimentacao' tema.pk %}" class="btn bg-dark text-white">Nova experimentação</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

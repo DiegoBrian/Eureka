@@ -29,18 +29,18 @@ def aula_concluida(user, pk):
     aula = Aula.objects.get(pk=pk)
     concluida = Aluno_Aula.objects.filter(aluno_id = user, aula_id=aula)
     if concluida:
-        return '&#10003;'
+        return True
     else:
-        return '&#10005;'
+        return False
 
 @register.filter
 def exercicio_concluido(user, pk):
     exercicio = Exercicio.objects.get(pk=pk)
     concluido = Aluno_Exercicio.objects.filter(aluno_id = user, exercicio_id=exercicio)
     if concluido:
-        return '&#10003;'
+        return True
     else:
-        return '&#10005;'
+        return False
 
 @register.filter
 def corrigir(user, pk):

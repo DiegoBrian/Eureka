@@ -34,6 +34,7 @@ def index(request):
 	if request.method == 'POST':
 		srch = request.POST['search']
 		turmas = Turma.objects.filter(responsible= request.user, name__icontains=srch)
+		temas = Tema.objects.filter(responsible= request.user, name__icontains=srch)
 		matriculas = Aluno_Turma.objects.filter(aluno_id=request.user, turma_id__name__icontains=srch)
 		resultado = []
 		turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA', name__icontains=srch)
@@ -42,6 +43,7 @@ def index(request):
 				resultado.append(turma)
 	else:
 		turmas = Turma.objects.filter(responsible= request.user)
+		temas = Tema.objects.filter(responsible= request.user)
 		matriculas = Aluno_Turma.objects.filter(aluno_id=request.user)
 		resultado = []
 		turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
@@ -53,6 +55,7 @@ def index(request):
 	context = {
 		'turmas': turmas,
 		'turmas_publicas': resultado,
+		'temas' : temas,
 		'matriculas' : matriculas
 	}
 	return render(request, 'index.html', context)
