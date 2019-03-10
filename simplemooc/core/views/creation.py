@@ -9,8 +9,8 @@ def criar_forum(request, pk):
 	form = FormularioForum(request.POST or None, initial={'author' : request.user})
 	if form.is_valid():
 		newforum = form.save(commit = False)
-		aula = Aula.objects.get(pk=pk)
-		newforum.class_id = aula
+		tema = Tema.objects.get(pk=pk)
+		newforum.tema_id = tema
 		
 		newforum.save()
 		return redirect('forum', pk = pk)

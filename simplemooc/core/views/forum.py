@@ -15,13 +15,13 @@ class ForumView(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ForumView, self).get_context_data(**kwargs)
 		
-		context['pk'] = Aula.objects.get(pk = self.kwargs['pk'])
+		context['pk'] = Tema.objects.get(pk = self.kwargs['pk'])
 
 		return context
 
 	def get_queryset(self):
 		
-		queryset = Forum.objects.filter(class_id__pk = self.kwargs['pk'])
+		queryset = Forum.objects.filter(tema_id__pk = self.kwargs['pk'])
 				
 		order = self.request.GET.get('order', '')
 		if order == 'answers':

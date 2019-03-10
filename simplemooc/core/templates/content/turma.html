@@ -56,6 +56,7 @@
 								<a href="{% url 'excluir_tema' tema.pk %}" class="close" aria-label="Excluir tema">&times;</a>
 								{% endif %}
 								<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></p>
+								<a href="{% url 'forum' pk=tema.pk %}" >Acessar o fórum de dúvidas</a>
 							</div>
 						</div>
 					{% if forloop.counter|divisibleby:2 %}
