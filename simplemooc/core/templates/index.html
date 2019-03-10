@@ -39,11 +39,17 @@
 			</div>
 			<div class="card-body">
 				{% for turma in turmas %}
-	            		<a href="{% url 'turma' turma.pk %}">{{ turma.name }}</a><br>
-						{{ turma.responsible }}<br>
-						{{ turma.get_course_type_display }}<br>
-						{{ turma.updated_at }}<br>
-						<br>
+					<div class="card">
+						<div class="card-header bg-dark text-white">
+							{{ turma.name }}
+						</div>
+						<div class="card-body">
+							Professor: {{ turma.responsible }}<br>
+							Tipo: {{ turma.get_course_type_display }}<br>
+							Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
+							<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
+						</div>
+					</div>
 				{% empty %}
 						Nenhuma Turma disponível... <br>
 						<br>
@@ -58,10 +64,18 @@
 			</div>
 			<div class="card-body">
 				{% for tema in temas %}
-					<a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a><br>
-					{{ tema.responsible }}<br>
-					{{ tema.updated_at }}<br>
-					<br>
+				<div class="card">
+					<div class="card-header bg-dark text-white">
+						{{ tema.name }}
+						<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
+					</div>
+					<div class="card-body">
+						Professor: {{ tema.responsible }}<br>
+						Atualizado pela última vez em: {{ tema.updated_at }}<br>
+						<br>
+						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a>
+					</div>
+				</div>
 				{% empty %}
 					Nenhum conteúdo disponível...<br>
 					<br>

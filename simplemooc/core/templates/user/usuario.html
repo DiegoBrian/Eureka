@@ -24,7 +24,11 @@
 					</div>
 					
 					<div class="card-body">
+						{% if user.image %}
+						<img src="{{ user.image.url }}"style=" width: 150px; height: 170px; margin-right: 10px;" class="img-fluid" align="left">
+						{% else %}
 						<img src="https://www.cisidat.org.mx/home/wp-content/uploads/2016/10/no-user.jpg" style="max-width:150px; margin-right: 10px;" class="img-fluid" align="left">
+						{% endif %}
 						<p>Nome de usuário: {{user.username}}<br>
 						Nome: {{user.name}}<br>
 						Email: {{user.email}}<br>

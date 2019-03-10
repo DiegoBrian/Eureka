@@ -47,30 +47,26 @@
 					Conteúdos
 				</div>
 				<div class="card-body">
-					{% if temas %}
-					<div class="card-deck" style="margin-bottom: 1%;">
-						{% for tema in temas %}
+					{% for tema in temas %}
 						<div class="card">
+							<div class="card-header bg-dark text-white">
+								{{ tema.name }}
+								<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
+							</div>
 							<div class="card-body">
-								{% if user.user_type == 'PROFESSOR' %}
-								<a href="{% url 'excluir_tema' tema.pk %}" class="close" aria-label="Excluir tema">&times;</a>
-								{% endif %}
-								<p class="card-text" style="text-align: center;"><a href="{% url 'tema' tema.pk %}">{{ tema.name }}</a></p>
+								Professor: {{ tema.responsible }}<br>
+								Atualizado pela última vez em: {{ tema.updated_at }}<br>
+								<br>
+								<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a><br>
 								<a href="{% url 'forum' pk=tema.pk %}" >Acessar o fórum de dúvidas</a>
 							</div>
 						</div>
-					{% if forloop.counter|divisibleby:2 %}
-					</div>
-					<div class="card-deck" style="margin-bottom: 1%;">
-					{% endif %}
-						{% endfor %}
-					</div>
-					{% else %}
+					{% empty %}
 						<div>
 							Nenhum conteúdo disponível...
 						</div>
 						<br>
-					{% endif %}
+					{% endfor %}
 				
 					{% if user.user_type == 'PROFESSOR' %}
 						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-dark text-white">Vincular um conteúdo já existente</a>

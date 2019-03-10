@@ -17,11 +17,11 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 	username = models.CharField('Nome de Usuário', max_length=30, unique=True, validators = [validators.RegexValidator(re.compile('^[\w.@+-]+$'), 'O nome de usuário só pode conter letras, dígitos ou os seguintes caracteres @/./+/-/_', 'invalid')])
 	name = models.CharField('Nome', max_length=100)
-	#password = models.
 	gender = user_type = models.CharField('Sexo', max_length=9, choices=GENDER_OPTIONS, default='MASCULINO')
 	birth_date = models.DateField('Data de Nascimento', null=True, blank = True)
 	grade = models.IntegerField('Série', validators=[MaxValueValidator(9), MinValueValidator(1)], null=True, blank = True)
 	email = models.EmailField('Email', max_length=256, blank=True, unique=True)
+	image = models.ImageField(upload_to='core/images', verbose_name = 'Imagem', null = True, blank = True)
 	user_type = models.CharField('Tipo', max_length=9, choices=USER_OPTIONS, default='ALUNO')
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)

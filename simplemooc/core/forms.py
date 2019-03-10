@@ -106,7 +106,7 @@ class FormularioRegistroProfessor(BaseForm):
 
 	class Meta:
 		model = User
-		fields = ['username','email','name','gender','birth_date','user_type']
+		fields = ['username','email','name','gender','birth_date','image','user_type']
 		widgets = {'user_type' : HiddenInput()}
 
 
@@ -133,7 +133,7 @@ class FormularioRegistroAluno(BaseForm):
 
 	class Meta:
 		model = User
-		fields = ['username','email','name','gender','grade','birth_date','user_type']
+		fields = ['username','email','name','gender','grade','birth_date','image','user_type']
 		widgets = {'user_type' : HiddenInput()}
 
 
@@ -141,7 +141,7 @@ class FormularioEditarConta(BaseForm):
 
 	class Meta:
 		model = User
-		fields = ['username','email','name','gender','birth_date','grade']
+		fields = ['username','email','name','gender','birth_date','grade', 'image']
 
 class FormularioTeste(BaseForm):
 
