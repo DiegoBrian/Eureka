@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load version %}
+{% block title %}Vincular conteúdos{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+{% endblock %}
+{% block content %}
+	<div class="card" id="conteudos">
+		<div class="card-header bg-dark text-white">
+			Vincular Conteúdos
+		</div>
+		<div class="card-body">
+			{% for tema in nao_vinculados %}
+				<div class="card">
+					<div class="card-header bg-dark text-white">
+						{{ tema.name }}
+					</div>
+					<div class="card-body">
+						Professor: {{ tema.responsible }}<br>
+						Atualizado pela última vez em: {{ tema.updated_at }}<br>
+						<br>
+						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Vincular</a>
+						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a><br>
+					</div>
+				</div>
+			{% empty %}
+				<div>
+					Nenhum conteúdo disponível...
+				</div>
+				<br>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

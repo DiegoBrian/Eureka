@@ -73,10 +73,13 @@ def criar_tema(request, turma_id):
 
 
 	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id, 'responsible': request.user})
+
 	if form.is_valid():
 		#print(form)
-		form.save()
-		return redirect('turma', pk = turma_id)
+		novo_tema = form.save()
+		if turma:
+			Tema_Turma.objects.create(turma_id = turma[0], tema_id=novo_tema)
+		return redirect('tema', pk = novo_tema.pk)
 
 	context = {
 		'form' : form

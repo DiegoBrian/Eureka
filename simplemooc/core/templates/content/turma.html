@@ -69,7 +69,7 @@
 					{% endfor %}
 				
 					{% if user.user_type == 'PROFESSOR' %}
-						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-dark text-white">Vincular um conteúdo já existente</a>
+						<a href="{% url 'vincular_conteudos' turma.pk %}" class="btn bg-dark text-white">Vincular um conteúdo já existente</a>
 						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-dark text-white">Criar novo conteúdo</a>
 					{% endif %}
 				</div>

@@ -12,7 +12,11 @@
         <div class="card-body">
             {% for experimentacao in experimentacoes %}
                 <div class="card">
+                    {% if user|experimentacao_concluida:experimentacao.pk %}
+                    <div class="card-header bg-success text-white">
+                    {% else %}
                     <div class="card-header bg-primary text-white">
+                    {% endif %}
                         {{ experimentacao.name }}
                         {% if user.user_type == 'PROFESSOR' %}
                             <a href="{% url 'excluir_experimentacao' experimentacao.pk %}" class="close text-white" aria-label="Excluir experimentação">&times;</a>
@@ -20,7 +24,12 @@
                     </div>
                     <div class="card-body">
                         Atualizado pela última vez em {{ experimentacao.updated_at }}<br><br>
+                        {% if user|experimentacao_concluida:experimentacao.pk %}
+                        <a href="{% url 'experimentacao' experimentacao.pk %}" class="btn btn-success">Ver experimentação</a>
+                        {% else %}
                         <a href="{% url 'experimentacao' experimentacao.pk %}" class="btn btn-primary">Ver experimentação</a>
+                        {% endif %}
+                        
                     </div>
                 </div>
             

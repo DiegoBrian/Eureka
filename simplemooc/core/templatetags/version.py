@@ -34,6 +34,15 @@ def aula_concluida(user, pk):
         return False
 
 @register.filter
+def experimentacao_concluida(user, pk):
+    experimentacao = Experimentacao.objects.get(pk=pk)
+    concluida = Aluno_Experimentacao.objects.filter(aluno_id = user, experimentacao_id=experimentacao)
+    if concluida:
+        return True
+    else:
+        return False
+
+@register.filter
 def exercicio_concluido(user, pk):
     exercicio = Exercicio.objects.get(pk=pk)
     concluido = Aluno_Exercicio.objects.filter(aluno_id = user, exercicio_id=exercicio)

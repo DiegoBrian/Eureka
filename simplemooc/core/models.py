@@ -57,7 +57,7 @@ class Turma(models.Model):
 
 class Tema(models.Model):
 	name = models.CharField('Nome', max_length=100)
-	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE)
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
 	responsible = models.ForeignKey('Usuario', verbose_name='Responsável', on_delete=models.CASCADE)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -210,3 +210,17 @@ class Aluno_Aula(models.Model):
 	
 	def __str__(self):
 		return self.aluno_id.name+" concluiu a aula "+self.aula_id.name
+
+class Aluno_Experimentacao(models.Model):
+	experimentacao_id = models.ForeignKey('Experimentacao', verbose_name='Experimentacao', on_delete=models.CASCADE, default=1)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	
+	def __str__(self):
+		return self.aluno_id.name+" concluiu a experimentacao "+self.experimentacao_id.name
+
+class Tema_Turma(models.Model):
+	turma_id = models.ForeignKey('Turma', verbose_name='Turma', on_delete=models.CASCADE, default=1)
+	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
+	
+	def __str__(self):
+		return self.tema_id.name+" vinculado a turma "+self.turma_id.name

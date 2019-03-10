@@ -19,7 +19,10 @@
             <div style="text-align: right;">Fonte: <a href="{{experimentacao.source}}">{{experimentacao.source}}</a></div>
 
             <div>
-		        <a href="#" class="btn btn-success">Finalizar experimentação</a>
+                {% if not user|experimentacao_concluida:experimentacao.pk %}
+                <a href="{% url 'finalizar_experimentacao' pk=experimentacao.pk %}" class="btn btn-success">Finalizar experimentação</a>
+                {% endif %}
+		        
 		    </div>
 		    
         </div>

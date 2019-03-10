@@ -18,7 +18,9 @@
             	<div>O nome do material é: <a href="{{material.file}}">{{material.name}}</a></div>
             {% endfor %}
             <div>{{aula.text_content|safe}}</div> <br>
+            {% if not user|aula_concluida:aula.pk %}
             <a href="{% url 'finalizar_aula' pk=aula.pk %}" class="btn btn-success">Finalizar aula</a>
+            {% endif %}
 		    </div>
 		    
         </div>

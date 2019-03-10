@@ -13,6 +13,7 @@ urlpatterns = [
     #content
     path('aula/<int:pk>', views.aula, name='aula'),
     path('finalizar_aula/<int:pk>', views.finalizar_aula, name='finalizar_aula'),
+    path('finalizar_experimentacao/<int:pk>', views.finalizar_experimentacao, name='finalizar_experimentacao'),
     path('exercicio/<int:exercise_id>', views.exercicio, name='exercicio'),
     path('ver_correcao/<int:exercise_id>', views.ver_correcao, name='ver_correcao'),
     path('corrigir/<int:turma_pk>/<int:aluno_pk>/', views.corrige_resposta_aberta, name='corrigir'),
@@ -22,6 +23,7 @@ urlpatterns = [
     path('exercicios/<int:pk>/<int:tema_id>/', views.exercicios, name='exercicios'),
     path('experimentacoes/<int:pk>/<int:tema_id>/', views.experimentacoes, name='experimentacoes'),
     path('listar_alunos/<int:turma_id>/', views.listar_alunos, name='listar_alunos'),
+    path('vincular_conteudos/<int:turma_id>/', views.vincular_conteudos, name='vincular_conteudos'),
 
     #registration
     path('turmas/<int:pk>/matricula', views.matricula, name='matricula'),

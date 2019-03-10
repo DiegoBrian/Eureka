@@ -35,4 +35,7 @@ def excluir_tema(request, pk):
 	tema = Tema.objects.get(pk=pk)
 	turma = tema.turma_id
 	tema.delete()
-	return redirect ('turma', turma.pk)
+	if turma:
+		return redirect ('turma', turma.pk)
+	else:
+		return redirect ('index')
