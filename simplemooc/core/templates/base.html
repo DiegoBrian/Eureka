@@ -26,9 +26,9 @@
                 <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
             </li>
         </ul>
-        <form method="POST">
+        <form action="{% url 'buscar' %}" method="POST">
 			{% csrf_token %}
-			<input type="search" placeholder="Buscar">
+			<input type="search" placeholder="Buscar" name="buscar">
 		</form>
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}

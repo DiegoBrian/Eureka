@@ -68,3 +68,31 @@ def esta_matriculado(user, turma_pk):
 		return True
 	else:
 		return False
+
+def buscar (request):
+	if request.method == 'POST':
+		srch = request.POST.get('buscar')
+
+	turmas = Turma.objects.filter(name__icontains=srch)
+	temas = Tema.objects.filter(name__icontains=srch)
+	aulas = Aula.objects.filter(name__icontains=srch)
+	exercicios = Exercicio.objects.filter(name__icontains=srch)
+	experimentacoes = Experimentacao.objects.filter(name__icontains=srch)
+	matriculas = Aluno_Turma.objects.filter(aluno_id=request.user, turma_id__name__icontains=srch)
+	resultado = []
+	turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA', name__icontains=srch)
+	for turma in turmas_publicas:
+		if not esta_matriculado(request.user, turma.pk):
+			resultado.append(turma)
+
+	context = {
+		'busca': srch,
+		'turmas': turmas,
+		'turmas_publicas': resultado,
+		'temas' : temas,
+		'matriculas' : matriculas,
+		'aulas': aulas,
+		'exercicios':exercicios,
+		'experimentacoes':experimentacoes
+	}
+	return render(request, 'content/busca.html', context)

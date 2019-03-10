@@ -26,6 +26,8 @@
                     {% endif %}
                 </div>
                 <div class="card-body">
+                    Professor {{exercicio.tema_id.responsible}}<br>
+                    Aula: {{exercicio.class_id}}<br>
                     Atualizado pela última vez em {{ exercicio.updated_at }}<br><br>
                     {% if user|exercicio_concluido:exercicio.pk and exercicio.multiple_times == False %}
                     <a href="{% url 'ver_correcao' exercicio.pk %}" class="btn btn-success">Ver correção</a>
