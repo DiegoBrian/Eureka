@@ -19,7 +19,7 @@
 						Professor: {{ tema.responsible }}<br>
 						Atualizado pela última vez em: {{ tema.updated_at }}<br>
 						<br>
-						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Vincular</a>
+						<a href="{% url 'vincular' turma.pk tema.pk %}" class="btn btn-success">Vincular</a>
 						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a><br>
 					</div>
 				</div>

@@ -211,15 +211,17 @@ def calcula_nota(aluno_pk, exercise_pk):
 def turma(request, pk):
 	turma = get_object_or_404(Turma, pk = pk)
 
-	if not tem_acesso(request.user, turma.pk):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	#if not tem_acesso(request.user, turma.pk):
+	#	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	#	return redirect('index')
 
-	if request.method == 'POST' and 'btnsearch' in request.POST:
-		srch = request.POST['search']
-		temas = Tema.objects.filter(turma_id = pk , name__icontains=srch)
-	else:
-		temas = Tema.objects.filter(turma_id = pk)
+	temas = Tema.objects.all()
+
+	resultado = []
+	for conteudo in temas:
+		if esta_vinculado(conteudo, pk):
+			resultado.append(conteudo)
+
 
 	if request.method == 'POST' and 'btnmatricula' in request.POST:
 		resposta = request.POST.getlist('alunos')
@@ -246,7 +248,7 @@ def turma(request, pk):
 
 	context = {
 		'turma': turma,
-		'temas' : temas,
+		'temas' : resultado,
 		'alunos' : nao_matriculados
 	}
 	return render(request, 'content/turma.html', context)
@@ -378,6 +380,7 @@ def tem_acesso(user, turma):
 def vincular_conteudos (request, turma_id):
 
 	conteudos = Tema.objects.filter(responsible = request.user)
+	turma = Turma.objects.get(pk = turma_id)
 
 	resultado = []
 
@@ -386,7 +389,8 @@ def vincular_conteudos (request, turma_id):
 			resultado.append(conteudo)
 
 	context = {
-		'nao_vinculados': resultado
+		'nao_vinculados': resultado,
+		'turma': turma
 	}
 
 	return render (request, 'content/vincular_conteudo.html', context)

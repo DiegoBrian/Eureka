@@ -123,4 +123,11 @@ def criar_pergunta(request, exercise_id):
 	return render (request, "creation/criar_pergunta.html", context)
 
 	
+@login_required
+def vincular (request, turma_id, tema_id):
+	turma = Turma.objects.get(pk = turma_id)
+	tema = Tema.objects.get(pk = tema_id)
 
+	Tema_Turma.objects.create(turma_id = turma, tema_id=tema)
+
+	return redirect ('turma', pk = turma.pk)

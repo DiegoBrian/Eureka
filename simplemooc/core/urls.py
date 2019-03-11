@@ -24,6 +24,7 @@ urlpatterns = [
     path('experimentacoes/<int:pk>/<int:tema_id>/', views.experimentacoes, name='experimentacoes'),
     path('listar_alunos/<int:turma_id>/', views.listar_alunos, name='listar_alunos'),
     path('vincular_conteudos/<int:turma_id>/', views.vincular_conteudos, name='vincular_conteudos'),
+    path('vincular/<int:turma_id>/<int:tema_id>/', views.vincular, name='vincular'),
 
     #registration
     path('turmas/<int:pk>/matricula', views.matricula, name='matricula'),
