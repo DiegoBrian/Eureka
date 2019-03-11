@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block dashboard_content %}
-<form class="pure-form pure-form-stacked" method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset>
         {{ form.non_field_errors }}

@@ -21,7 +21,7 @@ def usuario(request):
 def editar_usuario(request):
 	context = {}
 	if request.method == 'POST':
-		form = FormularioEditarConta(request.POST, instance = request.user)
+		form = FormularioEditarConta(request.POST, request.FILES, instance = request.user)
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Os dados foram alterados com sucesso')

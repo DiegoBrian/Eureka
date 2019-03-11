@@ -28,9 +28,9 @@ def desfazer_matricula(request, pk):
 def cadastrar(request, user_type):
 	if request.method == 'POST':
 		if user_type == 0:
-			form = FormularioRegistroAluno(request.POST)
+			form = FormularioRegistroAluno(request.POST, request.FILES)
 		else:
-			form = FormularioRegistroProfessor(request.POST)
+			form = FormularioRegistroProfessor(request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
 			username = form.cleaned_data.get('username')
