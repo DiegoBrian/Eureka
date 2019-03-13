@@ -34,6 +34,9 @@
                             <div>
                                 <input type="radio" value="d" name="answer" id="answer_d">{{pergunta.answer_d}}
                             </div>
+                            <div>
+                                <input type="radio" value="e" name="answer" id="answer_e">{{pergunta.answer_e}}
+                            </div>
                         {% else %}
                             <div>
                                 <input name="text" type="textarea">
@@ -60,6 +63,7 @@
                     		<div>b) {{perg.answer_b}}</div>
                     		<div>c) {{perg.answer_c}}</div>
                     		<div>d) {{perg.answer_d}}</div>
+                            <div>d) {{perg.answer_e}}</div>
                     	{% endif %}
                     {% endfor %}
                 {% endif %}

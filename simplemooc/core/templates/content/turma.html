@@ -51,7 +51,9 @@
 						<div class="card">
 							<div class="card-header bg-dark text-white">
 								{{ tema.name }}
+								{% if user.user_type == 'PROFESSOR' %}
 								<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
+								{% endif %}
 							</div>
 							<div class="card-body">
 								Professor: {{ tema.responsible }}<br>
@@ -97,7 +99,7 @@
 				</div>
 			</div>
 			{% endif %}
-			<a href="{% url 'index' %}" class="btn btn-danger">Voltar</a>
+			<button class="btn btn-danger" onclick="goBack()">Voltar</button>
 		</div>
 	</div>
 	<script type="text/javascript">

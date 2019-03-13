@@ -29,7 +29,7 @@ class FormularioForum(BaseForm):
 class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'tema_id', 'text_content', 'visual_content']
+		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'summary']
 		widgets = {'tema_id' : HiddenInput()}
 
 	# def __init__(self, tema, *args, **kwargs):

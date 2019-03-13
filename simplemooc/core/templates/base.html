@@ -26,10 +26,12 @@
                 <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
             </li>
         </ul>
+        {% if user.is_authenticated %}
         <form action="{% url 'buscar' %}" method="POST">
 			{% csrf_token %}
 			<input type="search" placeholder="Buscar" name="buscar">
 		</form>
+		{% endif %}
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
 	            <li class="nav-item">
@@ -66,5 +68,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
 </body>
 </html>

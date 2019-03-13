@@ -21,7 +21,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 	birth_date = models.DateField('Data de Nascimento', null=True, blank = True)
 	grade = models.IntegerField('Série', validators=[MaxValueValidator(9), MinValueValidator(1)], null=True, blank = True)
 	email = models.EmailField('Email', max_length=256, blank=True, unique=True)
-	image = models.ImageField(upload_to='core/images', verbose_name = 'Imagem', null = True, blank = True)
+	image = models.ImageField(upload_to='core/images', verbose_name = 'Foto', null = True, blank = True)
 	user_type = models.CharField('Tipo', max_length=9, choices=USER_OPTIONS, default='ALUNO')
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -70,7 +70,7 @@ class Aula(models.Model):
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
 	text_content = models.TextField('Conteúdo textual')
 	summary = models.TextField('Resumo', default="Resumo default")
-	visual_content = models.CharField('Link para vídeo', max_length=2048)
+	visual_content = models.CharField('Link para vídeo', max_length=2048, blank=True, null=True)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
@@ -121,6 +121,7 @@ class Pergunta(models.Model):
 		('b', 'b'),
 		('c', 'c'),
 		('d', 'd'),
+		('e', 'e'),
 	)
 	exercise_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE)
 	number = models.IntegerField('Número', default=1)
@@ -130,6 +131,7 @@ class Pergunta(models.Model):
 	answer_b = models.CharField('b)', max_length=2048, null=True, blank = True)
 	answer_c = models.CharField('c)', max_length=2048, null=True, blank = True)
 	answer_d = models.CharField('d)', max_length=2048, null=True, blank = True)
+	answer_e = models.CharField('e)', max_length=2048, null=True, blank = True)
 	correct_answer = models.CharField('Resposta correta', max_length=1, choices=CORRECT_ANSWER, default='A')
 
 	def __str__(self):

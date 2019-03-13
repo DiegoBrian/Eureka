@@ -21,7 +21,7 @@
             {% if not user|aula_concluida:aula.pk %}
             <a href="{% url 'finalizar_aula' pk=aula.pk %}" class="btn btn-success">Finalizar aula</a>
             {% endif %}
-            <a href="{% url 'tema' aula.tema_id.pk %}" class="btn btn-danger">Voltar</a>
+            <button class="btn btn-danger" onclick="goBack()">Voltar</button>
 		    </div>
 		    
         </div>

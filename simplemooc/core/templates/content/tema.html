@@ -52,11 +52,11 @@
                                 <div>
                                     {% if user|aula_concluida:aula.pk %}
                                     <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Conteúdo da aula</a>
-                                    <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-success">Exercicios</a>
+                                    <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-success">Exercícios</a>
                                     <a href="{% url 'experimentacoes' aula.pk tema.pk %}" class="btn btn-success">Experimentações</a>
                                     {% else %}
                                     <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Conteúdo da aula</a>
-                                    <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-primary">Exercicios</a>
+                                    <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-primary">Exercícios</a>
                                     <a href="{% url 'experimentacoes' aula.pk tema.pk %}" class="btn btn-primary">Experimentações</a>
                                     {% endif %}
                                     
@@ -70,7 +70,7 @@
                         <br>
                         <a href="{% url 'criar_aula' tema.pk %}" class="btn bg-dark text-white">Nova aula</a>
                     {% endif %}
-                    <a href="{% url 'index' %}" class="btn btn-danger">Voltar</a>
+                    <button class="btn btn-danger" onclick="goBack()">Voltar</button>
                 </div>
             </div>
         </div>

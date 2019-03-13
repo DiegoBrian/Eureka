@@ -8,6 +8,8 @@ $( '#id_quesion_type' ).click(function() {
 		$('label[for="id_answer_c"]').hide()
 		$("#id_answer_d").hide();
 		$('label[for="id_answer_d"]').hide()
+		$("#id_answer_e").hide();
+		$('label[for="id_answer_e"]').hide()
 		$("#id_correct_answer").hide();
 		$('label[for="id_correct_answer"]').hide()
 	}
@@ -20,6 +22,8 @@ $( '#id_quesion_type' ).click(function() {
 		$('label[for="id_answer_c"]').show()
 		$("#id_answer_d").show();
 		$('label[for="id_answer_d"]').show()
+		$("#id_answer_e").show();
+		$('label[for="id_answer_e"]').show()
 		$("#id_correct_answer").show();
 		$('label[for="id_correct_answer"]').show()
 	}
