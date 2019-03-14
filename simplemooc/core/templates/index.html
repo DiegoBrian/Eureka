@@ -10,7 +10,7 @@
 {% if user.user_type == 'PROFESSOR' %}
 
 <!-- <div class="card">
-	<div class="card-header bg-dark text-white">
+	<div class="card-header bg-blue text-white">
 		Buscar
 	</div>
 	<div class="card-body">
@@ -29,18 +29,18 @@
 	</div>
 	<div class="card-body">
 		<div>
-			<button class="btn bg-dark text-white" id="btn_turmas">Minhas turmas</button>
-			<button class="btn bg-dark text-white" id="btn_conteudos">Meus Conteúdos</button>
+			<button class="btn bg-green text-white" id="btn_turmas">Minhas turmas</button>
+			<button class="btn bg-blue text-white" id="btn_conteudos">Meus Conteúdos</button>
 		</div>
 		
 		<div class="card" id="tabela_turmas">
-			<div class="card-header bg-dark text-white">
+			<div class="card-header bg-green text-white">
 				Minhas turmas
 			</div>
 			<div class="card-body">
 				{% for turma in turmas %}
 					<div class="card">
-						<div class="card-header bg-dark text-white">
+						<div class="card-header bg-green text-white">
 							{{ turma.name }}
 						</div>
 						<div class="card-body">
@@ -54,18 +54,18 @@
 						Nenhuma Turma disponível... <br>
 						<br>
 				{% endfor %}
-				<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
+				<a href="{% url 'criar_turma' user.pk %}" class="btn bg-green text-white">Nova turma</a>
 			</div>
 		</div>		
 
 		<div class="card" id="tabela_conteudos">
-			<div class="card-header bg-dark text-white">
+			<div class="card-header bg-blue text-white">
 				Meus conteúdos
 			</div>
 			<div class="card-body">
 				{% for tema in temas %}
 				<div class="card">
-					<div class="card-header bg-dark text-white">
+					<div class="card-header bg-blue text-white">
 						{{ tema.name }}
 						<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
 					</div>
@@ -73,14 +73,14 @@
 						Professor: {{ tema.responsible }}<br>
 						Atualizado pela última vez em: {{ tema.updated_at }}<br>
 						<br>
-						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a>
+						<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Conteúdo</a>
 					</div>
 				</div>
 				{% empty %}
 					Nenhum conteúdo disponível...<br>
 					<br>
 				{% endfor %}
-				<a href="{% url 'criar_tema' user.pk %}" class="btn bg-dark text-white">Novo conteúdo</a>
+				<a href="{% url 'criar_tema' user.pk %}" class="btn bg-blue text-white">Novo conteúdo</a>
 			</div>
 		</div>
 	</div>
@@ -90,7 +90,7 @@
 {% else %}
 
 <!-- <div class="card">
-	<div class="card-header bg-dark text-white">
+	<div class="card-header bg-blue text-white">
 		{% if user.gender == 'MASCULINO' %}
 		Bem-vindo {{user.name}}!
 		{% elif user.gender == 'FEMININO' %}
@@ -108,23 +108,23 @@
 </div> -->
 
 <div class="card">
-	<div class="card-header bg-dark text-white">
+	<div class="card-header bg-blue text-white">
 		Início
 	</div>
 	<div class="card-body">
 		<div>
-			<button class="btn bg-dark text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
-			<button class="btn bg-dark text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
+			<button class="btn bg-blue text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
+			<button class="btn bg-blue text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
 		</div>
 		<br>
 		<div class="card" id="tabela_minhas_turmas">
-			<div class="card-header bg-dark text-white">
+			<div class="card-header bg-blue text-white">
 				Minhas turmas
 			</div>
 			<div class="card-body">
 				{% for matricula in matriculas %}
 	                <div class="card">
-						<div class="card-header bg-dark text-white">
+						<div class="card-header bg-blue text-white">
 							{{ matricula.turma_id }}
 						</div>
 						<div class="card-body">
@@ -141,13 +141,13 @@
 		</div>
 
 		<div class="card" id="tabela_outras_turmas">
-			<div class="card-header bg-dark text-white">
+			<div class="card-header bg-blue text-white">
 				Outras turmas públicas
 			</div>
 			<div class="card-body">
 				{% for turma in turmas_publicas %}
 					<div class="card">
-						<div class="card-header bg-dark text-white">
+						<div class="card-header bg-blue text-white">
 							{{ turma.name }}
 						</div>
 						<div class="card-body">

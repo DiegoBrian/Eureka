@@ -289,3 +289,22 @@ input[type=search]:focus {
   /*border-color: #66CC75;*/
 }
 
+.bg-green{
+  background-color: #193300;
+}
+
+.bg-blue{
+  background-color: #000033;
+}
+
+.bg-maroon{
+  background-color: #400000;
+}
+
+.btn-maroon{
+  background-color: #800000;
+}
+
+.bg-yellow{
+  background-color: #363600;
+}

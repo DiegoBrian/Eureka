@@ -24,15 +24,11 @@
     </div> -->
 
     <div class="card">
-        <div class="card-header bg-dark text-white">
+        <div class="card-header bg-blue text-white">
             {{tema.name}}
         </div>
         <div class="card-body">
-        	<div class="card">
-                <div class="card-header bg-dark text-white">
-                    Aulas
-                </div>
-                <div class="card-body">
+        	
                     {% for aula in aulas %}
                         <div class="card">
                             {% if user|aula_concluida:aula.pk %}
@@ -68,11 +64,11 @@
                     {% endfor %}
                     {% if user.user_type == 'PROFESSOR' %}
                         <br>
-                        <a href="{% url 'criar_aula' tema.pk %}" class="btn bg-dark text-white">Nova aula</a>
+                        <a href="{% url 'criar_aula' tema.pk %}" class="btn bg-blue text-white">Nova aula</a>
                     {% endif %}
                     <button class="btn btn-danger" onclick="goBack()">Voltar</button>
                 </div>
-            </div>
+            
         </div>
     </div>
     
