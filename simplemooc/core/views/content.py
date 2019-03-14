@@ -154,10 +154,13 @@ def corrige_multipla_escolha(user, exercise_id, first_time):
 				Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(wrongs=wrongs)
 
 	corrigido = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
-	if corrigido.corrects+corrigido.wrongs < 0:
-		score = corrigido.corrects / (corrigido.corrects+corrigido.wrongs)
+	#if corrigido.corrects+corrigido.wrongs == 0:
+	num = corrigido.corrects
+	den = (corrigido.corrects+corrigido.wrongs)
+	if den != 0:
+		score = num / den * 10
 	else:
-		score = 10.0
+		score = -1
 	if first_time:
 		Aluno_Exercicio.objects.filter(exercicio_id=exercise_id, aluno_id=user).update(score=score)	
 	else:
@@ -294,10 +297,20 @@ def exercicios (request, pk, tema_id):
 
 	exercicios = Exercicio.objects.filter(class_id = pk)
 
+	scores = []
+	for exercicio in exercicios:
+		resultado = Aluno_Exercicio.objects.filter(exercicio_id = exercicio, aluno_id=request.user)
+		if resultado:
+			scores.append(resultado[0].score)
+		else:
+			scores.append(-1)
+	#notas = Aluno_Exercicio.objects.filter(exercicio_id__class_id = pk, aluno_id=request.user)
+
 	context = {
 		'tema' : tema,
 		'aula' : aula,
-		'exercicios':exercicios
+		'exercicios':exercicios,
+		'scores' : scores
 	}
 	return render(request,'content/exercicios.html', context)
 

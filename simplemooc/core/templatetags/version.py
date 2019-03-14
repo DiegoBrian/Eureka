@@ -59,3 +59,7 @@ def corrigir(user, pk):
         return True
     else: 
         return False
+
+@register.filter
+def value_by_key(d, key):    
+    return d[key]

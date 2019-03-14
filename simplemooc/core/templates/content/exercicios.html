@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
-	
     <div class="card">
         <div class="card-header bg-dark text-white">
             Exercícios
@@ -29,6 +28,9 @@
                     Professor {{exercicio.tema_id.responsible}}<br>
                     Aula: {{exercicio.class_id}}<br>
                     Atualizado pela última vez em {{ exercicio.updated_at }}<br><br>
+                    {% if scores|value_by_key:forloop.counter0 != -1 %}
+                    <b>Nota atual: {{scores|value_by_key:forloop.counter0}}</b><br><br>
+                    {% endif %}
                     {% if user|exercicio_concluido:exercicio.pk and exercicio.multiple_times == False %}
                     <a href="{% url 'ver_correcao' exercicio.pk %}" class="btn btn-success">Ver correção</a>
                     {% elif user|exercicio_concluido:exercicio.pk and exercicio.multiple_times == True %}
@@ -44,8 +46,50 @@
             {% if user.user_type == 'PROFESSOR' %}
                 <a href="{% url 'criar_exercicio' tema.pk aula.pk %}" class="btn bg-dark text-white">Novo exercício</a>
             {% endif %}
-            <button class="btn btn-danger" onclick="goBack()">Voltar</button>
+            <a href="{% url 'tema' tema.pk %}" class="btn btn-danger">Voltar</a>
         </div>
     </div>
+    <!-- <div class="card">
+        <div class="card-header bg-dark text-white">
+            Exercícios
+        </div>
+        <div class="card-body">
+            {% for nota in notas %}
+             <div class="card">
+                {% if user|exercicio_concluido:nota.exercicio_id.pk and nota.exercicio_id.multiple_times == False %}
+                <div class="card-header bg-success text-white">
+                {% elif user|exercicio_concluido:nota.exercicio_id.pk and nota.exercicio_id.multiple_times == True %}
+                <div class="card-header bg-warning text-white">
+                {% else %}
+                <div class="card-header bg-primary text-white">
+                {% endif %}
+                    {{ nota.exercicio_id.name }}
+                    {% if user.user_type == 'PROFESSOR' %}
+                    <a href="{% url 'excluir_exercicio' nota.exercicio_id.pk %}" class="close text-white" aria-label="Excluir exercício">&times;</a>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    Professor {{nota.exercicio_id.tema_id.responsible}}<br>
+                    Aula: {{nota.exercicio_id.class_id}}<br>
+                    Atualizado pela última vez em {{ nota.exercicio_id.updated_at }}<br>
+                    Nota: {{nota.score}}<br><br>
+                    {% if user|exercicio_concluido:nota.exercicio_id.pk and nota.exercicio_id.multiple_times == False %}
+                    <a href="{% url 'ver_correcao' nota.exercicio_id.pk %}" class="btn btn-success">Ver correção</a>
+                    {% elif user|exercicio_concluido:nota.exercicio_id.pk and nota.exercicio_id.multiple_times == True %}
+                    <a href="{% url 'exercicio' nota.exercicio_id.pk %}" class="btn btn-warning">Refazer exercício</a>
+                    {% else %}
+                    <a href="{% url 'exercicio' nota.exercicio_id.pk %}" class="btn btn-primary">Resolver exercício</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+                Nenhum exercício disponível...<br><br>
+            {% endfor %}
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="{% url 'criar_exercicio' tema.pk aula.pk %}" class="btn bg-dark text-white">Novo exercício</a>
+            {% endif %}
+            <button class="btn btn-danger" onclick="goBack()">Voltar</button>
+        </div>
+    </div> -->
     
 {% endblock %}

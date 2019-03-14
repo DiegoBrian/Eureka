@@ -43,7 +43,7 @@
 
     
 	<div style="margin-top: 5%;">
-		<button class="btn btn-danger" onclick="goBack()">Voltar</button>
+		<a href="{% url 'listar_alunos' pergunta.question_id.exercise_id.tema_id.turma_id.pk %}" class="btn bg-dark text-white">Voltar</a>
 	</div>
    </div>
 </div>
