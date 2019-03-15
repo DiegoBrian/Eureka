@@ -6,21 +6,21 @@
 {% endblock %}
 {% block content %}
 	<div class="card" id="conteudos">
-		<div class="card-header bg-dark text-white">
+		<div class="card-header bg-blue text-white">
 			Vincular Conteúdos
 		</div>
 		<div class="card-body">
 			{% for tema in nao_vinculados %}
 				<div class="card">
-					<div class="card-header bg-dark text-white">
+					<div class="card-header bg-blue text-white">
 						{{ tema.name }}
 					</div>
 					<div class="card-body">
 						Professor: {{ tema.responsible }}<br>
 						Atualizado pela última vez em: {{ tema.updated_at }}<br>
 						<br>
-						<a href="{% url 'vincular' turma.pk tema.pk %}" class="btn btn-success">Vincular</a>
-						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a><br>
+						<a href="{% url 'vincular' turma.pk tema.pk %}" class="btn btn-primary">Vincular</a>
+						<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Conteúdo</a><br>
 					</div>
 				</div>
 			{% empty %}

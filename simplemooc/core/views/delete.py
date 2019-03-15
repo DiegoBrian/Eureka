@@ -39,3 +39,9 @@ def excluir_tema(request, pk):
 		return redirect ('turma', turma.pk)
 	else:
 		return redirect ('index')
+
+
+def desvincular_tema(request, tema_id, turma_id):
+	vinculo = Tema_Turma.objects.get(tema_id=tema_id, turma_id=turma_id)
+	vinculo.delete()
+	return redirect ('turma', turma_id)

@@ -290,7 +290,8 @@ input[type=search]:focus {
 }
 
 .bg-green{
-  background-color: #193300;
+  background-color: #BCBCBC;
+  color: black !important;
 }
 
 .bg-blue{

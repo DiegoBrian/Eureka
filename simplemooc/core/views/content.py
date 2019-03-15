@@ -122,7 +122,7 @@ def exercicio(request, exercise_id):
 		# 	finalizar exercicio
 			Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
 			corrige_multipla_escolha(request.user,exercicio, first_time)
-			return redirect('tema', pk = exercicio.tema_id.pk)
+			return redirect('exercicios', pk = exercicio.class_id.pk, tema_id = exercicio.tema_id.pk, )
 
 	context = {
 		'exercicio' : exercicio,

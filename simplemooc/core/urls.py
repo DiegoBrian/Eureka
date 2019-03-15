@@ -53,6 +53,7 @@ urlpatterns = [
     path('excluir_experimentacao/<int:pk>', views.excluir_experimentacao, name='excluir_experimentacao'),
     path('excluir_turmas/<int:pk>/', views.excluir_turma, name='excluir_turma'),
     path('excluir_tema/<int:pk>/', views.excluir_tema, name='excluir_tema'),
+    path('desvincular_tema/<int:tema_id>/<int:turma_id>', views.desvincular_tema, name='desvincular_tema'),
 
     #forum
     path('forum/<int:pk>/', views.ForumView.as_view(), name='forum'),
