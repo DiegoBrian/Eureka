@@ -1,30 +1,19 @@
 $( '#id_quesion_type' ).click(function() {
+	console.log($('#id_quesion_type').val())
 	if ($('#id_quesion_type').val() == 'ABERTA'){
-		$("#id_answer_a").hide();
-		$('label[for="id_answer_a"]').hide()
-		$("#id_answer_b").hide();
-		$('label[for="id_answer_b"]').hide()
-		$("#id_answer_c").hide();
-		$('label[for="id_answer_c"]').hide()
-		$("#id_answer_d").hide();
-		$('label[for="id_answer_d"]').hide()
-		$("#id_answer_e").hide();
-		$('label[for="id_answer_e"]').hide()
-		$("#id_correct_answer").hide();
-		$('label[for="id_correct_answer"]').hide()
+		$("#answer_a-div").hide();
+		$("#answer_b-div").hide();
+		$("#answer_c-div").hide();
+		$("#answer_d-div").hide();
+		$("#answer_e-div").hide();
+		$("#correct_answer-div").hide();
 	}
 	else{
-		$("#id_answer_a").show();
-		$('label[for="id_answer_a"]').show()
-		$("#id_answer_b").show();
-		$('label[for="id_answer_b"]').show()
-		$("#id_answer_c").show();
-		$('label[for="id_answer_c"]').show()
-		$("#id_answer_d").show();
-		$('label[for="id_answer_d"]').show()
-		$("#id_answer_e").show();
-		$('label[for="id_answer_e"]').show()
-		$("#id_correct_answer").show();
-		$('label[for="id_correct_answer"]').show()
+		$("#answer_a-div").show();
+		$("#answer_b-div").show();
+		$("#answer_c-div").show();
+		$("#answer_d-div").show();
+		$("#answer_e-div").show();
+		$("#correct_answer-div").show();
 	}
 })

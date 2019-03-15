@@ -19,7 +19,7 @@
                 {{ form.non_field_errors }}
 
                 {% for field in form %}
-                <div class="form-group">
+                <div class="form-group" id="{{field.name}}-div">
                     {% if field.name != 'exercise_id' and  field.name != 'number' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
                     {% endif %}

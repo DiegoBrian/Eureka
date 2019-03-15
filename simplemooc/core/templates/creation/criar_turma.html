@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Novo tema{% endblock %}
+{% block title %}Nova turma{% endblock %}
 
 {% block content %}
 <div class="card">
@@ -26,6 +26,7 @@
 
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Criar turma</button>
+                    <a href="{% url 'index' %}" class="btn btn-danger"> Voltar</a>
                 </div>
             </fieldset>
         </form>
