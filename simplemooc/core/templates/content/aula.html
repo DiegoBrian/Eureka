@@ -13,13 +13,22 @@
             <h1>{{aula.name}}</h1>
         </div>
         <div class="card-body">
+            {% if aula.visual_content %}
             <div class="embed-responsive embed-responsive-16by9">{{aula.visual_content|youtube|safe}}</div>
+            {% endif %}
+            <div>
             {% for material in materiais %}
-            	<div>O nome do material é: <a href="{{material.file}}">{{material.name}}</a></div>
+                Materiais:<br>
+                <a href="{{material.image.url}}">{{material.description}}</a><br>
             {% endfor %}
+            <br>
+            </div>
             <div>{{aula.text_content|safe}}</div> <br>
-            {% if not user|aula_concluida:aula.pk %}
+            {% if not user|aula_concluida:aula.pk and user.user_type == 'ALUNO' %}
             <a href="{% url 'finalizar_aula' pk=aula.pk %}" class="btn btn-success">Finalizar aula</a>
+            {% endif %}
+            {% if user.user_type == 'PROFESSOR' %}
+            <a href="{% url 'testes' aula.pk %}" class="btn btn-success">Adicionar material</a>
             {% endif %}
             <a href="{% url 'tema' aula.tema_id.pk %}" class="btn btn-danger">Voltar</a>
 		    </div>

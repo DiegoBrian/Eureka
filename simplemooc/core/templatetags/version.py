@@ -63,3 +63,17 @@ def corrigir(user, pk):
 @register.filter
 def value_by_key(d, key):    
     return d[key]
+
+@register.filter
+def tem_experimentacao(pk):
+    experimentacoes = Experimentacao.objects.filter(class_id = pk)
+    if experimentacoes:
+        return True
+    return False
+
+@register.filter
+def fez_experimentacao(user, pk):
+    experimentacoes = Aluno_Experimentacao.objects.filter(experimentacao_id__class_id = pk, aluno_id = user)
+    if experimentacoes:
+        return True
+    return False

@@ -39,7 +39,7 @@
             {% if user.user_type == 'PROFESSOR' %}
                 <a href="{% url 'criar_experimentacao' tema.pk aula.pk %}" class="btn bg-dark text-white">Nova experimentação</a>
             {% endif %}
-            <button class="btn btn-danger" onclick="goBack()">Voltar</button>
+            <a href="{% url 'tema' tema.pk %}" class="btn btn-danger">Voltar</a>
         </div>
     </div>
 {% endblock %}

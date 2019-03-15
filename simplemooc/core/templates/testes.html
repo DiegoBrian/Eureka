@@ -1,17 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-<body>
+{% extends 'base.html' %}
 
-<i class="glyphicon glyphicon-cloud"></i>
-<i class="glyphicon glyphicon-remove"></i>
-<i class="glyphicon glyphicon-user"></i>
-<i class="glyphicon glyphicon-envelope"></i>
-<i class="glyphicon glyphicon-thumbs-up"></i>
+{% block content %}
+<div class="card">
+	<div class="card-header bg-dark text-white">
+        <h2>Adicionar arquivo</h2>
+    </div>
+    <div class="card-body">
+        <form  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                {{ form.non_field_errors }}
 
-<h1>O termo buscado foi: {{busca}}</h1>
+                {% for field in form %}
+                <div class="form-group">
+                    {% if field.name != 'aula_id' %}
+                        <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                    {% endif %}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
 
-</body>
-</html>
+                <div class="pure-controls">
+                    <button type="submit" class="pure-button pure-button-primary">Adicionar arquivo</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

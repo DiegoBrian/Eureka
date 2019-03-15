@@ -13,19 +13,19 @@ def sobre(request):
 	return render(request, 'sobre.html')
 
 
-def testes(request):
-	form = FormularioTeste(request.POST or None)
-	if form.is_valid():
-		new_test = form.save()
-		return redirect('testes')
+# def testes(request):
+# 	form = FormularioTeste(request.POST or None)
+# 	if form.is_valid():
+# 		new_test = form.save()
+# 		return redirect('testes')
 
-	context = {
-		'form' : form,
-	}
+# 	context = {
+# 		'form' : form,
+# 	}
 
-	print("form: ")
-	print(form)
-	return render(request, 'testes.html', context)
+# 	print("form: ")
+# 	print(form)
+# 	return render(request, 'testes.html', context)
 
 
 @login_required
@@ -96,3 +96,19 @@ def buscar (request):
 		'experimentacoes':experimentacoes
 	}
 	return render(request, 'content/busca.html', context)
+
+
+def testes(request, aula_id):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('aula', aula_id)
+    else:
+        form = DocumentForm(initial={'aula_id': aula_id})
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'testes.html', context)

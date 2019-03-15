@@ -25,7 +25,7 @@
 					
 					<div class="card-body">
 						{% if user.image %}
-						<img src="{{ user.image.url }}"style=" width: 150px; height: 170px; margin-right: 10px;" class="img-fluid" align="left">
+						<img src="{{ user.image.url }}"style=" width: 150px; height: 200px; margin-right: 10px;" class="img-fluid" align="left">
 						{% else %}
 						<img src="https://www.cisidat.org.mx/home/wp-content/uploads/2016/10/no-user.jpg" style="max-width:150px; margin-right: 10px;" class="img-fluid" align="left">
 						{% endif %}
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 
-				{% if user.user_type == 'ALUNO' %}
+				<!--{% if user.user_type == 'ALUNO' %}
 				<div class="card cardEspecial">
 					<div class="card-header bg-dark text-white">
 						Exercícios
@@ -119,7 +119,7 @@
 						<a href="#" class="btn bg-dark text-white">Praticar</a>
 					</div>
 				</div>
-				{% endif %}
+				{% endif %}-->
 
 				<form action="{% url 'editar_usuario' %}" style="display:inline-block;">
 					<input type="submit" value="Editar usuário" class="btn btn-dark"/>

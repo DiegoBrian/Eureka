@@ -29,7 +29,7 @@ class FormularioForum(BaseForm):
 class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'summary']
+		fields = ['name', 'tema_id', 'summary', 'text_content', 'visual_content', 'file']
 		widgets = {'tema_id' : HiddenInput()}
 
 	# def __init__(self, tema, *args, **kwargs):
@@ -64,8 +64,8 @@ class FormularioExperimentacao(BaseForm):
 class FormularioTema(BaseForm):
 	class Meta:
 		model = Tema
-		fields = ['name', 'turma_id', 'responsible']
-		widgets = {'turma_id' : HiddenInput(),'responsible' : HiddenInput()}
+		fields = ['name', 'responsible']
+		widgets = {'responsible' : HiddenInput()}
 
 class FormularioTurma(BaseForm):
 	class Meta:
@@ -154,3 +154,9 @@ class FormularioCorrecao(BaseForm):
 	class Meta:
 		model = Usuario_Pergunta
 		fields = ['score', 'comment']
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ('description', 'image', 'aula_id')
+        widgets = {'aula_id' : HiddenInput()}

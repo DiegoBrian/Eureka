@@ -12,7 +12,7 @@ def aula(request, pk):
 	#	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 	#	return redirect('index')
 
-	materiais = Material.objects.filter(aula_id = pk)
+	materiais = Document.objects.filter(aula_id = pk)
 	context = {
 		'aula' : aula,
 		'materiais' : materiais
@@ -265,23 +265,11 @@ def tema(request, pk):
 	#	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 	#	return redirect('index')
 
-
-	if request.method == 'POST':
-		srch = request.POST['search']
-		aulas = Aula.objects.filter(tema_id = pk , name__icontains=srch)
-		exercicios = Exercicio.objects.filter(tema_id = pk , name__icontains=srch)
-		experimentacoes = Experimentacao.objects.filter(tema_id = pk , name__icontains=srch)
-	else:
-		aulas = Aula.objects.filter(tema_id = pk)
-		exercicios = Exercicio.objects.filter(tema_id = pk)
-		experimentacoes = Experimentacao.objects.filter(tema_id = pk)
-
+	aulas = Aula.objects.filter(tema_id = pk)
 
 	context = {
 		'tema': tema,
-		'aulas': aulas,
-		'exercicios':exercicios,
-		'experimentacoes':experimentacoes
+		'aulas': aulas
 	}
 	return render(request,'content/tema.html', context)
 

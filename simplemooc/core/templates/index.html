@@ -25,7 +25,11 @@
 
 <div class="card">
 	<div class="card-header bg-dark text-white">
-		Início
+		{% if user.gender == 'MASCULINO' %}
+            Bem-vindo {{user.name}}!
+        {% elif user.gender == 'FEMININO' %}
+            Bem-vinda {{user.name}}!
+        {% endif %}
 	</div>
 	<div class="card-body">
 		<div>
@@ -108,23 +112,27 @@
 </div> -->
 
 <div class="card">
-	<div class="card-header bg-blue text-white">
-		Início
+	<div class="card-header bg-dark text-white">
+		{% if user.gender == 'MASCULINO' %}
+            Bem-vindo {{user.name}}!
+        {% elif user.gender == 'FEMININO' %}
+            Bem-vinda {{user.name}}!
+        {% endif %}
 	</div>
 	<div class="card-body">
 		<div>
-			<button class="btn bg-blue text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
-			<button class="btn bg-blue text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
+			<button class="btn bg-green text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
+			<button class="btn bg-green text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
 		</div>
 		<br>
 		<div class="card" id="tabela_minhas_turmas">
-			<div class="card-header bg-blue text-white">
+			<div class="card-header bg-green text-white">
 				Minhas turmas
 			</div>
 			<div class="card-body">
 				{% for matricula in matriculas %}
 	                <div class="card">
-						<div class="card-header bg-blue text-white">
+						<div class="card-header bg-green text-white">
 							{{ matricula.turma_id }}
 						</div>
 						<div class="card-body">
@@ -141,7 +149,7 @@
 		</div>
 
 		<div class="card" id="tabela_outras_turmas">
-			<div class="card-header bg-blue text-white">
+			<div class="card-header bg-green text-white">
 				Outras turmas públicas
 			</div>
 			<div class="card-body">
