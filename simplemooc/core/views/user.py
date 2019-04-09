@@ -9,7 +9,7 @@ from core.forms import *
 def usuario(request):
 	turmas = Turma.objects.filter(responsible= request.user)
 	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=request.user)
-	print(aluno_exercicios)
+	#print(aluno_exercicios)
 	context = {
 		'turmas' : turmas,
 		'aluno_exercicios' : aluno_exercicios

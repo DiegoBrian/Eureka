@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load version %}
-{% block title %}Vincular conteúdos{% endblock %}
+{% block title %}Vincular temas{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
 	<div class="card" id="conteudos">
 		<div class="card-header bg-blue text-white">
-			Vincular Conteúdos
+			Vincular Temas
 		</div>
 		<div class="card-body">
 			{% for tema in nao_vinculados %}
@@ -20,12 +20,12 @@
 						Atualizado pela última vez em: {{ tema.updated_at }}<br>
 						<br>
 						<a href="{% url 'vincular' turma.pk tema.pk %}" class="btn btn-primary">Vincular</a>
-						<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Conteúdo</a><br>
+						<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Tema</a><br>
 					</div>
 				</div>
 			{% empty %}
 				<div>
-					Nenhum conteúdo disponível...
+					Nenhum tema disponível...
 				</div>
 				<br>
 			{% endfor %}

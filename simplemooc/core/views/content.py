@@ -101,13 +101,13 @@ def exercicio(request, exercise_id):
 		# 	resposta_fechada = resposta
 			resposta = request.POST.get('answer')
 			Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(student_answer=resposta)
-			print(resposta)
+			#print(resposta)
 		# se aberta
 		else:
 		# 	resposta_aberta = resposta
 			resposta = request.POST.get('texto')
 			Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(student_text=resposta)
-			print(resposta)
+			#print(resposta)
 		# respondido = true
 		Usuario_Pergunta.objects.filter(aluno_id = request.user, question_id= pergunta).update(answered=True)
 		# vai na tabela exercicio_pergunta e ve se existe pergunta com numero = pergunta.numero+1
@@ -141,7 +141,7 @@ def corrige_multipla_escolha(user, exercise_id, first_time):
 	for pergunta in usuario_perguntas:
 		questao = Pergunta.objects.get(pk = pergunta.question_id.pk)
 		if questao.quesion_type == 'FECHADA':
-			print("resposta aluno: "+ pergunta.student_answer + " resposta certa: " + questao.correct_answer)
+			#print("resposta aluno: "+ pergunta.student_answer + " resposta certa: " + questao.correct_answer)
 			if questao.correct_answer == pergunta.student_answer:
 				Usuario_Pergunta.objects.filter(aluno_id=user, question_id=questao).update(correction='C')
 				aluno_exercicio = Aluno_Exercicio.objects.get(exercicio_id=exercise_id, aluno_id=user)
@@ -170,13 +170,13 @@ def corrige_multipla_escolha(user, exercise_id, first_time):
 @login_required
 def corrige_resposta_aberta(request, turma_pk, aluno_pk):
 	nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id__pk = aluno_pk , question_id__exercise_id__tema_id__turma_id__pk = turma_pk, correction= 'N')
-	print(len(nao_corrigidos))
+	#print(len(nao_corrigidos))
 	form = FormularioCorrecao(request.POST or None, instance = nao_corrigidos[0])
 	if form.is_valid():
 		correction = form.save(commit = False)
 		correction.correction = 'C'
 		correction.save()
-		print(len(nao_corrigidos))
+		#print(len(nao_corrigidos))
 		if len(nao_corrigidos)>1:
 			return redirect('corrigir', turma_pk=turma_pk, aluno_pk=aluno_pk)
 		#calcula_nota(aluno_pk, exercise_pk)
@@ -228,7 +228,7 @@ def turma(request, pk):
 
 	if request.method == 'POST' and 'btnmatricula' in request.POST:
 		resposta = request.POST.getlist('alunos')
-		print(resposta)
+		#print(resposta)
 		####################.getlist########################
 		matriculados = []
 		for aluno in resposta:

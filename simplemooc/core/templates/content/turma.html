@@ -38,13 +38,13 @@
 		<div class="card-body">
 			{% if user == turma.responsible %}
 			<div>
-				<button class="btn bg-blue text-white" id="btn_conteudos">Conteúdos</button>
+				<button class="btn bg-blue text-white" id="btn_conteudos">Temas</button>
 				<button class="btn bg-maroon text-white" id="btn_alunos">Gerenciar Alunos</button>
 			</div>
 			{% endif %}
 			<div class="card" id="conteudos">
 				<div class="card-header bg-blue text-white">
-					Conteúdos
+					Temas
 				</div>
 				<div class="card-body">
 					{% for tema in temas %}
@@ -59,20 +59,20 @@
 								Professor: {{ tema.responsible }}<br>
 								Atualizado pela última vez em: {{ tema.updated_at }}<br>
 								<br>
-								<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Conteúdo</a><br>
+								<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Tema</a><br>
 								<a href="{% url 'forum' pk=tema.pk %}" >Acessar o fórum de dúvidas</a>
 							</div>
 						</div>
 					{% empty %}
 						<div>
-							Nenhum conteúdo disponível...
+							Nenhum tema disponível...
 						</div>
 						<br>
 					{% endfor %}
 				
 					{% if user.user_type == 'PROFESSOR' %}
-						<a href="{% url 'vincular_conteudos' turma.pk %}" class="btn bg-primary text-white">Vincular um conteúdo já existente</a>
-						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-primary text-white">Criar novo conteúdo</a>
+						<a href="{% url 'vincular_conteudos' turma.pk %}" class="btn bg-primary text-white">Vincular um tema já existente</a>
+						<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-primary text-white">Criar novo tema</a>
 					{% endif %}
 				</div>
 			</div>

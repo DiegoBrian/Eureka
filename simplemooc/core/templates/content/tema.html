@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load version %}
 {% block title %}{{tema.name}}{% endblock %}
 {% block css %}
@@ -46,13 +47,13 @@
                         
                         <div>
                             {% if user|aula_concluida:aula.pk %}
-                            <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Conteúdo da aula</a>
-                            <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-success">Exercícios</a>
-                            <a href="{% url 'experimentacoes' aula.pk tema.pk %}" class="btn btn-success">Experimentações</a>
+                            <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Conteúdo da aula <img src="{% static 'img/help-xxl.png' %}"title="Aqui você encontrará explicações sobre a parte teórica da aula." width="16" height="16"></a>
+                            <a href="{% url 'experimentacoes' aula.pk tema.pk %}" class="btn btn-success">Experimentações <img src="{% static 'img/help-xxl.png' %}"title="Aqui você verá como utilizar os conceitos aprendidos em situações reais." width="16" height="16"></a>
+                            <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-success">Exercícios <img src="{% static 'img/help-xxl.png' %}"title="Aqui você poderá testar seus conhecimentos e avaliar seu aprendizado." width="16" height="16"></a>
                             {% else %}
-                            <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Conteúdo da aula</a>
-                            <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-primary">Exercícios</a>
-                            <a href="{% url 'experimentacoes' aula.pk tema.pk %}" class="btn btn-primary">Experimentações</a>
+                            <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Conteúdo da aula <img src="{% static 'img/help-xxl.png' %}"title="Aqui você encontrará explicações sobre a parte teórica da aula." width="16" height="16"></a>
+                            <a href="{% url 'experimentacoes' aula.pk tema.pk %}" class="btn btn-primary">Experimentações <img src="{% static 'img/help-xxl.png' %}"title="Aqui você verá como utilizar os conceitos aprendidos em situações reais." width="16" height="16"></a>
+                            <a href="{% url 'exercicios' aula.pk tema.pk %}" class="btn btn-primary">Exercícios <img src="{% static 'img/help-xxl.png' %}"title="Aqui você poderá testar seus conhecimentos e avaliar seu aprendizado." width="16" height="16"></a>
                             {% endif %}
                             <br>
                             <br>
