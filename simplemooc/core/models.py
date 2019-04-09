@@ -69,7 +69,7 @@ class Aula(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Aula X')
 	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
 	text_content = models.TextField('Conteúdo textual')
-	summary = models.TextField('Resumo', default="Resumo default")
+	summary = models.TextField('Resumo', default="")
 	visual_content = models.CharField('Link para vídeo', max_length=2048, blank=True, null=True)
 	file = models.FileField('Arquivo',null = True, blank = True)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)

@@ -37,55 +37,45 @@
 			<button class="btn bg-blue text-white" id="btn_conteudos">Meus Temas <img src="{% static 'img/help-xxl.png' %}"title="Todos os temas criados por você estão listadas aqui, mesmo que não estejam vinculados a nenhuma turma." width="16" height="16"></button>
 		</div>
 		
-		<div class="card" id="tabela_turmas">
-			<div class="card-header bg-green text-white">
-				Minhas turmas
-			</div>
-			<div class="card-body">
-				{% for turma in turmas %}
-					<div class="card">
-						<div class="card-header bg-green text-white">
-							{{ turma.name }}
-						</div>
-						<div class="card-body">
-							Professor: {{ turma.responsible }}<br>
-							Tipo: {{ turma.get_course_type_display }}<br>
-							Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
-							<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
-						</div>
-					</div>
-				{% empty %}
-						Nenhuma Turma disponível... <br>
-						<br>
-				{% endfor %}
-				<a href="{% url 'criar_turma' user.pk %}" class="btn bg-green text-white">Nova turma</a>
-			</div>
-		</div>		
-
-		<div class="card" id="tabela_conteudos">
-			<div class="card-header bg-blue text-white">
-				Meus temas
-			</div>
-			<div class="card-body">
-				{% for tema in temas %}
+		<div id="tabela_turmas">
+			{% for turma in turmas %}
 				<div class="card">
-					<div class="card-header bg-blue text-white">
-						{{ tema.name }}
-						<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
+					<div class="card-header bg-green text-white">
+						{{ turma.name }}
 					</div>
 					<div class="card-body">
-						Professor: {{ tema.responsible }}<br>
-						Atualizado pela última vez em: {{ tema.updated_at }}<br>
-						<br>
-						<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Tema</a>
+						Professor: {{ turma.responsible }}<br>
+						Tipo: {{ turma.get_course_type_display }}<br>
+						Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
+						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
 					</div>
 				</div>
-				{% empty %}
-					Nenhum tema disponível...<br>
+			{% empty %}
+					Nenhuma Turma disponível... <br>
 					<br>
-				{% endfor %}
-				<a href="{% url 'criar_tema' 0 %}" class="btn bg-blue text-white">Novo tema</a>
+			{% endfor %}
+			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-green text-white">Nova turma</a>
+		</div>		
+
+		<div id="tabela_conteudos">
+			{% for tema in temas %}
+			<div class="card">
+				<div class="card-header bg-blue text-white">
+					{{ tema.name }}
+					<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
+				</div>
+				<div class="card-body">
+					Professor: {{ tema.responsible }}<br>
+					Atualizado pela última vez em: {{ tema.updated_at }}<br>
+					<br>
+					<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Tema</a>
+				</div>
 			</div>
+			{% empty %}
+				Nenhum tema disponível...<br>
+				<br>
+			{% endfor %}
+			<a href="{% url 'criar_tema' 0 %}" class="btn bg-blue text-white">Novo tema</a>
 		</div>
 	</div>
 </div>
@@ -125,50 +115,40 @@
 			<button class="btn bg-green text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
 		</div>
 		<br>
-		<div class="card" id="tabela_minhas_turmas">
-			<div class="card-header bg-green text-white">
-				Minhas turmas
-			</div>
-			<div class="card-body">
-				{% for matricula in matriculas %}
-	                <div class="card">
-						<div class="card-header bg-green text-white">
-							{{ matricula.turma_id }}
-						</div>
-						<div class="card-body">
-							Professor: {{matricula.turma_id.responsible}}<br>
-							Tipo: {{matricula.turma_id.get_course_type_display}}<br>
-							Atualizado pela última vez em: {{matricula.turma_id.updated_at}}<br><br>
-							<a href="{% url 'turma' matricula.turma_id.pk %}" class="btn btn-success">Acessar Turma</a>
-						</div>
+		<div id="tabela_minhas_turmas">
+			{% for matricula in matriculas %}
+                <div class="card">
+					<div class="card-header bg-green text-white">
+						{{ matricula.turma_id }}
 					</div>
-	            {% empty %}
-	                Nenhuma turma disponível... <br>
-	            {% endfor %}
-	        </div>	            
+					<div class="card-body">
+						Professor: {{matricula.turma_id.responsible}}<br>
+						Tipo: {{matricula.turma_id.get_course_type_display}}<br>
+						Atualizado pela última vez em: {{matricula.turma_id.updated_at}}<br><br>
+						<a href="{% url 'turma' matricula.turma_id.pk %}" class="btn btn-success">Acessar Turma</a>
+					</div>
+				</div>
+            {% empty %}
+                Nenhuma turma disponível... <br>
+            {% endfor %}
 		</div>
 
-		<div class="card" id="tabela_outras_turmas">
-			<div class="card-header bg-green text-white">
-				Outras turmas públicas
-			</div>
-			<div class="card-body">
-				{% for turma in turmas_publicas %}
-					<div class="card">
-						<div class="card-header bg-blue text-white">
-							{{ turma.name }}
-						</div>
-						<div class="card-body">
-							Professor: {{ turma.responsible }}<br>
-							Tipo: {{ turma.get_course_type_display }}<br>
-							Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
-							<a href="{% url 'matricula' turma.pk %}" class="btn btn-success">Inscrever-se</a>
-						</div>
+		<div id="tabela_outras_turmas">
+			{% for turma in turmas_publicas %}
+				<div class="card">
+					<div class="card-header bg-blue text-white">
+						{{ turma.name }}
 					</div>
-				{% empty %}
-					Nenhuma outra turma disponível...
-				{% endfor %}
-			</div>
+					<div class="card-body">
+						Professor: {{ turma.responsible }}<br>
+						Tipo: {{ turma.get_course_type_display }}<br>
+						Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
+						<a href="{% url 'matricula' turma.pk %}" class="btn btn-success">Inscrever-se</a>
+					</div>
+				</div>
+			{% empty %}
+				Nenhuma outra turma disponível...
+			{% endfor %}
 		</div>
 	</div>
 </div>

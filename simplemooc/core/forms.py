@@ -29,8 +29,8 @@ class FormularioForum(BaseForm):
 class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'tema_id', 'summary', 'text_content', 'visual_content', 'file']
-		widgets = {'tema_id' : HiddenInput()}
+		fields = ['name', 'tema_id', 'summary', 'text_content', 'visual_content']
+		widgets = {'tema_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4})}
 
 	# def __init__(self, tema, *args, **kwargs):
 	# 	super(FormularioAula, self).__init__(*args, **kwargs)
