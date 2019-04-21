@@ -11,6 +11,9 @@ def home(request):
 def sobre(request):
 	return render(request, 'sobre.html')
 
+def geogebra(request):
+	return render(request, 'geogebra.html')
+
 
 @login_required
 def index(request):

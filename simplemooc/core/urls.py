@@ -8,6 +8,7 @@ urlpatterns = [
     path('testes/<int:aula_id>/', views.testes, name='testes'),
     path('turmas/', views.index, name='index'),
     path('buscar/', views.buscar, name='buscar'),
+    path('geogebra/', views.geogebra, name='geogebra'),
 
 
     #content
