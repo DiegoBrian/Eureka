@@ -32,11 +32,6 @@ class FormularioAula(BaseForm):
 		fields = ['name', 'turma_id', 'summary', 'text_content', 'visual_content']
 		widgets = {'turma_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4})}
 
-	# def __init__(self, tema, *args, **kwargs):
-	# 	super(FormularioAula, self).__init__(*args, **kwargs)
-	# 	self.fields['exercise_id'].queryset = Exercicio.objects.filter(tema_id=tema)
-	# 	self.fields['experimentation_id'].queryset = Experimentacao.objects.filter(tema_id=tema)
-
 
 class FormularioExercicio(BaseForm):
 	class Meta:
@@ -44,10 +39,6 @@ class FormularioExercicio(BaseForm):
 		fields = ['name', 'multiple_times', 'class_id']
 		widgets = {'class_id' : HiddenInput(), 'multiple_times': forms.CheckboxInput(attrs={'style':'width:20px;height:20px;'})}
 
-	# def __init__(self, tema, *args, **kwargs):
-	#     super(FormularioExercicio, self).__init__(*args, **kwargs)
-	#     self.fields['class_id'].queryset = Aula.objects.filter(tema_id=tema)
-	#     self.fields['experimentation_id'].queryset = Experimentacao.objects.filter(tema_id=tema)
 
 class FormularioExperimentacao(BaseForm):
 	class Meta:
@@ -55,17 +46,6 @@ class FormularioExperimentacao(BaseForm):
 		fields = ['name', 'text_content', 'visual_content', 'source', 'class_id']
 		widgets = {'class_id' : HiddenInput()}
 
-	# def __init__(self, tema, *args, **kwargs):
-	#     super(FormularioExperimentacao, self).__init__(*args, **kwargs)
-	#     self.fields['exercise_id'].queryset = Exercicio.objects.filter(tema_id=tema)
-	#     self.fields['class_id'].queryset = Aula.objects.filter(tema_id=tema)
-
-
-# class FormularioTema(BaseForm):
-# 	class Meta:
-# 		model = Tema
-# 		fields = ['name', 'responsible']
-# 		widgets = {'responsible' : HiddenInput()}
 
 class FormularioTurma(BaseForm):
 	class Meta:

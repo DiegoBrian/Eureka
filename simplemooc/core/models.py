@@ -55,15 +55,6 @@ class Turma(models.Model):
 	def __str__(self):
 		return self.name
 
-# class Tema(models.Model):
-# 	name = models.CharField('Nome', max_length=100)
-# 	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
-# 	responsible = models.ForeignKey('Usuario', verbose_name='Responsável', on_delete=models.CASCADE)
-# 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
-# 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
-
-# 	def __str__(self):
-# 		return self.name
 
 class Aula(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Aula X')
@@ -219,12 +210,6 @@ class Aluno_Experimentacao(models.Model):
 	def __str__(self):
 		return self.aluno_id.name+" concluiu a experimentacao "+self.experimentacao_id.name
 
-# class Tema_Turma(models.Model):
-# 	turma_id = models.ForeignKey('Turma', verbose_name='Turma', on_delete=models.CASCADE, default=1)
-# 	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
-	
-# 	def __str__(self):
-# 		return self.tema_id.name+" vinculado a turma "+self.turma_id.name
 
 class Document(models.Model):
 	description = models.CharField('Nome', max_length=255, blank=True)

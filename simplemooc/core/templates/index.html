@@ -9,20 +9,6 @@
 
 {% if user.user_type == 'PROFESSOR' %}
 
-<!-- <div class="card">
-	<div class="card-header bg-blue text-white">
-		Buscar
-	</div>
-	<div class="card-body">
-		Busque pelo nome de sua turma para encontrá-la com mais facilidade
-		<form method="POST">
-			{% csrf_token %}
-			<input type="text" name="search" placeholder="Encontrar uma turma..." class="searchbar">
-			<input type="submit" value="Buscar" class="btn btn-success"/>
-		</form>
-	</div>
-</div> -->
-
 <div class="card">
 	<div class="card-header bg-dark text-white">
 		{% if user.gender == 'MASCULINO' %}
@@ -57,24 +43,6 @@
 
 
 {% else %}
-
-<!-- <div class="card">
-	<div class="card-header bg-blue text-white">
-		{% if user.gender == 'MASCULINO' %}
-		Bem-vindo {{user.name}}!
-		{% elif user.gender == 'FEMININO' %}
-		Bem-vinda {{user.name}}
-		{% endif %}
-	</div>
-	<div class="card-body">
-		Busque pelo nome de sua turma para encontrá-la com mais facilidade ou procure por novas turmas para se registrar
-		<form method="POST">
-			{% csrf_token %}
-			<input type="text" name="search" placeholder="Encontrar uma turma..." class="searchbar">
-			<input type="submit" value="Buscar" class="btn btn-success"/>
-		</form>
-	</div>
-</div> -->
 
 <div class="card">
 	<div class="card-header bg-dark text-white">
@@ -128,7 +96,6 @@
 	</div>
 </div>
 {% endif %}
-
 
 
 <script type="text/javascript" src="{% static 'js/index.js' %}"></script>

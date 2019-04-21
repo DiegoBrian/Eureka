@@ -85,26 +85,6 @@ def criar_exercicio(request, class_id):
 	return render (request, "creation/criar_exercicio.html", context)
 
 
-# @login_required
-# def criar_tema(request, turma_id):
-# 	turma = Turma.objects.filter(pk = turma_id)
-
-# 	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id, 'responsible': request.user})
-
-# 	if form.is_valid():
-# 		#print(form)
-# 		novo_tema = form.save()
-# 		if turma:
-# 			Tema_Turma.objects.create(turma_id = turma[0], tema_id=novo_tema)
-# 		return redirect('tema', pk = novo_tema.pk)
-
-# 	context = {
-# 		'form' : form
-# 	}
-
-# 	return render (request, "creation/criar_tema.html", context)
-
-
 @login_required
 def criar_turma(request, profesor_id):
 
@@ -153,26 +133,3 @@ def criar_pergunta(request, exercise_id):
 
 	return render (request, "creation/criar_pergunta.html", context)
 
-	
-# @login_required
-# def vincular (request, turma_id, tema_id):
-
-# 	#controle de acesso
-# 	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
-# 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-# 		return redirect('index')
-
-# 	turma = Turma.objects.get(pk = turma_id)
-# 	tema = Tema.objects.get(pk = tema_id)
-
-# 	Tema_Turma.objects.create(turma_id = turma, tema_id=tema)
-
-# 	return redirect ('turma', pk = turma.pk)
-
-# def eh_responsavel(user, tema_pk):
-# 	tema = Tema.objects.get(pk = tema_pk)
-
-# 	if tema.responsible == user:
-# 		return True
-# 	else:
-# 		return False

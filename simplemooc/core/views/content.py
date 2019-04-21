@@ -252,22 +252,6 @@ def turma(request, pk):
 	return render(request, 'content/turma.html', context)
 
 
-# @login_required
-# def tema(request, pk):
-# 	tema = get_object_or_404(Tema, pk = pk)
-
-# 	if not tem_acesso(request.user, tema.pk):
-# 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-# 		return redirect('index')
-
-# 	aulas = Aula.objects.filter(tema_id = pk)
-
-# 	context = {
-# 		'tema': tema,
-# 		'aulas': aulas
-# 	}
-# 	return render(request,'content/tema.html', context)
-
 @login_required
 def exercicios (request, pk):
 	# tema = get_object_or_404(Tema, pk = tema_id)
@@ -376,31 +360,6 @@ def tem_acesso(user, tema):
 	else:
 		return False
 
-# def vincular_conteudos (request, turma_id):
-
-# 	conteudos = Tema.objects.filter(responsible = request.user)
-# 	turma = Turma.objects.get(pk = turma_id)
-
-# 	resultado = []
-
-# 	for conteudo in conteudos:
-# 		if not esta_vinculado(conteudo, turma_id):
-# 			resultado.append(conteudo)
-
-# 	context = {
-# 		'nao_vinculados': resultado,
-# 		'turma': turma
-# 	}
-
-# 	return render (request, 'content/vincular_conteudo.html', context)
-
-# def esta_vinculado(conteudo, turma_id):
-# 	vinculo = Tema_Turma.objects.filter(turma_id = turma_id, tema_id=conteudo.pk)
-
-# 	if vinculo:
-# 		return True
-
-# 	return False
 
 def tem_matricula(user, turma_pk):
 	turma = Turma.objects.get(pk = turma_pk)

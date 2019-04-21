@@ -83,44 +83,6 @@
 					</div>
 				</div>
 
-				<!--{% if user.user_type == 'ALUNO' %}
-				<div class="card cardEspecial">
-					<div class="card-header bg-dark text-white">
-						Exercícios
-					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table">
-								<thead class="bg-dark text-white">
-									<tr>
-										<th scope="col">Tema</th>
-										<th scope="col">Exercício</th>
-										<th scope="col">&#10003;</th>
-										<th scope="col">&#10005;</th>
-									</tr>
-								</thead>
-								<tbody>
-									
-									{% for aluno_exercicio in aluno_exercicios %}
-										<tr>
-											<td>{{aluno_exercicio.exercicio_id.tema_id}}</td>
-											<td>{{aluno_exercicio.exercicio_id}}</td>
-											<td>{{aluno_exercicio.corrects}}</td>
-											<td>{{aluno_exercicio.wrongs}}</td>
-										</tr>
-									{% empty %}
-										<tr>
-											<td>Nenhum exercício disponível...</td>
-										</tr>
-									{% endfor %}
-							  </tbody>
-							</table>
-						</div>
-						<a href="#" class="btn bg-dark text-white">Praticar</a>
-					</div>
-				</div>
-				{% endif %}-->
-
 				<form action="{% url 'editar_usuario' %}" style="display:inline-block;">
 					<input type="submit" value="Editar usuário" class="btn btn-dark"/>
 				</form>

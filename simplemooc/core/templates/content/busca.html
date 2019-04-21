@@ -76,13 +76,13 @@
                         
                         <div>
                             {% if user|aula_concluida:aula.pk %}
-                            <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Conteúdo da aula</a>
-                            <a href="{% url 'exercicios' aula.pk %}" class="btn btn-success">Exercícios</a>
-                            <a href="{% url 'experimentacoes' %}" class="btn btn-success">Experimentações</a>
+                            <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Compreendendo</a>
+                            <a href="{% url 'exercicios' aula.pk %}" class="btn btn-success">Praticando</a>
+                            <a href="{% url 'experimentacoes' %}" class="btn btn-success">Experimentando</a>
                             {% else %}
-                            <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Conteúdo da aula</a>
-                            <a href="{% url 'exercicios' aula.pk  %}" class="btn btn-primary">Exercícios</a>
-                            <a href="{% url 'experimentacoes' aula.pk %}" class="btn btn-primary">Experimentações</a>
+                            <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Compreendendo</a>
+                            <a href="{% url 'exercicios' aula.pk  %}" class="btn btn-primary">Praticando</a>
+                            <a href="{% url 'experimentacoes' aula.pk %}" class="btn btn-primary">Experimentando</a>
                             {% endif %}
                             
                         </div>
@@ -95,7 +95,7 @@
     {% if exercicios %}
     <div class="card">
         <div class="card-header bg-dark text-white">
-            Exercícios
+            Praticando
         </div>
         <div class="card-body">
         	{% for exercicio in exercicios %}
@@ -129,7 +129,7 @@
     {% if experimentacoes %}
     <div class="card">
         <div class="card-header bg-dark text-white">
-            Experimentações
+            Experimentando
         </div>
         <div class="card-body">
         	{% for experimentacao in experimentacoes %}
