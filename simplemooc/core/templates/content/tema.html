@@ -73,7 +73,11 @@
                     </div>
                 </div>
             {% empty %}
-                Nenhuma aula disponível...<br><br>
+            <div class="card">
+                <div class="card-body">
+                    Nenhuma aula disponível...
+                </div>
+            </div>
             {% endfor %}
             {% if user.user_type == 'PROFESSOR' %}
                 <br>

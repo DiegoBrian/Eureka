@@ -1,36 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{turma.name}}{% endblock %}
+{% load version %}
+{% block title %}VE COM CALMA QUE NOME POR AQUI{% endblock %}
 {% block javascript %}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 {% endblock %}
 {% block content %}
-	<!-- <div class="card">
-		<div class="card-header text-white" style="background-color: #500000;">
-			{% if user.gender == 'MASCULINO' %}
-				Bem-vindo {{user.name}}!
-			{% elif user.gender == 'FEMININO' %}
-				Bem-vinda {{user.name}}
-			{% endif %}
-			{% if turma.responsible.gender == 'MASCULINO' %}
-				Você está na turma {{turma.name}} do professor {{turma.responsible}}!
-			{% else %}
-				Você está na turma {{turma.name}} da professora {{turma.responsible}}!
-			{% endif %}
-		</div>
-		<div class="card-body">
-			Busque por um tema para encontrá-lo com mais facilidade
-			<form method="POST">
-				{% csrf_token %}
-				<div class="form-group">
-					<input type="text" name="search" placeholder="Encontrar um tema..." class="searchbar">
-					<input type="submit" value="Buscar" name="btnsearch" class="btn text-white" style="background-color: #500000;"/>
-				</div>
-			</form>
-		</div>
-	</div> -->
 	<div class="card">
 		<div class="card-header bg-green text-white">
 			Turma {{turma}}
@@ -38,38 +15,64 @@
 		<div class="card-body">
 			{% if user == turma.responsible %}
 			<div>
-				<button class="btn bg-blue text-white" id="btn_conteudos">Temas <img src="{% static 'img/help-xxl.png' %}"title="Todos os temas vinculados à turma {{turma}} estão lostadas aqui" width="16" height="16"></button>
+				<button class="btn bg-blue text-white" id="btn_conteudos">Aulas <img src="{% static 'img/help-xxl.png' %}"title="Todos os temas vinculados à turma {{turma}} estão lostadas aqui" width="16" height="16"></button>
 				<button class="btn bg-maroon text-white" id="btn_alunos">Gerenciar Alunos <img src="{% static 'img/help-xxl.png' %}"title="Veja opções de ações relacionadas ao gerenciamento de alunos" width="16" height="16"> </button>
 			</div>
 			{% endif %}
 			<div id="conteudos">
-				{% for tema in temas %}
-					<div class="card">
-						<div class="card-header bg-blue text-white">
-							{{ tema.name }}
-							{% if user.user_type == 'PROFESSOR' %}
-							<a href="{% url 'desvincular_tema' tema.pk turma.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
-							{% endif %}
-						</div>
-						<div class="card-body">
-							Professor: {{ tema.responsible }}<br>
-							Atualizado pela última vez em: {{ tema.updated_at }}<br>
-							<br>
-							<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Ver todas as aulas</a><br>
-							<a href="{% url 'forum' pk=tema.pk %}" >Acessar o fórum de dúvidas</a>
-						</div>
-					</div>
-				{% empty %}
-					<div>
-						Nenhum tema disponível...
-					</div>
-					<br>
-				{% endfor %}
-			
-				{% if user.user_type == 'PROFESSOR' %}
-					<a href="{% url 'vincular_conteudos' turma.pk %}" class="btn bg-primary text-white">Vincular um tema já existente</a>
-					<a href="{% url 'criar_tema' turma.pk %}" class="btn bg-primary text-white">Criar novo tema</a>
-				{% endif %}
+				{% for aula in aulas %}
+                <div class="card">
+                    {% if user|aula_concluida:aula.pk %}
+                    <div class="card-header bg-success text-white">
+                    {% else %}
+                    <div class="card-header bg-primary text-white">
+                    {% endif %}
+                        {{ aula.name }}
+                        {% if user.user_type == 'PROFESSOR' %}
+                            <a href="{% url 'excluir_aula' aula.pk %}" class="close text-white" aria-label="Excluir aula">&times;</a><br>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        {{ aula.summary }}<br><br>
+                        Atualizado pela última vez em {{ aula.updated_at }}<br><br>
+                        
+                        <div>
+                            {% if user|aula_concluida:aula.pk %}
+                            <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Conteúdo da aula <img src="{% static 'img/help-xxl.png' %}"title="Aqui você encontrará explicações sobre a parte teórica da aula." width="16" height="16"></a>
+                            <a href="{% url 'experimentacoes' aula.pk %}" class="btn btn-success">Experimentações <img src="{% static 'img/help-xxl.png' %}"title="Aqui você verá como utilizar os conceitos aprendidos em situações reais." width="16" height="16"></a>
+                            <a href="{% url 'exercicios' aula.pk %}" class="btn btn-success">Exercícios <img src="{% static 'img/help-xxl.png' %}"title="Aqui você poderá testar seus conhecimentos e avaliar seu aprendizado." width="16" height="16"></a>
+                            {% else %}
+                            <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Conteúdo da aula <img src="{% static 'img/help-xxl.png' %}"title="Aqui você encontrará explicações sobre a parte teórica da aula." width="16" height="16"></a>
+                            <a href="{% url 'experimentacoes' aula.pk %}" class="btn btn-primary">Experimentações <img src="{% static 'img/help-xxl.png' %}"title="Aqui você verá como utilizar os conceitos aprendidos em situações reais." width="16" height="16"></a>
+                            <a href="{% url 'exercicios' aula.pk %}" class="btn btn-primary">Exercícios <img src="{% static 'img/help-xxl.png' %}"title="Aqui você poderá testar seus conhecimentos e avaliar seu aprendizado." width="16" height="16"></a>
+                            {% endif %}
+                            <br>
+                            <br>
+                            {% if user.user_type == 'PROFESSOR' and not aula.pk|tem_experimentacao %}
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">&times;</a>
+                                <p>Você ainda não mostrou ao seu aluno como utilizar os conhecimentos dessa aula em aplicações da vida real. Que tal criar uma nova experimentação?</p>
+                            </div>
+                            {% elif user.user_type == 'ALUNO' and not user|fez_experimentacao:aula.pk %}
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">&times;</a>
+                                <p>Você ainda não viu como utilizar os conhecimentos dessa aula em aplicações da vida real. Que tal realizar uma experimentação?</p>
+                            </div>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="card">
+                    <div class="card-body">
+                        Nenhuma aula disponível...
+                    </div>
+                </div>
+            {% endfor %}
+            {% if user.user_type == 'PROFESSOR' %}
+                <a href="{% url 'criar_aula' turma.pk %}" class="btn bg-blue text-white">Nova aula</a>
+            {% endif %}
 			
 			</div>
 			{% if user == turma.responsible %}

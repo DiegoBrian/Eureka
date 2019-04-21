@@ -55,19 +55,19 @@ class Turma(models.Model):
 	def __str__(self):
 		return self.name
 
-class Tema(models.Model):
-	name = models.CharField('Nome', max_length=100)
-	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
-	responsible = models.ForeignKey('Usuario', verbose_name='Responsável', on_delete=models.CASCADE)
-	created_at = models.DateTimeField('Criado em', auto_now_add=True)
-	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+# class Tema(models.Model):
+# 	name = models.CharField('Nome', max_length=100)
+# 	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
+# 	responsible = models.ForeignKey('Usuario', verbose_name='Responsável', on_delete=models.CASCADE)
+# 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+# 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
-	def __str__(self):
-		return self.name
+# 	def __str__(self):
+# 		return self.name
 
 class Aula(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Aula X')
-	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
 	text_content = models.TextField('Conteúdo textual')
 	summary = models.TextField('Resumo', default="")
 	visual_content = models.CharField('Link para vídeo', max_length=2048, blank=True, null=True)
@@ -89,7 +89,6 @@ class Material(models.Model):
 
 class Exercicio(models.Model):
 	name = models.CharField('Nome', max_length=100, default='Exercicio')
-	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
 	multiple_times = models.BooleanField('Pode ser feito mais de uma vez', default=False)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -101,7 +100,6 @@ class Exercicio(models.Model):
 
 class Experimentacao(models.Model):
 	name = models.CharField('Título', max_length=100, default='Experimentacao')
-	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
 	text_content = models.TextField('Conteúdo textual',null=True, blank = True)
 	visual_content = models.CharField('Link para vídeo', max_length=2048, null=True, blank = True)
 	source = models.CharField('Fonte', max_length=2048, default='http://')
@@ -188,7 +186,7 @@ class Forum (models.Model):
 	answers = models.IntegerField('Respostas', blank=True, default=0)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
-	tema_id = models.ForeignKey('Tema', verbose_name='Tema', on_delete=models.CASCADE, blank=True, null=True)
+	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
 		return self.name
@@ -221,12 +219,12 @@ class Aluno_Experimentacao(models.Model):
 	def __str__(self):
 		return self.aluno_id.name+" concluiu a experimentacao "+self.experimentacao_id.name
 
-class Tema_Turma(models.Model):
-	turma_id = models.ForeignKey('Turma', verbose_name='Turma', on_delete=models.CASCADE, default=1)
-	tema_id = models.ForeignKey('Tema', on_delete=models.CASCADE, default=1)
+# class Tema_Turma(models.Model):
+# 	turma_id = models.ForeignKey('Turma', verbose_name='Turma', on_delete=models.CASCADE, default=1)
+# 	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
 	
-	def __str__(self):
-		return self.tema_id.name+" vinculado a turma "+self.turma_id.name
+# 	def __str__(self):
+# 		return self.tema_id.name+" vinculado a turma "+self.turma_id.name
 
 class Document(models.Model):
 	description = models.CharField('Nome', max_length=255, blank=True)

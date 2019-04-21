@@ -30,7 +30,7 @@
             {% if user.user_type == 'PROFESSOR' %}
             <a href="{% url 'testes' aula.pk %}" class="btn btn-success">Adicionar material</a>
             {% endif %}
-            <a href="{% url 'tema' aula.tema_id.pk %}" class="btn btn-danger">Voltar</a>
+            <a href="{% url 'turma' aula.turma_id.pk %}" class="btn btn-danger">Voltar</a>
 		    </div>
 		    
         </div>

@@ -11,8 +11,8 @@ def criar_forum(request, pk):
 	form = FormularioForum(request.POST or None, initial={'author' : request.user})
 	if form.is_valid():
 		newforum = form.save(commit = False)
-		tema = Tema.objects.get(pk=pk)
-		newforum.tema_id = tema
+		turma = Turma.objects.get(pk=pk)
+		newforum.turma_id = turma
 		
 		newforum.save()
 		return redirect('forum', pk = pk)
@@ -25,38 +25,38 @@ def criar_forum(request, pk):
 
 
 @login_required
-def criar_aula(request, tema_id):
+def criar_aula(request, turma_id):
 
 	#controle de acesso
-	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 	
-	form = FormularioAula(request.POST or None, initial={'tema_id': tema_id})
+	form = FormularioAula(request.POST or None, initial={'turma_id': turma_id})
 	if form.is_valid():
 		new_class = form.save()
-		return redirect('tema', pk = tema_id)
+		return redirect('turma', pk = turma_id)
 
 	context = {
 		'form' : form,
-		'tema' : tema_id
+		'turma' : turma_id
 	}
 
 	return render (request, "creation/criar_aula.html", context)
 
 
 @login_required
-def criar_experimentacao(request, tema_id, class_id):
+def criar_experimentacao(request, class_id):
 
 	#controle de acesso
-	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 	
-	form = FormularioExperimentacao(request.POST or None, initial={'tema_id': tema_id, 'class_id': class_id})
+	form = FormularioExperimentacao(request.POST or None, initial={'class_id': class_id})
 	if form.is_valid():
 		new_experimentation = form.save()
-		return redirect('tema', pk = tema_id)
+		return redirect('experimentacoes', pk = class_id)
 
 	context = {
 		'form' : form
@@ -66,14 +66,14 @@ def criar_experimentacao(request, tema_id, class_id):
 
 
 @login_required
-def criar_exercicio(request, tema_id, class_id):
+def criar_exercicio(request, class_id):
 
 	#controle de acesso
-	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
-	form = FormularioExercicio(request.POST or None, initial={'tema_id': tema_id, 'class_id': class_id})
+	form = FormularioExercicio(request.POST or None, initial={'class_id': class_id})
 	if form.is_valid():
 		new_exercise = form.save()
 		return redirect('criar_pergunta', exercise_id = new_exercise.pk)
@@ -85,24 +85,24 @@ def criar_exercicio(request, tema_id, class_id):
 	return render (request, "creation/criar_exercicio.html", context)
 
 
-@login_required
-def criar_tema(request, turma_id):
-	turma = Turma.objects.filter(pk = turma_id)
+# @login_required
+# def criar_tema(request, turma_id):
+# 	turma = Turma.objects.filter(pk = turma_id)
 
-	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id, 'responsible': request.user})
+# 	form = FormularioTema(request.POST or None, initial={'turma_id': turma_id, 'responsible': request.user})
 
-	if form.is_valid():
-		#print(form)
-		novo_tema = form.save()
-		if turma:
-			Tema_Turma.objects.create(turma_id = turma[0], tema_id=novo_tema)
-		return redirect('tema', pk = novo_tema.pk)
+# 	if form.is_valid():
+# 		#print(form)
+# 		novo_tema = form.save()
+# 		if turma:
+# 			Tema_Turma.objects.create(turma_id = turma[0], tema_id=novo_tema)
+# 		return redirect('tema', pk = novo_tema.pk)
 
-	context = {
-		'form' : form
-	}
+# 	context = {
+# 		'form' : form
+# 	}
 
-	return render (request, "creation/criar_tema.html", context)
+# 	return render (request, "creation/criar_tema.html", context)
 
 
 @login_required
@@ -154,25 +154,25 @@ def criar_pergunta(request, exercise_id):
 	return render (request, "creation/criar_pergunta.html", context)
 
 	
-@login_required
-def vincular (request, turma_id, tema_id):
+# @login_required
+# def vincular (request, turma_id, tema_id):
 
-	#controle de acesso
-	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+# 	#controle de acesso
+# 	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, tema_id)):
+# 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+# 		return redirect('index')
 
-	turma = Turma.objects.get(pk = turma_id)
-	tema = Tema.objects.get(pk = tema_id)
+# 	turma = Turma.objects.get(pk = turma_id)
+# 	tema = Tema.objects.get(pk = tema_id)
 
-	Tema_Turma.objects.create(turma_id = turma, tema_id=tema)
+# 	Tema_Turma.objects.create(turma_id = turma, tema_id=tema)
 
-	return redirect ('turma', pk = turma.pk)
+# 	return redirect ('turma', pk = turma.pk)
 
-def eh_responsavel(user, tema_pk):
-	tema = Tema.objects.get(pk = tema_pk)
+# def eh_responsavel(user, tema_pk):
+# 	tema = Tema.objects.get(pk = tema_pk)
 
-	if tema.responsible == user:
-		return True
-	else:
-		return False
+# 	if tema.responsible == user:
+# 		return True
+# 	else:
+# 		return False

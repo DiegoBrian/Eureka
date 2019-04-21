@@ -17,7 +17,7 @@
         	{% for turma in turmas %}
 			<div class="card">
 				<div class="card-header bg-dark text-white">
-					{{ turma.name }}
+					VE COM CALMA QUE NOME POR AQUI
 				</div>
 				<div class="card-body">
 					Professor: {{ turma.responsible }}<br>
@@ -77,12 +77,12 @@
                         <div>
                             {% if user|aula_concluida:aula.pk %}
                             <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Conteúdo da aula</a>
-                            <a href="{% url 'exercicios' aula.pk aula.tema_id.pk %}" class="btn btn-success">Exercícios</a>
-                            <a href="{% url 'experimentacoes' aula.pk aula.tema_id.pk %}" class="btn btn-success">Experimentações</a>
+                            <a href="{% url 'exercicios' aula.pk %}" class="btn btn-success">Exercícios</a>
+                            <a href="{% url 'experimentacoes' %}" class="btn btn-success">Experimentações</a>
                             {% else %}
                             <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Conteúdo da aula</a>
-                            <a href="{% url 'exercicios' aula.pk aula.tema_id.pk %}" class="btn btn-primary">Exercícios</a>
-                            <a href="{% url 'experimentacoes' aula.pk aula.tema_id.pk %}" class="btn btn-primary">Experimentações</a>
+                            <a href="{% url 'exercicios' aula.pk  %}" class="btn btn-primary">Exercícios</a>
+                            <a href="{% url 'experimentacoes' aula.pk %}" class="btn btn-primary">Experimentações</a>
                             {% endif %}
                             
                         </div>
@@ -110,7 +110,7 @@
                     {{ exercicio.name }}
                 </div>
                 <div class="card-body">
-                	Professor {{exercicio.tema_id.responsible}}<br>
+                	Professor {{exercicio.turma_id.responsible}}<br>
                     Aula: {{exercicio.class_id}}<br>
                     Atualizado pela última vez em {{ exercicio.updated_at }}<br><br>
                     {% if user|exercicio_concluido:exercicio.pk and exercicio.multiple_times == False %}
@@ -138,7 +138,7 @@
                         {{ experimentacao.name }}
                     </div>
                     <div class="card-body">
-                    	Professor {{experimentacao.tema_id.responsible}}<br>
+                    	Professor {{experimentacao.turma_id.responsible}}<br>
                     	Aula: {{experimentacao.class_id}}<br>
                         Atualizado pela última vez em {{ experimentacao.updated_at }}<br><br>
                         <a href="{% url 'experimentacao' experimentacao.pk %}" class="btn btn-primary">Ver experimentação</a>

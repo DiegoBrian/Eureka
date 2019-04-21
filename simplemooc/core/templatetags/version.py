@@ -53,7 +53,7 @@ def exercicio_concluido(user, pk):
 
 @register.filter
 def corrigir(user, pk):
-    nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id = user, question_id__exercise_id__tema_id__turma_id__pk = pk, correction= 'N')
+    nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id = user, question_id__exercise_id__class_id__turma_id__pk = pk, correction= 'N')
 
     if nao_corrigidos:
         return True

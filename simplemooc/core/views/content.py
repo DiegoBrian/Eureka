@@ -8,9 +8,9 @@ from core.forms import FormularioCorrecao
 def aula(request, pk):
 	aula = get_object_or_404(Aula, pk=pk)
 
-	if not tem_acesso(request.user, aula.tema_id.pk):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not tem_acesso(request.user, aula.tema_id.pk):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	materiais = Document.objects.filter(aula_id = pk)
 	context = {
@@ -25,16 +25,16 @@ def finalizar_aula(request, pk):
 	aula = Aula.objects.get(pk=pk)
 	Aluno_Aula.objects.create(aluno_id = request.user, aula_id=aula)
 
-	return redirect ('tema', aula.tema_id.pk)
+	return redirect ('turma', aula.turma_id.pk)
 
 
 @login_required
 def experimentacao(request, pk):
 	experimentacao = get_object_or_404(Experimentacao, pk=pk)
 
-	if not tem_acesso(request.user, experimentacao.tema_id.pk):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not tem_acesso(request.user, experimentacao.tema_id.pk):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	context = {
 		'experimentacao' : experimentacao
@@ -46,16 +46,16 @@ def finalizar_experimentacao(request, pk):
 	experimentacao = Experimentacao.objects.get(pk=pk)
 	Aluno_Experimentacao.objects.create(aluno_id = request.user, experimentacao_id=experimentacao)
 
-	return redirect ('experimentacoes', experimentacao.class_id.pk, experimentacao.tema_id.pk)
+	return redirect ('experimentacoes', experimentacao.class_id.pk)
 
 @login_required
 def exercicio(request, exercise_id):
 	exercicio = get_object_or_404(Exercicio, pk=exercise_id)
 
 	#se o usuario digita um url de uma turma que não é dono ou não está matriculado, acesso negado
-	if not tem_acesso(request.user, exercicio.tema_id.pk):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not tem_acesso(request.user, exercicio.tema_id.pk):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	#se o usuario ja concluiu o exercício, verifica se ele é refazivel, se for, ok, se nao for, diz que ele ja fez
 	exercicio_concluido = Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercise_id)
@@ -63,7 +63,7 @@ def exercicio(request, exercise_id):
 		first_time = False
 		if exercicio_concluido[0].exercicio_id.multiple_times == False:
 			messages.error(request, 'Você já concluiu este exercício!')
-			return redirect('tema', pk = exercicio.tema_id.pk)
+			return redirect('turma', pk = exercicio.turma_id.pk)
 		else:
 			Usuario_Pergunta.objects.filter(aluno_id=request.user, question_id__exercise_id=exercicio).delete()
 			Aluno_Exercicio.objects.filter(aluno_id=request.user, exercicio_id=exercicio).delete()
@@ -122,7 +122,7 @@ def exercicio(request, exercise_id):
 		# 	finalizar exercicio
 			Aluno_Exercicio.objects.create(aluno_id=request.user, exercicio_id=exercicio)
 			corrige_multipla_escolha(request.user,exercicio, first_time)
-			return redirect('exercicios', pk = exercicio.class_id.pk, tema_id = exercicio.tema_id.pk, )
+			return redirect('exercicios', pk = exercicio.class_id.pk)
 
 	context = {
 		'exercicio' : exercicio,
@@ -169,7 +169,7 @@ def corrige_multipla_escolha(user, exercise_id, first_time):
 
 @login_required
 def corrige_resposta_aberta(request, turma_pk, aluno_pk):
-	nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id__pk = aluno_pk , question_id__exercise_id__tema_id__turma_id__pk = turma_pk, correction= 'N')
+	nao_corrigidos = Usuario_Pergunta.objects.filter(aluno_id__pk = aluno_pk , question_id__exercise_id__class_id__turma_id__pk = turma_pk, correction= 'N')
 	#print(len(nao_corrigidos))
 	form = FormularioCorrecao(request.POST or None, instance = nao_corrigidos[0])
 	if form.is_valid():
@@ -218,12 +218,7 @@ def turma(request, pk):
 	#	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 	#	return redirect('index')
 
-	temas = Tema.objects.all()
-
-	resultado = []
-	for conteudo in temas:
-		if esta_vinculado(conteudo, pk):
-			resultado.append(conteudo)
+	aulas = Aula.objects.filter(turma_id = pk)
 
 
 	if request.method == 'POST' and 'btnmatricula' in request.POST:
@@ -251,35 +246,35 @@ def turma(request, pk):
 
 	context = {
 		'turma': turma,
-		'temas' : resultado,
+		'aulas' : aulas,
 		'alunos' : nao_matriculados
 	}
 	return render(request, 'content/turma.html', context)
 
 
+# @login_required
+# def tema(request, pk):
+# 	tema = get_object_or_404(Tema, pk = pk)
+
+# 	if not tem_acesso(request.user, tema.pk):
+# 		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+# 		return redirect('index')
+
+# 	aulas = Aula.objects.filter(tema_id = pk)
+
+# 	context = {
+# 		'tema': tema,
+# 		'aulas': aulas
+# 	}
+# 	return render(request,'content/tema.html', context)
+
 @login_required
-def tema(request, pk):
-	tema = get_object_or_404(Tema, pk = pk)
+def exercicios (request, pk):
+	# tema = get_object_or_404(Tema, pk = tema_id)
 
-	if not tem_acesso(request.user, tema.pk):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
-
-	aulas = Aula.objects.filter(tema_id = pk)
-
-	context = {
-		'tema': tema,
-		'aulas': aulas
-	}
-	return render(request,'content/tema.html', context)
-
-@login_required
-def exercicios (request, pk, tema_id):
-	tema = get_object_or_404(Tema, pk = tema_id)
-
-	if not tem_acesso(request.user, tema_id):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not tem_acesso(request.user, tema_id):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	aula = get_object_or_404(Aula, pk = pk)
 
@@ -295,7 +290,7 @@ def exercicios (request, pk, tema_id):
 	#notas = Aluno_Exercicio.objects.filter(exercicio_id__class_id = pk, aluno_id=request.user)
 
 	context = {
-		'tema' : tema,
+		#'tema' : tema,
 		'aula' : aula,
 		'exercicios':exercicios,
 		'scores' : scores
@@ -303,19 +298,19 @@ def exercicios (request, pk, tema_id):
 	return render(request,'content/exercicios.html', context)
 
 @login_required
-def experimentacoes (request, pk, tema_id):
-	tema = get_object_or_404(Tema, pk = tema_id)
+def experimentacoes (request, pk):
+	# tema = get_object_or_404(Tema, pk = tema_id)
 
-	if not tem_acesso(request.user, tema_id):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not tem_acesso(request.user, tema_id):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	aula = get_object_or_404(Aula, pk = pk)
 
 	experimentacoes = Experimentacao.objects.filter(class_id = pk)
 
 	context = {
-		'tema' : tema,
+		#'tema' : tema,
 		'aula' : aula,
 		'experimentacoes':experimentacoes
 	}
@@ -381,31 +376,31 @@ def tem_acesso(user, tema):
 	else:
 		return False
 
-def vincular_conteudos (request, turma_id):
+# def vincular_conteudos (request, turma_id):
 
-	conteudos = Tema.objects.filter(responsible = request.user)
-	turma = Turma.objects.get(pk = turma_id)
+# 	conteudos = Tema.objects.filter(responsible = request.user)
+# 	turma = Turma.objects.get(pk = turma_id)
 
-	resultado = []
+# 	resultado = []
 
-	for conteudo in conteudos:
-		if not esta_vinculado(conteudo, turma_id):
-			resultado.append(conteudo)
+# 	for conteudo in conteudos:
+# 		if not esta_vinculado(conteudo, turma_id):
+# 			resultado.append(conteudo)
 
-	context = {
-		'nao_vinculados': resultado,
-		'turma': turma
-	}
+# 	context = {
+# 		'nao_vinculados': resultado,
+# 		'turma': turma
+# 	}
 
-	return render (request, 'content/vincular_conteudo.html', context)
+# 	return render (request, 'content/vincular_conteudo.html', context)
 
-def esta_vinculado(conteudo, turma_id):
-	vinculo = Tema_Turma.objects.filter(turma_id = turma_id, tema_id=conteudo.pk)
+# def esta_vinculado(conteudo, turma_id):
+# 	vinculo = Tema_Turma.objects.filter(turma_id = turma_id, tema_id=conteudo.pk)
 
-	if vinculo:
-		return True
+# 	if vinculo:
+# 		return True
 
-	return False
+# 	return False
 
 def tem_matricula(user, turma_pk):
 	turma = Turma.objects.get(pk = turma_pk)

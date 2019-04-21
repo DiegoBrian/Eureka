@@ -20,7 +20,7 @@
 
                 {% for field in form %}
                 <div class="form-group" id="div-{{ field.name }}">
-                    {% if field.name != 'tema_id' %}
+                    {% if field.name != 'tuma_id' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
                     {% endif %}
                     {{ field }}
@@ -33,7 +33,7 @@
                 
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Criar aula</button>
-                    <a href="{% url 'tema' tema %}" class="btn btn-danger">Voltar</a>
+                    <a href="{% url 'turma' turma %}" class="btn btn-danger">Voltar</a>
                 </div>
             </fieldset>
         </form>

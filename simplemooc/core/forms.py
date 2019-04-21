@@ -29,8 +29,8 @@ class FormularioForum(BaseForm):
 class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'tema_id', 'summary', 'text_content', 'visual_content']
-		widgets = {'tema_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4})}
+		fields = ['name', 'turma_id', 'summary', 'text_content', 'visual_content']
+		widgets = {'turma_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4})}
 
 	# def __init__(self, tema, *args, **kwargs):
 	# 	super(FormularioAula, self).__init__(*args, **kwargs)
@@ -41,8 +41,8 @@ class FormularioAula(BaseForm):
 class FormularioExercicio(BaseForm):
 	class Meta:
 		model = Exercicio
-		fields = ['name', 'tema_id', 'multiple_times', 'class_id']
-		widgets = {'tema_id' : HiddenInput(),'class_id' : HiddenInput(), 'multiple_times': forms.CheckboxInput(attrs={'style':'width:20px;height:20px;'})}
+		fields = ['name', 'multiple_times', 'class_id']
+		widgets = {'class_id' : HiddenInput(), 'multiple_times': forms.CheckboxInput(attrs={'style':'width:20px;height:20px;'})}
 
 	# def __init__(self, tema, *args, **kwargs):
 	#     super(FormularioExercicio, self).__init__(*args, **kwargs)
@@ -52,8 +52,8 @@ class FormularioExercicio(BaseForm):
 class FormularioExperimentacao(BaseForm):
 	class Meta:
 		model = Experimentacao
-		fields = ['name', 'tema_id', 'text_content', 'visual_content', 'source', 'class_id']
-		widgets = {'tema_id' : HiddenInput(),'class_id' : HiddenInput()}
+		fields = ['name', 'text_content', 'visual_content', 'source', 'class_id']
+		widgets = {'class_id' : HiddenInput()}
 
 	# def __init__(self, tema, *args, **kwargs):
 	#     super(FormularioExperimentacao, self).__init__(*args, **kwargs)
@@ -61,11 +61,11 @@ class FormularioExperimentacao(BaseForm):
 	#     self.fields['class_id'].queryset = Aula.objects.filter(tema_id=tema)
 
 
-class FormularioTema(BaseForm):
-	class Meta:
-		model = Tema
-		fields = ['name', 'responsible']
-		widgets = {'responsible' : HiddenInput()}
+# class FormularioTema(BaseForm):
+# 	class Meta:
+# 		model = Tema
+# 		fields = ['name', 'responsible']
+# 		widgets = {'responsible' : HiddenInput()}
 
 class FormularioTurma(BaseForm):
 	class Meta:

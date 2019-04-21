@@ -32,16 +32,11 @@
         {% endif %}
 	</div>
 	<div class="card-body">
-		<div>
-			<button class="btn bg-green text-white" id="btn_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas que você é responsável estão listadas aqui." width="16" height="16"></button>
-			<button class="btn bg-blue text-white" id="btn_conteudos">Meus Temas <img src="{% static 'img/help-xxl.png' %}"title="Todos os temas criados por você estão listadas aqui, mesmo que não estejam vinculados a nenhuma turma." width="16" height="16"></button>
-		</div>
-		
 		<div id="tabela_turmas">
 			{% for turma in turmas %}
 				<div class="card">
 					<div class="card-header bg-green text-white">
-						{{ turma.name }}
+						VE COM CALMA QUE NOME POR AQUI
 					</div>
 					<div class="card-body">
 						Professor: {{ turma.responsible }}<br>
@@ -57,26 +52,6 @@
 			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-green text-white">Nova turma</a>
 		</div>		
 
-		<div id="tabela_conteudos">
-			{% for tema in temas %}
-			<div class="card">
-				<div class="card-header bg-blue text-white">
-					{{ tema.name }}
-					<a href="{% url 'excluir_tema' tema.pk %}" class="close text-white" aria-label="Excluir tema">&times;</a>
-				</div>
-				<div class="card-body">
-					Professor: {{ tema.responsible }}<br>
-					Atualizado pela última vez em: {{ tema.updated_at }}<br>
-					<br>
-					<a href="{% url 'tema' tema.pk %}" class="btn btn-primary">Acessar Tema</a>
-				</div>
-			</div>
-			{% empty %}
-				Nenhum tema disponível...<br>
-				<br>
-			{% endfor %}
-			<a href="{% url 'criar_tema' 0 %}" class="btn bg-blue text-white">Novo tema</a>
-		</div>
 	</div>
 </div>
 
@@ -137,7 +112,7 @@
 			{% for turma in turmas_publicas %}
 				<div class="card">
 					<div class="card-header bg-blue text-white">
-						{{ turma.name }}
+						VE COM CALMA QUE NOME POR AQUI
 					</div>
 					<div class="card-body">
 						Professor: {{ turma.responsible }}<br>
