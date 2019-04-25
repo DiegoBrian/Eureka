@@ -29,7 +29,7 @@ class FormularioForum(BaseForm):
 class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
-		fields = ['name', 'turma_id', 'summary', 'text_content', 'visual_content']
+		fields = ['name', 'turma_id', 'summary', 'visual_content', 'text_content']
 		widgets = {'turma_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4})}
 
 
@@ -43,7 +43,7 @@ class FormularioExercicio(BaseForm):
 class FormularioExperimentacao(BaseForm):
 	class Meta:
 		model = Experimentacao
-		fields = ['name', 'text_content', 'visual_content', 'source', 'class_id']
+		fields = ['name', 'exp_type', 'visual_content', 'text_content', 'source', 'class_id']
 		widgets = {'class_id' : HiddenInput()}
 
 

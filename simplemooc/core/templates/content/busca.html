@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 	
-    <h2 style="margin-left: 10px;">Resultados de busca por: {{busca}}</h2>
+    <h2 style="margin-left: 10px;">Resultados de busca por: "{{busca}}"</h2>
     
 	{% if turmas %}
 	<div class="card">
@@ -17,7 +17,7 @@
         	{% for turma in turmas %}
 			<div class="card">
 				<div class="card-header bg-dark text-white">
-					VE COM CALMA QUE NOME POR AQUI
+					{{turma.anem}}
 				</div>
 				<div class="card-body">
 					Professor: {{ turma.responsible }}<br>
@@ -30,28 +30,7 @@
         </div>
     </div>
     {% endif %}
-    {% if temas %}
-    <div class="card">
-        <div class="card-header bg-dark text-white">
-            Conteúdos
-        </div>
-        <div class="card-body">
-        	{% for tema in temas %}
-				<div class="card">
-					<div class="card-header bg-dark text-white">
-						{{ tema.name }}
-					</div>
-					<div class="card-body">
-						Professor: {{ tema.responsible }}<br>
-						Atualizado pela última vez em: {{ tema.updated_at }}<br>
-						<br>
-						<a href="{% url 'tema' tema.pk %}" class="btn btn-success">Acessar Conteúdo</a><br>
-					</div>
-				</div>
-			{% endfor %}
-        </div>
-    </div>
-    {% endif %}
+
     {% if aulas %}
     <div class="card">
         <div class="card-header bg-dark text-white">
@@ -66,9 +45,6 @@
                     <div class="card-header bg-primary text-white">
                     {% endif %}
                         {{ aula.name }}
-                        {% if user.user_type == 'PROFESSOR' %}
-                            <a href="{% url 'excluir_aula' aula.pk %}" class="close text-white" aria-label="Excluir aula">&times;</a><br>
-                        {% endif %}
                     </div>
                     <div class="card-body">
                         {{ aula.summary }}<br><br>

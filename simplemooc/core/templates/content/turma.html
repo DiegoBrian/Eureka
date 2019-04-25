@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load version %}
-{% block title %}VE COM CALMA QUE NOME POR AQUI{% endblock %}
+{% block title %}{{turma.name}}{% endblock %}
 {% block javascript %}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
@@ -9,14 +9,14 @@
 {% endblock %}
 {% block content %}
 	<div class="card">
-		<div class="card-header bg-green text-white">
+		<div class="card-header bg-dark text-white">
 			Turma {{turma}}
 		</div>
 		<div class="card-body">
 			{% if user == turma.responsible %}
 			<div>
-				<button class="btn bg-blue text-white" id="btn_conteudos">Aulas <img src="{% static 'img/help-xxl.png' %}"title="Todos os temas vinculados à turma {{turma}} estão lostadas aqui" width="16" height="16"></button>
-				<button class="btn bg-maroon text-white" id="btn_alunos">Gerenciar Alunos <img src="{% static 'img/help-xxl.png' %}"title="Veja opções de ações relacionadas ao gerenciamento de alunos" width="16" height="16"> </button>
+				<button class="btn bg-dark text-white" id="btn_conteudos">Aulas <img src="{% static 'img/help-xxl.png' %}"title="Todas as aulas vinculadas à turma {{turma}} estão listadas aqui" width="16" height="16"></button>
+				<button class="btn bg-dark text-white" id="btn_alunos">Gerenciar Alunos <img src="{% static 'img/help-xxl.png' %}"title="Veja opções de ações relacionadas ao gerenciamento de alunos" width="16" height="16"> </button>
 			</div>
 			{% endif %}
 			<div id="conteudos">
@@ -71,13 +71,13 @@
                 </div>
             {% endfor %}
             {% if user.user_type == 'PROFESSOR' %}
-                <a href="{% url 'criar_aula' turma.pk %}" class="btn bg-blue text-white">Nova aula</a>
+                <a href="{% url 'criar_aula' turma.pk %}" class="btn bg-dark text-white">Nova aula</a>
             {% endif %}
 			
 			</div>
 			{% if user == turma.responsible %}
 			<div class="card" id="alunos">
-				<div class="card-header bg-maroon text-white">
+				<div class="card-header bg-dark text-white">
 					Selecione um aluno para matriculá-lo nesta turma.
 				</div>
 				<div class="card-body">
@@ -91,7 +91,7 @@
 								{% endfor %}
 							</select>
 						</div>
-						<input type="submit" value="Matricular" class="btn btn-maroon text-white" name="btnmatricula"/><br>
+						<input type="submit" value="Matricular" class="btn btn-dark text-white" name="btnmatricula"/><br>
 						<a href="{% url 'listar_alunos' turma.pk %}">Ver alunos já matriculados</a>
 					</form>
 				</div>

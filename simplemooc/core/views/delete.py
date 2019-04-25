@@ -20,9 +20,9 @@ def excluir_exercicio(request,pk):
 
 def excluir_experimentacao(request,pk):
 	exp = Experimentacao.objects.get(pk=pk)
-	aula = exp.tema_id
+	aula = exp.class_id
 	exp.delete()
-	return redirect ('exercicios', aula.pk)
+	return redirect ('experimentacoes', aula.pk)
 
 
 def excluir_turma(request,pk):

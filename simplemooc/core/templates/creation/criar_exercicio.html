@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Novo exercício{% endblock %}
+{% block title %}Nova Situação-Problema{% endblock %}
 
 {% block content %}
 <div class="card">
 	<div class="card-header bg-dark text-white">
-        <h2>Novo exercício</h2>
+        <h2>Nova Situação-Problema</h2>
     </div>
     <div class="card-body">
         <form method="post">
@@ -31,7 +31,8 @@
                 {% endfor %}
 
                 <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Criar exercício</button>
+                    <button type="submit" class="pure-button pure-button-primary">Criar Situação-Problema</button>
+                    <a href="{% url 'exercicios' aula %}" class="btn btn-danger">Voltar</a>
                 </div>
             </fieldset>
         </form>

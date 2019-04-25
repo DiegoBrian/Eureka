@@ -79,8 +79,8 @@ class Material(models.Model):
 		return self.name
 
 class Exercicio(models.Model):
-	name = models.CharField('Nome', max_length=100, default='Exercicio')
-	multiple_times = models.BooleanField('Pode ser feito mais de uma vez', default=False)
+	name = models.CharField('Nome', max_length=100, default='Nova Situação-Problema')
+	multiple_times = models.BooleanField('Pode ser realizada mais de uma vez', default=False)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 	class_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, blank=True, null=True)
@@ -90,6 +90,15 @@ class Exercicio(models.Model):
 		return self.name
 
 class Experimentacao(models.Model):
+	EXP_OPTIONS = (
+		('CIÊNCIA', 'Ciência'),
+		('JOGO', 'Jogo'),
+		('NOTICIA', 'Notícia'),
+		('MÚSICA', 'Música'),		
+		('VÍDEO', 'Vídeo')
+	)
+
+	exp_type = models.CharField('Categoria', max_length=9, choices=EXP_OPTIONS, default='CIENCIA')
 	name = models.CharField('Título', max_length=100, default='Experimentacao')
 	text_content = models.TextField('Conteúdo textual',null=True, blank = True)
 	visual_content = models.CharField('Link para vídeo', max_length=2048, null=True, blank = True)

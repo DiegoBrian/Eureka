@@ -21,8 +21,8 @@
 		<div id="tabela_turmas">
 			{% for turma in turmas %}
 				<div class="card">
-					<div class="card-header bg-green text-white">
-						VE COM CALMA QUE NOME POR AQUI
+					<div class="card-header bg-dark text-white">
+						{{turma.name}}
 					</div>
 					<div class="card-body">
 						Professor: {{ turma.responsible }}<br>
@@ -35,7 +35,7 @@
 					Nenhuma Turma disponível... <br>
 					<br>
 			{% endfor %}
-			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-green text-white">Nova turma</a>
+			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
 		</div>		
 
 	</div>
@@ -54,14 +54,14 @@
 	</div>
 	<div class="card-body">
 		<div>
-			<button class="btn bg-green text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
-			<button class="btn bg-green text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
+			<button class="btn bg-dark text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas em que você está matriculado estão listadas aqui." width="16" height="16"></button>
+			<button class="btn bg-dark text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui. Você pode se inscrever naquelas que tiver mais interesse." width="16" height="16"></button>
 		</div>
 		<br>
 		<div id="tabela_minhas_turmas">
 			{% for matricula in matriculas %}
                 <div class="card">
-					<div class="card-header bg-green text-white">
+					<div class="card-header bg-dark text-white">
 						{{ matricula.turma_id }}
 					</div>
 					<div class="card-body">
@@ -79,8 +79,8 @@
 		<div id="tabela_outras_turmas">
 			{% for turma in turmas_publicas %}
 				<div class="card">
-					<div class="card-header bg-blue text-white">
-						VE COM CALMA QUE NOME POR AQUI
+					<div class="card-header bg-dark text-white">
+						{{turma.name}}
 					</div>
 					<div class="card-body">
 						Professor: {{ turma.responsible }}<br>

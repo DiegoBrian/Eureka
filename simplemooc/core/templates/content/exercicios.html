@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load version %}
-{% block title %}VE COM CALMA QUE NOME POR AQUI{% endblock %}
+{% block title %}{{aula.name}}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
@@ -41,10 +41,10 @@
                 </div>
             </div>
             {% empty %}
-                Nenhum exercício disponível...<br><br>
+                Nenhuma situação-problema disponível...<br><br>
             {% endfor %}
             {% if user.user_type == 'PROFESSOR' %}
-                <a href="{% url 'criar_exercicio' aula.pk %}" class="btn bg-dark text-white">Novo exercício</a>
+                <a href="{% url 'criar_exercicio' aula.pk %}" class="btn bg-dark text-white">Nova Situação-Problema</a>
             {% endif %}
             <a href="{% url 'turma' aula.turma_id.pk %}" class="btn btn-danger">Voltar</a>
         </div>

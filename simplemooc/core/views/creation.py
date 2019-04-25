@@ -59,7 +59,8 @@ def criar_experimentacao(request, class_id):
 		return redirect('experimentacoes', pk = class_id)
 
 	context = {
-		'form' : form
+		'form' : form,
+		'aula': class_id
 	}
 
 	return render (request, "creation/criar_experimentacao.html", context)
@@ -79,7 +80,8 @@ def criar_exercicio(request, class_id):
 		return redirect('criar_pergunta', exercise_id = new_exercise.pk)
 
 	context = {
-		'form' : form
+		'form' : form,
+		'aula': class_id
 	}
 
 	return render (request, "creation/criar_exercicio.html", context)
