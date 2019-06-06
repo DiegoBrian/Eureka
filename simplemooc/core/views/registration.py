@@ -22,7 +22,7 @@ def desfazer_matricula(request, pk):
 	matricula = get_object_or_404(Aluno_Turma, aluno_id = request.user, turma_id = turma)
 	matricula.delete()
 	messages.success(request, 'Sua inscrição foi cancelada com sucesso')
-	return redirect ('usuario')
+	return redirect ('usuario', request.user.pk)
 
 
 def cadastrar(request, user_type):

@@ -17,12 +17,12 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 	username = models.CharField('Nome de Usuário', max_length=30, unique=True, validators = [validators.RegexValidator(re.compile('^[\w.@+-]+$'), 'O nome de usuário só pode conter letras, dígitos ou os seguintes caracteres @/./+/-/_', 'invalid')])
 	name = models.CharField('Nome', max_length=100)
-	gender = user_type = models.CharField('Sexo', max_length=9, choices=GENDER_OPTIONS, default='MASCULINO')
+	gender = user_type = models.CharField('Sexo', max_length=9, choices=GENDER_OPTIONS)
 	birth_date = models.DateField('Data de Nascimento', null=True, blank = True)
 	grade = models.IntegerField('Série', validators=[MaxValueValidator(9), MinValueValidator(1)], null=True, blank = True)
 	email = models.EmailField('Email', max_length=256, blank=True, unique=True)
 	image = models.FileField(null = True, blank = True)
-	user_type = models.CharField('Tipo', max_length=9, choices=USER_OPTIONS, default='ALUNO')
+	user_type = models.CharField('Tipo', max_length=9, choices=USER_OPTIONS)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 	is_active = models.BooleanField('Esta ativo?', blank=True, default=True)
@@ -57,10 +57,10 @@ class Turma(models.Model):
 
 
 class Aula(models.Model):
-	name = models.CharField('Nome', max_length=100, default='Aula X')
+	name = models.CharField('Nome', max_length=100)
 	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
 	text_content = models.TextField('Conteúdo textual')
-	summary = models.TextField('Resumo', default="")
+	summary = models.TextField('Resumo')
 	visual_content = models.CharField('Link para vídeo', max_length=2048, blank=True, null=True)
 	file = models.FileField('Arquivo',null = True, blank = True)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
@@ -73,13 +73,13 @@ class Material(models.Model):
 	name = models.CharField('Nome', max_length=100)
 	file = models.FileField(upload_to='core/materials', blank=True, null=True)
 
-	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, default=1, related_name='materials')
+	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, related_name='materials')
 
 	def __str__(self):
 		return self.name
 
 class Exercicio(models.Model):
-	name = models.CharField('Nome', max_length=100, default='Nova Situação-Problema')
+	name = models.CharField('Nome', max_length=100)
 	multiple_times = models.BooleanField('Pode ser realizada mais de uma vez', default=False)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -98,8 +98,8 @@ class Experimentacao(models.Model):
 		('VÍDEO', 'Vídeo')
 	)
 
-	exp_type = models.CharField('Categoria', max_length=9, choices=EXP_OPTIONS, default='CIENCIA')
-	name = models.CharField('Título', max_length=100, default='Experimentacao')
+	exp_type = models.CharField('Categoria', max_length=9, choices=EXP_OPTIONS)
+	name = models.CharField('Título', max_length=100)
 	text_content = models.TextField('Conteúdo textual',null=True, blank = True)
 	visual_content = models.CharField('Link para vídeo', max_length=2048, null=True, blank = True)
 	source = models.CharField('Fonte', max_length=2048, default='http://')
@@ -123,7 +123,7 @@ class Pergunta(models.Model):
 		('e', 'e'),
 	)
 	exercise_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE)
-	number = models.IntegerField('Número', default=1)
+	number = models.IntegerField('Número')
 	text = models.TextField('Enunciado')
 	quesion_type = models.CharField('Tipo', max_length=9, choices=QUESTION_OPTIONS, default='FECHADA')
 	answer_a = models.CharField('a)', max_length=2048, null=True, blank = True)
@@ -131,7 +131,7 @@ class Pergunta(models.Model):
 	answer_c = models.CharField('c)', max_length=2048, null=True, blank = True)
 	answer_d = models.CharField('d)', max_length=2048, null=True, blank = True)
 	answer_e = models.CharField('e)', max_length=2048, null=True, blank = True)
-	correct_answer = models.CharField('Resposta correta', max_length=1, choices=CORRECT_ANSWER, default='A')
+	correct_answer = models.CharField('Resposta correta', max_length=1, choices=CORRECT_ANSWER, default='a')
 
 	def __str__(self):
 		return self.text
@@ -169,7 +169,7 @@ class Aluno_Turma(models.Model):
 
 class Aluno_Exercicio(models.Model):
 	exercicio_id = models.ForeignKey('Exercicio', verbose_name='Exercício', on_delete=models.CASCADE, default=1)
-	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 	corrects = models.IntegerField('Certos', default=0)
 	wrongs = models.IntegerField('Errados', default=0)
 	score = models.FloatField('Nota final', blank=True, null=True)
@@ -206,15 +206,15 @@ class Teste (models.Model):
 	text = models.TextField("Texto")
 
 class Aluno_Aula(models.Model):
-	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, default=1)
-	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 	
 	def __str__(self):
 		return self.aluno_id.name+" concluiu a aula "+self.aula_id.name
 
 class Aluno_Experimentacao(models.Model):
 	experimentacao_id = models.ForeignKey('Experimentacao', verbose_name='Experimentacao', on_delete=models.CASCADE, default=1)
-	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE, default=1)
+	aluno_id = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 	
 	def __str__(self):
 		return self.aluno_id.name+" concluiu a experimentacao "+self.experimentacao_id.name

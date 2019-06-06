@@ -91,9 +91,9 @@ def criar_exercicio(request, class_id):
 def criar_turma(request, profesor_id):
 
 	#controle de acesso
-	if not (request.user.user_type == 'PROFESSOR'):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not (request.user.user_type == 'PROFESSOR'):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	form = FormularioTurma(request.POST or None, initial={'responsible': profesor_id})
 	if form.is_valid():
@@ -113,9 +113,9 @@ def criar_pergunta(request, exercise_id):
 	exercicio = Exercicio.objects.get(pk = exercise_id)
 
 	#controle de acesso
-	if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, exercicio.class_id.tema_id.pk)):
-		messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
-		return redirect('index')
+	# if not (request.user.user_type == 'PROFESSOR' and eh_responsavel(request.user, exercicio.class_id.tema_id.pk)):
+	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
+	# 	return redirect('index')
 
 	perguntas = Pergunta.objects.filter(exercise_id=exercise_id).order_by('-number')
 	if perguntas:

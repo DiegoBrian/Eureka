@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load version %}
 
-{% block title %}Usuário: {{user}}{% endblock %}
+{% block title %}Usuário: {{usuario}}{% endblock %}
 
 {% block content %}
 <div class="card cardEspecial">
@@ -9,13 +9,6 @@
 		Perfil do Usuário
 	</div>
 	<div class="card-body">
-		<div class="pure-u-1">
-			<ul class="breadcrumb">
-				{% block breadcrumb %}
-				<li><a href="{% url 'usuario' %}">Meu Painel</a></li>
-				{% endblock %}
-			</ul>
-		</div>
 		<div>
 			{% block dashboard_content %}
 				<div class="card">
@@ -24,71 +17,105 @@
 					</div>
 					
 					<div class="card-body">
-						{% if user.image %}
-						<img src="{{ user.image.url }}"style=" width: 150px; height: 200px; margin-right: 10px;" class="img-fluid" align="left">
+						{% if usuario.image %}
+						<img src="{{ usuario.image.url }}"style=" width: 150px; height: 200px; margin-right: 10px;" class="img-fluid" align="left">
 						{% else %}
 						<img src="https://www.cisidat.org.mx/home/wp-content/uploads/2016/10/no-user.jpg" style="max-width:150px; margin-right: 10px;" class="img-fluid" align="left">
 						{% endif %}
-						<p>Nome de usuário: {{user.username}}<br>
-						Nome: {{user.name}}<br>
-						Email: {{user.email}}<br>
-						Sexo: {{user.gender}}<br>
-						Data de Nascimento: {{user.birth_date}}<br>
-						{% if user.user_type == 'ALUNO' %}
-						Série: {{user.grade}}º ano<br></p>
+						<p>Nome de usuário: {{usuario.username}}<br>
+						Nome: {{usuario.name}}<br>
+						Email: {{usuario.email}}<br>
+						Sexo: {{usuario.gender}}<br>
+						Data de Nascimento: {{usuario.birth_date}}<br>
+						{% if usuario.user_type == 'ALUNO' %}
+						Série: {{usuario.grade}}º ano<br></p>
 						{% endif %}
 					</div>
 				</div>
 				<div class="card cardEspecial">
 					<div class="card-header bg-dark text-white">
-						Minhas turmas
+						Turmas Inscritas
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table">
-								<thead class="bg-dark text-white">
-									<tr>
-										<th scope="col">Turma</th>
-										<th scope="col" style="width: 20%">Opções</th>
-									</tr>
-								</thead>
-								<tbody>
-								{% if user.user_type == 'ALUNO' %}
-									{% load_my_courses user as matriculas %}
-									{% for matricula in matriculas %}
+								{% if usuario == user %}
+									<thead class="bg-dark text-white">
 										<tr>
-											<td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
-											<td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
+											<th scope="col">Turma</th>
+											<th scope="col" style="width: 20%">Opções</th>
 										</tr>
-									{% empty %}
-										<tr>
-											<td>Nenhuma turma disponível...</td>
-										</tr>
-									{% endfor %}
+									</thead>
+									<tbody>
+									{% if usuario.user_type == 'ALUNO' %}
+										{% load_my_courses usuario as matriculas %}
+										{% for matricula in matriculas %}
+											<tr>
+												<td><a href="{% url 'turma' matricula.turma_id.pk %}">{{ matricula.turma_id }}</a></td>
+												<td><a href="{% url 'desmatricular' matricula.turma_id.pk %}" class="btn btn-danger">Desinscrever-se</a></td>
+											</tr>
+										{% empty %}
+											<tr>
+												<td>Nenhuma turma disponível...</td>
+											</tr>
+										{% endfor %}
+									{% else %}
+										{% for turma in turmas %}
+											<tr>
+												<td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
+												<td><a href="{% url 'excluir_turma' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
+											</tr>
+										{% empty %}
+											<tr>
+												<td>Nenhuma Turma disponível</td>
+											</tr>
+										{% endfor %}
+									{% endif %}
+									</tbody>
 								{% else %}
-									{% for turma in turmas %}
+									<thead class="bg-dark text-white">
 										<tr>
-											<td><a href="{% url 'turma' turma.pk %}">{{ turma }}</a></td>
-											<td><a href="{% url 'excluir_turma' turma.pk %}" class="btn btn-danger">Excluir Turma</a></td>
-										</tr>
-									{% empty %}
-										<tr>
-											<td>Nenhuma Turma disponível</td>
-										</tr>
-									{% endfor %}
+											<th scope="col">Turma</th>
+											</tr>
+									</thead>
+									<tbody>
+									{% if usuario.user_type == 'ALUNO' %}
+										{% load_my_courses usuario as matriculas %}
+										{% for matricula in matriculas %}
+											<tr>
+												<td>{{ matricula.turma_id }}</td>
+											</tr>
+										{% empty %}
+											<tr>
+												<td>Nenhuma turma disponível...</td>
+											</tr>
+										{% endfor %}
+									{% else %}
+										{% for turma in turmas %}
+											<tr>
+												<td>{{ turma }}</td>
+											</tr>
+										{% empty %}
+											<tr>
+												<td>Nenhuma Turma disponível</td>
+											</tr>
+										{% endfor %}
+									{% endif %}
+									</tbody>
 								{% endif %}
-							  </tbody>
 							</table>
 						</div>
 					</div>
 				</div>
 
+				{% if user == usuario %}
 				<form action="{% url 'editar_usuario' %}" style="display:inline-block;">
 					<input type="submit" value="Editar usuário" class="btn btn-dark"/>
 				</form>
 				<form action="{% url 'editar_senha' %}" style="display:inline-block;">
 					<input type="submit" value="Editar senha" class="btn btn-dark"/>
 				</form>
+				{% endif %} 
 				
 			{% endblock %}
 		</div>

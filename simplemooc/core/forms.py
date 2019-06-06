@@ -30,7 +30,7 @@ class FormularioAula(BaseForm):
 	class Meta:
 		model = Aula
 		fields = ['name', 'turma_id', 'summary', 'visual_content', 'text_content']
-		widgets = {'turma_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4})}
+		widgets = {'turma_id' : HiddenInput(), 'summary': Textarea(attrs={'rows':4 , 'cols':15})}
 
 
 class FormularioExercicio(BaseForm):

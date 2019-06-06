@@ -6,13 +6,15 @@ from core.models import *
 from core.forms import *
 
 @login_required
-def usuario(request):
-	turmas = Turma.objects.filter(responsible= request.user)
-	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=request.user)
+def usuario(request, usuario_id):
+	usuario = Usuario.objects.get(pk=usuario_id)
+	turmas = Turma.objects.filter(responsible= usuario)
+	aluno_exercicios = Aluno_Exercicio.objects.filter(aluno_id=usuario)
 	#print(aluno_exercicios)
 	context = {
 		'turmas' : turmas,
-		'aluno_exercicios' : aluno_exercicios
+		'aluno_exercicios' : aluno_exercicios,
+		'usuario' : usuario
 	}
 	return render(request,'user/usuario.html', context)
 
@@ -25,7 +27,7 @@ def editar_usuario(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Os dados foram alterados com sucesso')
-			redirect('usuario')
+			redirect('usuario',1)
 	else:
 		form = FormularioEditarConta(instance = request.user)
 	context ['form'] = form

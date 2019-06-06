@@ -2,12 +2,6 @@
 
 {% block title %}Editar usuário: {{user}}{% endblock %}
 
-{% block breadcrumb %}
-    {{ block.super }}
-    <li>&nbsp;/&nbsp;</li>
-    <li><a href="{% url 'editar_usuario' %}">Editar Conta</a></li>
-{% endblock %}
-
 {% block dashboard_content %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}

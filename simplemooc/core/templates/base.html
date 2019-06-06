@@ -11,31 +11,37 @@
 	<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}"/>
 	{% block javascript %}{% endblock %}
 </head>
 <body style="background-color: #F0F0F0;">
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark text-white">
-    <a class="navbar-brand abs" href="{% url 'home' %}">EUREKA</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse" id="collapsingNavbar">
-        
-        {% if user.is_authenticated %}
-        <ul class="navbar-nav">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Início</a>
         	</li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'usuario' %}">Perfil</a>
+                <a class="nav-link" href="{% url 'usuario' user.pk %}">Perfil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
             </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'geogebra' %}">Geogebra</a>
+            </li>
         </ul>
-
-		{% endif %}
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand abs" href="{% url 'home' %}">EUREKA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
             	<li>
@@ -52,9 +58,6 @@
 	                <a class="nav-link" href="{% url 'login' %}">Entrar</a>
 	            </li>
 	        {% endif %}
-	        <li class="nav-item">
-	                <a class="nav-link" href="{% url 'geogebra' %}">Geogebra</a>
-	        </li>
         </ul>
     </div>
 </nav>

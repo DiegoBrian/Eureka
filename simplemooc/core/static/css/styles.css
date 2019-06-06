@@ -288,19 +288,3 @@ input[type=search]:focus {
   background-color: #fff;
   /*border-color: #66CC75;*/
 }
-
-.bg-blue{
-  background-color: #000033;
-}
-
-.bg-maroon{
-  background-color: #400000;
-}
-
-.btn-dark{
-  background-color: #800000;
-}
-
-.bg-yellow{
-  background-color: #363600;
-}

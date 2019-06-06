@@ -17,7 +17,7 @@
         	{% for turma in turmas %}
 			<div class="card">
 				<div class="card-header bg-dark text-white">
-					{{turma.anem}}
+					{{turma.name}}
 				</div>
 				<div class="card-body">
 					Professor: {{ turma.responsible }}<br>
@@ -54,7 +54,7 @@
                             {% if user|aula_concluida:aula.pk %}
                             <a href="{% url 'aula' aula.pk %}" class="btn btn-success">Compreendendo</a>
                             <a href="{% url 'exercicios' aula.pk %}" class="btn btn-success">Praticando</a>
-                            <a href="{% url 'experimentacoes' %}" class="btn btn-success">Experimentando</a>
+                            <a href="{% url 'experimentacoes' aula.pk%}" class="btn btn-success">Experimentando</a>
                             {% else %}
                             <a href="{% url 'aula' aula.pk %}" class="btn btn-primary">Compreendendo</a>
                             <a href="{% url 'exercicios' aula.pk  %}" class="btn btn-primary">Praticando</a>
