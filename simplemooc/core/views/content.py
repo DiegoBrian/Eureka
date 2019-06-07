@@ -36,8 +36,11 @@ def experimentacao(request, pk):
 	# 	messages.error(request, 'Você não tem permissão para acessar este conteúdo!')
 	# 	return redirect('index')
 
+	materiais = Document.objects.filter(experimentacao_id = pk)
+
 	context = {
-		'experimentacao' : experimentacao
+		'experimentacao' : experimentacao,
+		'materiais' : materiais
 	}
 	return render(request, 'content/experimentacao.html', context)
 

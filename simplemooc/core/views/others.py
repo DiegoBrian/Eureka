@@ -83,17 +83,23 @@ def buscar (request):
 	return render(request, 'content/busca.html', context)
 
 
-def testes(request, aula_id):
+def adicionar_material(request, pk, tipo):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('aula', aula_id)
+            if tipo == 'aula':
+            	return redirect('aula', pk)
+            else:
+            	return redirect('experimentacao', pk)
     else:
-        form = DocumentForm(initial={'aula_id': aula_id})
+        if tipo == 'aula':
+        	form = DocumentForm(initial={'aula_id': pk})
+       	else:
+       		form = DocumentForm(initial={'experimentacao_id': pk})
 
     context = {
         'form': form
     }
 
-    return render(request, 'testes.html', context)
+    return render(request, 'adicionar_material.html', context)

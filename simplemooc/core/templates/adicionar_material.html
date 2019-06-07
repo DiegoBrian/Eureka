@@ -13,7 +13,7 @@
 
                 {% for field in form %}
                 <div class="form-group">
-                    {% if field.name != 'aula_id' %}
+                    {% if field.name != 'aula_id' and field.name != 'experimentacao_id' %}
                         <label for="{{ field.name }}">{{ field.label_tag }}</label>
                     {% endif %}
                     {{ field }}

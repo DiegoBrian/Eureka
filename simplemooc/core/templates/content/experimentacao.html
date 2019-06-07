@@ -14,6 +14,14 @@
             	<div class="embed-responsive embed-responsive-16by9">{{experimentacao.visual_content|youtube|safe}}</div>
             {% endif %}
             
+            <div>
+            {% for material in materiais %}
+                Materiais:<br>
+                <a href="{{material.image.url}}">{{material.description}}</a><br>
+            {% endfor %}
+            </div>
+            <br>
+
             <div>{{experimentacao.text_content|safe}}</div>
 
             <div style="text-align: right;">Fonte: <a href="{{experimentacao.source}}">{{experimentacao.source}}</a></div>
@@ -22,7 +30,11 @@
                 {% if not user|experimentacao_concluida:experimentacao.pk %}
                 <a href="{% url 'finalizar_experimentacao' pk=experimentacao.pk %}" class="btn btn-success">Finalizar experimentação</a>
                 {% endif %}
-		        
+                {% if user.user_type == 'PROFESSOR' %}
+                <a href="{% url 'adicionar_material' experimentacao.pk 'experimentacao' %}" class="btn btn-success">Adicionar material</a>
+                {% endif %}
+                <a href="{% url 'experimentacoes' experimentacao.class_id.pk %}" class="btn btn-danger">Voltar</a>
+                </div>		        
 		    </div>
 		    
         </div>

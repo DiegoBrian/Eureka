@@ -9,4 +9,6 @@ $( document ).ready(function() {
     else{
     	$("#id_user_type").val("PROFESSOR");
     }
+
+    $("#id_birth_date").mask("99/99/9999");
 });

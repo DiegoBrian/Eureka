@@ -17,7 +17,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 	username = models.CharField('Nome de Usuário', max_length=30, unique=True, validators = [validators.RegexValidator(re.compile('^[\w.@+-]+$'), 'O nome de usuário só pode conter letras, dígitos ou os seguintes caracteres @/./+/-/_', 'invalid')])
 	name = models.CharField('Nome', max_length=100)
-	gender = user_type = models.CharField('Sexo', max_length=9, choices=GENDER_OPTIONS)
+	gender = user_type = models.CharField('Sexo', max_length=9, choices=GENDER_OPTIONS, default='MASCULINO')
 	birth_date = models.DateField('Data de Nascimento', null=True, blank = True)
 	grade = models.IntegerField('Série', validators=[MaxValueValidator(9), MinValueValidator(1)], null=True, blank = True)
 	email = models.EmailField('Email', max_length=256, blank=True, unique=True)
@@ -73,7 +73,8 @@ class Material(models.Model):
 	name = models.CharField('Nome', max_length=100)
 	file = models.FileField(upload_to='core/materials', blank=True, null=True)
 
-	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, related_name='materials')
+	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, related_name='materials',blank=True, null=True)
+	experimentacao_id = models.ForeignKey('Experimentacao', verbose_name='Aula', on_delete=models.CASCADE, related_name='materials',blank=True, null=True)
 
 	def __str__(self):
 		return self.name
@@ -91,14 +92,14 @@ class Exercicio(models.Model):
 
 class Experimentacao(models.Model):
 	EXP_OPTIONS = (
-		('CIÊNCIA', 'Ciência'),
+		('CIENCIA', 'Ciência'),
 		('JOGO', 'Jogo'),
 		('NOTICIA', 'Notícia'),
 		('MÚSICA', 'Música'),		
 		('VÍDEO', 'Vídeo')
 	)
 
-	exp_type = models.CharField('Categoria', max_length=9, choices=EXP_OPTIONS)
+	exp_type = models.CharField('Categoria', max_length=9, choices=EXP_OPTIONS,default='CIENCIA')
 	name = models.CharField('Título', max_length=100)
 	text_content = models.TextField('Conteúdo textual',null=True, blank = True)
 	visual_content = models.CharField('Link para vídeo', max_length=2048, null=True, blank = True)
@@ -225,7 +226,8 @@ class Document(models.Model):
 	image = models.FileField('Arquivo', null = True, blank = True)
 	uploaded_at = models.DateTimeField(auto_now_add=True)
 
-	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE)
+	aula_id = models.ForeignKey('Aula', verbose_name='Aula', on_delete=models.CASCADE, null=True, blank=True)
+	experimentacao_id = models.ForeignKey('Experimentacao', verbose_name='Experimentacao' ,on_delete=models.CASCADE, null=True, blank=True)
 
 	def __str__(self):
 		return self.description

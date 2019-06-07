@@ -138,5 +138,5 @@ class FormularioCorrecao(BaseForm):
 class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ('description', 'image', 'aula_id')
-        widgets = {'aula_id' : HiddenInput()}
+        fields = ('description', 'image', 'aula_id', 'experimentacao_id')
+        widgets = {'aula_id' : HiddenInput(), 'experimentacao_id' : HiddenInput()}
