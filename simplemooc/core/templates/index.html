@@ -18,7 +18,12 @@
         {% endif %}
 	</div>
 	<div class="card-body">
-		<div id="tabela_turmas">
+		<div>
+			<button class="btn bg-dark text-white" id="btn_minhas_turmas">Minhas turmas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas que você criou estão listadas aqui." width="16" height="16"></button>
+			<button class="btn bg-dark text-white" id="btn_outras_turmas">Outras turmas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as turmas públicas presentes na plataforma estão listadas aqui." width="16" height="16"></button>
+		</div>
+		<br>
+		<div id="tabela_minhas_turmas">
 			{% for turma in turmas %}
 				<div class="card">
 					<div class="card-header bg-dark text-white">
@@ -29,6 +34,7 @@
 						Tipo: {{ turma.get_course_type_display }}<br>
 						Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
 						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
+						<a href="{% url 'forum' turma.pk %}">opa</a>
 					</div>
 				</div>
 			{% empty %}
@@ -36,7 +42,25 @@
 					<br>
 			{% endfor %}
 			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
-		</div>		
+		</div>
+		<div id="tabela_outras_turmas">
+			{% for turma in turmas_publicas %}
+				<div class="card">
+					<div class="card-header bg-dark text-white">
+						{{turma.name}}
+					</div>
+					<div class="card-body">
+						Professor: {{ turma.responsible }}<br>
+						Tipo: {{ turma.get_course_type_display }}<br>
+						Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
+						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
+						<a href="{% url 'forum' turma.pk %}">opa</a>
+					</div>
+				</div>
+			{% empty %}
+				Nenhuma outra turma disponível...
+			{% endfor %}
+		</div>	
 
 	</div>
 </div>
@@ -69,6 +93,7 @@
 						Tipo: {{matricula.turma_id.get_course_type_display}}<br>
 						Atualizado pela última vez em: {{matricula.turma_id.updated_at}}<br><br>
 						<a href="{% url 'turma' matricula.turma_id.pk %}" class="btn btn-success">Acessar Turma</a>
+						<a href="{% url 'forum' matricula.turma_id.pk %}">opa</a>
 					</div>
 				</div>
             {% empty %}

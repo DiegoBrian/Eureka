@@ -34,10 +34,16 @@ def index(request):
 		turmas = Turma.objects.filter(responsible= request.user)
 		matriculas = Aluno_Turma.objects.filter(aluno_id=request.user)
 		resultado = []
-		turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
-		for turma in turmas_publicas:
-			if not esta_matriculado(request.user, turma.pk):
-				resultado.append(turma)
+		if(request.user.user_type == 'ALUNO'):
+			turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
+			for turma in turmas_publicas:
+				if not esta_matriculado(request.user, turma.pk):
+					resultado.append(turma)
+		else:
+			turmas_publicas = Turma.objects.filter(course_type = 'PUBLICA')
+			for turma in turmas_publicas:
+				if not eh_responsavel(request.user, turma.pk):
+					resultado.append(turma)
 
 
 	context = {
@@ -52,6 +58,17 @@ def esta_matriculado(user, turma_pk):
 	matricula = Aluno_Turma.objects.filter(aluno_id = user, turma_id = turma)
 
 	if matricula:
+		return True
+	else:
+		return False
+
+def eh_responsavel(user, turma_pk):
+	turma = Turma.objects.get(pk = turma_pk)
+
+	print(turma.responsible)
+	print(user)
+	
+	if turma.responsible == user:
 		return True
 	else:
 		return False

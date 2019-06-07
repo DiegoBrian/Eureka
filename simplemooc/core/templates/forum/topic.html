@@ -52,7 +52,10 @@
 			                    {{ field.errors }}
 			                </div>
 			            {% endfor %}
-			            <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+			            <div class="pure-controls">
+			            	<button type="submit" class="pure-button pure-button-primary">Enviar</button>
+			            	<a href="{% url 'forum' topic.turma_id.pk %}" class="btn btn-danger">Voltar</a>
+			            </div>
 				        </fieldset>
 			    	</form>
 		        </div>
