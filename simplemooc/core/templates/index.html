@@ -33,15 +33,15 @@
 						Professor: {{ turma.responsible }}<br>
 						Tipo: {{ turma.get_course_type_display }}<br>
 						Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
-						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
-						<a href="{% url 'forum' turma.pk %}">opa</a>
+						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a><br>
+						<a href="{% url 'forum' turma.pk %}">Acessar fórum de dúvidas</a>
 					</div>
 				</div>
 			{% empty %}
 					Nenhuma Turma disponível... <br>
 					<br>
 			{% endfor %}
-			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a>
+			<a href="{% url 'criar_turma' user.pk %}" class="btn bg-dark text-white">Nova turma</a><br>
 		</div>
 		<div id="tabela_outras_turmas">
 			{% for turma in turmas_publicas %}
@@ -53,8 +53,8 @@
 						Professor: {{ turma.responsible }}<br>
 						Tipo: {{ turma.get_course_type_display }}<br>
 						Atualizado pela última vez em: {{ turma.updated_at }}<br><br>
-						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a>
-						<a href="{% url 'forum' turma.pk %}">opa</a>
+						<a href="{% url 'turma' turma.pk %}" class="btn btn-success">Acessar Turma</a><br>
+						<a href="{% url 'forum' turma.pk %}">Acessar fórum de dúvidas</a>
 					</div>
 				</div>
 			{% empty %}
@@ -93,7 +93,7 @@
 						Tipo: {{matricula.turma_id.get_course_type_display}}<br>
 						Atualizado pela última vez em: {{matricula.turma_id.updated_at}}<br><br>
 						<a href="{% url 'turma' matricula.turma_id.pk %}" class="btn btn-success">Acessar Turma</a>
-						<a href="{% url 'forum' matricula.turma_id.pk %}">opa</a>
+						<a href="{% url 'forum' matricula.turma_id.pk %}">Acessar fórum de dúvidas</a>
 					</div>
 				</div>
             {% empty %}
