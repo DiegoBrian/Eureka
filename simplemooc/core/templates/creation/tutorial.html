@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{aula.name}}{% endblock %}
+
+
+{% block content %}
+<div style="text-align: center;">
+	<p>1. Entre em <a href="www.youtube.com.br">www.youtube.com.br</a>.</p>
+	<p>2. Clique em "Fazer login", no canto superior direito na tela.</p>
+	<img src="{% static 'img/4.png' %}">
+	<p>3. Insira seu usuário e senha e você será redirecionado novamente para a página inicial do Youtube.</p>
+	<p>4. Clique no ícone da câmera no canto superior direito, próximo ao local em que você clicou para fazer login.</p>
+	<img src="{% static 'img/2.png' %}">
+	<p>5. Clique em "Transmitir ao vivo".</p>
+	<img src="{% static 'img/3.png' %}">
+	<p>6.1. Caso você nunca tenha feito uma transmissão ao vivo no Youtube você verá uma tela com algumas informações importantes. Após lê-las, clique no botâo "Primeiros passos" no centro da tela. Você deverá inserir algumas informações para que o Youtube te envie um código de confirmação. Escreva o código de confirmação no local indicado e dentro de 24 horas você estará autorizado a fazer transmissões ao vivo.</p>
+	<img src="{% static 'img/8.png' %}">
+	<p>6.2. Caso você já tenha feito uma transmissão ao vivo, ou após 24 horas depois da confirmação do código, após o passo 5 você acessará a página de configuração da sua transmissão.</p>
+	<p>7. Uma pequena janela aparecerá no canto superior esquerdo, solicitando permissão para utilização do seu microfone e sua câmera. Clique em "Permitir".</p>
+	<img src="{% static 'img/5.png' %}">
+	<p>8. Dê um título à sua transmissão e mude o campo onde conta "Público" para "Não listada".</p>
+	<img src="{% static 'img/6.png' %}">
+	<p>9. Caso queira programar a sua tranmissão para uma data e horário específicos, marque a opção "Programar para mais tarde" e escolha a data e o horário.</p>
+	<img src="{% static 'img/7.png' %}">
+	<p>10. Clique em "Próxima"</p>
+	<p>11. Clique em "Compartilhar"</p>
+	<img src="{% static 'img/9.png' %}">
+	<p>12. Clique em "Copiar" para copiar o link da sua transmissão ao vivo. </p>
+	<img src="{% static 'img/10.png' %}">
+	<p>13. Clique em "Transmitir ao vivo" para dar início a sua transmissão.</p>
+	<img src="{% static 'img/9.png' %}">
+	<p>14. Ainda com o link copiado, volte ao Eureka e cole o link no campo "Link para vídeo".</p>
+	<img src="{% static 'img/11.png' %}">
+	<p>15. Clique em "Criar Aula"</p>
+	<img src="{% static 'img/12.png' %}">
+	<p>Pronto! Agora você está fazendo uma transmissão ao vivo dentro da sua aula no Eureka. Quando quiser encerrar, volte no Youtube e clique no grande botão vermelho "Encerrar transmissão".</p>
+	<img src="{% static 'img/13.png' %}">
+	
+</div>
+
+{% endblock %}

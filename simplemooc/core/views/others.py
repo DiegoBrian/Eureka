@@ -14,6 +14,9 @@ def sobre(request):
 def geogebra(request):
 	return render(request, 'geogebra.html')
 
+def tutorial(request):
+	return render(request, 'creation/tutorial.html')
+
 
 @login_required
 def index(request):
