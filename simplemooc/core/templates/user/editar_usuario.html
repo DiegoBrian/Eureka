@@ -1,5 +1,7 @@
 {% extends "user/usuario.html" %}
 
+{% load static %}
+
 {% block title %}Editar usuário: {{user}}{% endblock %}
 
 {% block dashboard_content %}
@@ -18,7 +20,11 @@
         {% endfor %}
         <div class="pure-controls">
             <button type="submit" class="btn btn-primary">Salvar Modificações</button>
+            <a href="{% url 'usuario' user.pk %}" class="btn btn-danger">Voltar</a>
         </div>
     </fieldset>
 </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+<script type="text/javascript" src="{% static 'js/cadastrar.js' %}"></script>
 {% endblock %}

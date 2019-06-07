@@ -92,7 +92,7 @@
 						Professor: {{matricula.turma_id.responsible}}<br>
 						Tipo: {{matricula.turma_id.get_course_type_display}}<br>
 						Atualizado pela última vez em: {{matricula.turma_id.updated_at}}<br><br>
-						<a href="{% url 'turma' matricula.turma_id.pk %}" class="btn btn-success">Acessar Turma</a>
+						<a href="{% url 'turma' matricula.turma_id.pk %}" class="btn btn-success">Acessar Turma</a><br>
 						<a href="{% url 'forum' matricula.turma_id.pk %}">Acessar fórum de dúvidas</a>
 					</div>
 				</div>

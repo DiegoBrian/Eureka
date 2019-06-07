@@ -73,13 +73,13 @@
                 Nenhuma pergunta para exibir
             </div>
             {% endif %}
+            <br>
             {% if user.user_type == 'PROFESSOR' %}
             <div style="margin-top: 2%;">
                 <a href="{% url 'criar_pergunta' exercicio.pk %}" class="btn bg-dark text-white">Nova pergunta</a>
-                <button class="btn btn-danger" onclick="goBack()">Voltar</button>
             </div>
             {% endif %}
-            
+            <a href="{% url 'experimentacoes' exercicio.class_id.pk %}" class="btn btn-danger">Voltar</a>
         </div>
     </div>
 
