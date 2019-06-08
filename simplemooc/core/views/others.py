@@ -7,6 +7,8 @@ from core.forms import *
 def home(request):
 	return render(request, 'home.html')
 
+def teste(request):
+	return render(request, 'teste.html')
 
 def sobre(request):
 	return render(request, 'sobre.html')
@@ -65,9 +67,6 @@ def esta_matriculado(user, turma_pk):
 def eh_responsavel(user, turma_pk):
 	turma = Turma.objects.get(pk = turma_pk)
 
-	print(turma.responsible)
-	print(user)
-	
 	if turma.responsible == user:
 		return True
 	else:

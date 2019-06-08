@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static%}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CKEditor</title>
+		<script src="https://cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
+	</head>
+	<body>
+		<textarea name="editor1"></textarea>
+		<script>			   
+			CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+			CKEDITOR.plugins.addExternal('youtube', '{% static "youtube/plugin.js" %}');
+			CKEDITOR.replace('editor1', {
+				  extraPlugins: 'ckeditor_wiris,youtube',
+				  toolbar: [
+					['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', '-', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', 'Anchor',  'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Iframe', '-', 'TextColor', 'BGColor', 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry','Styles', 'Format', 'Font', 'FontSize', 'Youtube']
+				  ]
+				});
+		</script>
+	</body>
+</html>

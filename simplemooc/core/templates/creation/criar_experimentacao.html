@@ -4,7 +4,7 @@
 {% block title %}Nova experimentação{% endblock %}
 
 {% block javascript %}
-<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -39,7 +39,13 @@
 
 <script>
     CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
-    CKEDITOR.replace('text_content', { customConfig: '{% static "ckeditor/custom_config.js" %}'});
+    CKEDITOR.plugins.addExternal('youtube', '{% static "youtube/plugin.js" %}');
+    CKEDITOR.replace('text_content', {
+          extraPlugins: 'ckeditor_wiris,youtube',
+          toolbar: [
+            ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', '-', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', 'Anchor',  'Image', 'Youtube', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'Iframe', '-', 'TextColor', 'BGColor', 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry','Styles', 'Format', 'Font', 'FontSize']
+          ]
+        });
 </script>
 <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
 

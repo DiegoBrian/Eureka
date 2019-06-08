@@ -10,6 +10,7 @@ urlpatterns = [
     path('buscar/', views.buscar, name='buscar'),
     path('geogebra/', views.geogebra, name='geogebra'),
     path('tutorial/', views.tutorial, name='tutorial'),
+    path('teste/', views.teste, name='teste'),
 
     #content
     path('aula/<int:pk>', views.aula, name='aula'),
