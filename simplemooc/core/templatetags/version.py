@@ -12,7 +12,7 @@ def youtube(text):
     if url[0] == text:
     	url = text.split('/',3)
 
-    code = url[1][:11]
+    code = url[-1]
 
     if url:
     	tag = '<center><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/'+code+'" allowfullscreen> </iframe></center>'

@@ -57,11 +57,11 @@ class Turma(models.Model):
 
 
 class Aula(models.Model):
-	name = models.CharField('Nome', max_length=100)
+	name = models.CharField('Tema', max_length=100)
 	turma_id = models.ForeignKey('Turma', on_delete=models.CASCADE, blank=True, null=True)
-	text_content = models.TextField('Conteúdo textual')
+	text_content = models.TextField('Conteúdo')
 	summary = models.TextField('Resumo')
-	visual_content = models.CharField('Link para vídeo', max_length=2048, blank=True, null=True)
+	visual_content = models.CharField('Vídeo em destaque', max_length=2048, blank=True, null=True)
 	file = models.FileField('Arquivo',null = True, blank = True)
 	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
