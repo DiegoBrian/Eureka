@@ -334,19 +334,81 @@ def ver_correcao(request, exercise_id):
 
 		return render (request, 'content/ver_correcao.html', context)
 
+@login_required
+def vincular_conteudo(request, turma_id):
 
-def esta_matriculado(user, tema_pk):
-	tema = Tema.objects.get(pk = tema_pk)
-	matriculas = Aluno_Turma.objects.filter(aluno_id = user)
+	aulas = Aula.objects.filter(turma_id__responsible = request.user).exclude(turma_id = turma_id)
 
-	resultado = False
+	context = {
+		'aulas' : aulas,
+		'turma' : turma_id
+	}
 
-	for matricula in matriculas:
-		if esta_vinculado(tema, matricula.turma_id.pk):
-			resultado = True
+	return render(request, 'content/vincular_conteudo.html', context)
 
-	return resultado
+@login_required
+def vincular(request, turma_id, aula_id):
+	aula = Aula.objects.get(pk=aula_id)
+	turma = Turma.objects.get(pk=turma_id)
+	nova_aula = Aula.objects.create(
+		name = aula.name,
+		turma_id = turma,
+		text_content = aula.text_content,
+		summary = aula.summary,
+		visual_content = aula.visual_content
+	)
+	materiais = Document.objects.filter(aula_id= aula)
+	for material in materiais:
+		novo_material = Document.objects.create(
+			description = material.description,
+			image = material.image,
+			aula_id = nova_aula
+		)
 
+	exercicios = Exercicio.objects.filter(class_id=aula_id)
+	experimentacoes = Experimentacao.objects.filter(class_id=aula_id)
+
+	for exercicio in exercicios:
+		novo_exercicio = Exercicio.objects.create(
+			name = exercicio.name,
+			multiple_times = exercicio.multiple_times,
+			class_id = nova_aula
+		)
+		perguntas = Pergunta.objects.filter(exercise_id=exercicio.pk)
+
+		for pergunta in perguntas:
+			nova_pergunta = Pergunta.objects.create(
+				exercise_id = novo_exercicio,
+				number = pergunta.number,
+				text = pergunta.text,
+				quesion_type = pergunta.quesion_type,
+				answer_a = pergunta.answer_a,
+				answer_b = pergunta.answer_b,
+				answer_c = pergunta.answer_c,
+				answer_d = pergunta.answer_d,
+				answer_e = pergunta.answer_e,
+				correct_answer = pergunta.correct_answer
+			)
+
+	for experimentacao in experimentacoes:
+		nova_experimentacao = Experimentacao.objects.create(
+			exp_type = experimentacao.exp_type,
+			name = experimentacao.name,
+			text_content = experimentacao.text_content,
+			visual_content = experimentacao.visual_content,
+			source = experimentacao.source,
+			class_id = nova_aula
+		)
+		materiais = Document.objects.filter(experimentacao_id= experimentacao)
+
+		for material in materiais:
+			novo_material = Document.objects.create(
+				description = material.description,
+				image = material.image,
+				experimentacao_id = nova_experimentacao
+			)
+
+	return redirect('turma', turma_id)
 
 def eh_responsavel(user, tema_pk):
 	tema = Tema.objects.get(pk = tema_pk)

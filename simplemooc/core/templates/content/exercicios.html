@@ -25,7 +25,7 @@
                     {% endif %}
                 </div>
                 <div class="card-body">
-                    Professor {{exercicio.turma_id.responsible}}<br>
+                    Professor {{exercicio.class_id.turma_id.responsible}}<br>
                     Aula: {{exercicio.class_id}}<br>
                     Atualizado pela última vez em {{ exercicio.updated_at }}<br><br>
                     {% if scores|value_by_key:forloop.counter0 != -1 %}

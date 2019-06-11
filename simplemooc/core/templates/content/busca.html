@@ -86,7 +86,7 @@
                     {{ exercicio.name }}
                 </div>
                 <div class="card-body">
-                	Professor {{exercicio.turma_id.responsible}}<br>
+                	Professor {{exercicio.class_id.turma_id.responsible}}<br>
                     Aula: {{exercicio.class_id}}<br>
                     Atualizado pela última vez em {{ exercicio.updated_at }}<br><br>
                     {% if user|exercicio_concluido:exercicio.pk and exercicio.multiple_times == False %}
@@ -114,7 +114,7 @@
                         {{ experimentacao.name }}
                     </div>
                     <div class="card-body">
-                    	Professor {{experimentacao.turma_id.responsible}}<br>
+                    	Professor: {{experimentacao.class_id.turma_id.responsible}}<br>
                     	Aula: {{experimentacao.class_id}}<br>
                         Atualizado pela última vez em {{ experimentacao.updated_at }}<br><br>
                         <a href="{% url 'experimentacao' experimentacao.pk %}" class="btn btn-primary">Ver experimentação</a>
