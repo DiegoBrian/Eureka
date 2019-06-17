@@ -338,9 +338,11 @@ def ver_correcao(request, exercise_id):
 def vincular_conteudo(request, turma_id):
 
 	aulas = Aula.objects.filter(turma_id__responsible = request.user).exclude(turma_id = turma_id)
+	aulas_publicas = Aula.objects.filter(turma_id__course_type = 'PUBLICA').exclude(turma_id__responsible = request.user)
 
 	context = {
 		'aulas' : aulas,
+		'aulas_publicas' : aulas_publicas,
 		'turma' : turma_id
 	}
 

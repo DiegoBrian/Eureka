@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 {% load version %}
-{% block title %}Vincular Aula{% endblock %}
+{% load static %}
+{% block title %}Vincular aula{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 {% endblock %}
 {% block content %}
-	<div class="card" id="conteudos">
-		<div class="card-header bg-dark text-white">
-			Vincular Aula
+
+<div class="card">
+	<div class="card-header bg-dark text-white">
+		Vincular aula existente
+	</div>
+	<div class="card-body">
+		<div>
+			<button class="btn bg-dark text-white" id="btn_minhas_turmas">Minhas aulas <img src="{% static 'img/help-xxl.png' %}"title="Todas as aulas que você criou estão listadas aqui." width="16" height="16"></button>
+			<button class="btn bg-dark text-white" id="btn_outras_turmas">Outras aulas públicas <img src="{% static 'img/help-xxl.png' %}"title="Todas as aulas de turmas públicas presentes na plataforma estão listadas aqui." width="16" height="16"></button>
 		</div>
-		<div class="card-body">
+		<br>
+		<div id="tabela_minhas_turmas">
 			{% for aula in aulas %}
 				<div class="card">
 					<div class="card-header bg-dark text-white">
@@ -23,11 +31,38 @@
 					</div>
 				</div>
 			{% empty %}
-				<div>
-					Nenhuma aula disponível...
+				<div class="card">
+					<div class="card-body">
+						Nenhuma aula disponível...
+					</div>
 				</div>
 				<br>
 			{% endfor %}
 		</div>
+		<div id="tabela_outras_turmas">
+			{% for aula in aulas_publicas %}
+				<div class="card">
+					<div class="card-header bg-dark text-white">
+						{{ aula.name }}
+					</div>
+					<div class="card-body">
+						Turma: {{ aula.turma_id.name }}<br>
+						Atualizado pela última vez em: {{ aula.updated_at }}<br>
+						<br>
+						<a href="{% url 'vincular' turma aula.pk %}" class="btn btn-primary">Vincular</a>
+					</div>
+				</div>
+			{% empty %}
+				<div class="card">
+					<div class="card-body">
+						Nenhuma aula disponível...
+					</div>
+				</div>
+				<br>
+			{% endfor %}
+		</div>	
 	</div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock %}

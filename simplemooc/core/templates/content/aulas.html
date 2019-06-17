@@ -34,7 +34,11 @@
                 </div>
             
             {% empty %}
-                Nenhum conteúdo disponível...<br><br>
+                <div class="card">
+                    <div class="card-body">
+                        Nenhum conteúdo disponível...
+                    </div>
+                </div>
             {% endfor %}
             {% if user.user_type == 'PROFESSOR' %}
                 <a href="{% url 'criar_conteudo' aula.pk %}" class="btn bg-dark text-white">Nova conteúdo</a>
